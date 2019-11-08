@@ -55,19 +55,19 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
 
-		<!-- 核心模块-->
+		<!-- 1 核心模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-framework</artifactId>
         </dependency>
         
-        <!-- 定时任务-->
+        <!-- 2 定时任务-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-quartz</artifactId>
         </dependency>
         
-        <!-- 代码生成-->
+        <!-- 3 代码生成-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
