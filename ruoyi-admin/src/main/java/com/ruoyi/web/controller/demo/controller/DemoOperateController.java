@@ -33,7 +33,7 @@ import com.ruoyi.web.controller.demo.domain.UserOperateModel;
 public class DemoOperateController extends BaseController
 {
     private String prefix = "demo/operate";
-
+ // 模拟数据 todo!!!
     private final static Map<Integer, UserOperateModel> users = new LinkedHashMap<Integer, UserOperateModel>();
     {
         users.put(1, new UserOperateModel(1, "1000001", "测试1", "0", "15888888888", "ry@qq.com", 150.0, "0"));
