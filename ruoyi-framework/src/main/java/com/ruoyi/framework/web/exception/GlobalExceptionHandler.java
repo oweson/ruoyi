@@ -26,7 +26,7 @@ public class GlobalExceptionHandler
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * 权限校验失败 如果请求为ajax返回json，普通请求跳转页面
+     * 1 权限校验失败 如果请求为ajax返回json，普通请求跳转页面
      */
     @ExceptionHandler(AuthorizationException.class)
     public Object handleAuthorizationException(HttpServletRequest request, AuthorizationException e)
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * 请求方式不支持
+     * 2 请求方式不支持
      */
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
     public AjaxResult handleException(HttpRequestMethodNotSupportedException e)
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * 拦截未知的运行时异常
+     * 3 拦截未知的运行时异常
      */
     @ExceptionHandler(RuntimeException.class)
     public AjaxResult notFount(RuntimeException e)
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * 系统异常
+     * 4 系统异常
      */
     @ExceptionHandler(Exception.class)
     public AjaxResult handleException(Exception e)
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * 业务异常
+     * 5 业务异常
      */
     @ExceptionHandler(BusinessException.class)
     public Object businessException(HttpServletRequest request, BusinessException e)

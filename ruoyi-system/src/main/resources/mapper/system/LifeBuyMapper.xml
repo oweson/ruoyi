@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.LifeBuyMapper">
+    
+    <resultMap type="LifeBuy" id="LifeBuyResult">
+        <result property="id"    column="id"    />
+        <result property="lifePlace"    column="life_place"    />
+        <result property="lifeType"    column="life_type"    />
+        <result property="lifeMoney"    column="life_money"    />
+        <result property="lifeName"    column="life_name"    />
+        <result property="lifeCode"    column="life_code"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lifeDesc"    column="life_desc"    />
+    </resultMap>
+
+    <sql id="selectLifeBuyVo">
+        select id, life_place, life_type, life_money, life_name, life_code, create_time, life_desc from life_buy
+    </sql>
+
+    <select id="selectLifeBuyList" parameterType="LifeBuy" resultMap="LifeBuyResult">
+        <include refid="selectLifeBuyVo"/>
+        <where>  
+            <if test="lifePlace != null  and lifePlace != ''"> and life_place = #{lifePlace}</if>
+            <if test="lifeType != null  and lifeType != ''"> and life_type = #{lifeType}</if>
+            <if test="lifeMoney != null "> and life_money = #{lifeMoney}</if>
+            <if test="lifeName != null  and lifeName != ''"> and life_name like concat('%', #{lifeName}, '%')</if>
+            <if test="lifeCode != null  and lifeCode != ''"> and life_code = #{lifeCode}</if>
+            <if test="lifeDesc != null  and lifeDesc != ''"> and life_desc = #{lifeDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectLifeBuyById" parameterType="Long" resultMap="LifeBuyResult">
+        <include refid="selectLifeBuyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLifeBuy" parameterType="LifeBuy" useGeneratedKeys="true" keyProperty="id">
+        insert into life_buy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lifePlace != null  and lifePlace != ''">life_place,</if>
+            <if test="lifeType != null  and lifeType != ''">life_type,</if>
+            <if test="lifeMoney != null ">life_money,</if>
+            <if test="lifeName != null  and lifeName != ''">life_name,</if>
+            <if test="lifeCode != null  and lifeCode != ''">life_code,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="lifeDesc != null  and lifeDesc != ''">life_desc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lifePlace != null  and lifePlace != ''">#{lifePlace},</if>
+            <if test="lifeType != null  and lifeType != ''">#{lifeType},</if>
+            <if test="lifeMoney != null ">#{lifeMoney},</if>
+            <if test="lifeName != null  and lifeName != ''">#{lifeName},</if>
+            <if test="lifeCode != null  and lifeCode != ''">#{lifeCode},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="lifeDesc != null  and lifeDesc != ''">#{lifeDesc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLifeBuy" parameterType="LifeBuy">
+        update life_buy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lifePlace != null  and lifePlace != ''">life_place = #{lifePlace},</if>
+            <if test="lifeType != null  and lifeType != ''">life_type = #{lifeType},</if>
+            <if test="lifeMoney != null ">life_money = #{lifeMoney},</if>
+            <if test="lifeName != null  and lifeName != ''">life_name = #{lifeName},</if>
+            <if test="lifeCode != null  and lifeCode != ''">life_code = #{lifeCode},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="lifeDesc != null  and lifeDesc != ''">life_desc = #{lifeDesc},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLifeBuyById" parameterType="Long">
+        delete from life_buy where id = #{id}
+    </delete>
+
+    <delete id="deleteLifeBuyByIds" parameterType="String">
+        delete from life_buy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

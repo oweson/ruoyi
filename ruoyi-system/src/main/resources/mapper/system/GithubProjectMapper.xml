@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GithubProjectMapper">
+    
+    <resultMap type="GithubProject" id="GithubProjectResult">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectUrl"    column="project_url"    />
+        <result property="projectSize"    column="project_size"    />
+        <result property="projectFramework"    column="project_framework"    />
+        <result property="projectStarNumber"    column="project_star_number"    />
+        <result property="projectLanguage"    column="project_language"    />
+        <result property="projectDesc"    column="project_desc"    />
+        <result property="projectUpdateRecent"    column="project_update_recent"    />
+        <result property="projectBirthday"    column="project_birthday"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+    </resultMap>
+
+    <sql id="selectGithubProjectVo">
+        select id, project_name, project_url, project_size, project_framework, project_star_number, project_language, project_desc, project_update_recent, project_birthday, create_time, last_update_time from github_project
+    </sql>
+
+    <select id="selectGithubProjectList" parameterType="GithubProject" resultMap="GithubProjectResult">
+        <include refid="selectGithubProjectVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectUrl != null  and projectUrl != ''"> and project_url = #{projectUrl}</if>
+            <if test="projectSize != null  and projectSize != ''"> and project_size = #{projectSize}</if>
+            <if test="projectFramework != null  and projectFramework != ''"> and project_framework = #{projectFramework}</if>
+            <if test="projectStarNumber != null "> and project_star_number = #{projectStarNumber}</if>
+            <if test="projectLanguage != null  and projectLanguage != ''"> and project_language = #{projectLanguage}</if>
+            <if test="projectDesc != null  and projectDesc != ''"> and project_desc = #{projectDesc}</if>
+            <if test="projectUpdateRecent != null  and projectUpdateRecent != ''"> and project_update_recent = #{projectUpdateRecent}</if>
+            <if test="projectBirthday != null  and projectBirthday != ''"> and project_birthday = #{projectBirthday}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGithubProjectById" parameterType="Long" resultMap="GithubProjectResult">
+        <include refid="selectGithubProjectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGithubProject" parameterType="GithubProject" useGeneratedKeys="true" keyProperty="id">
+        insert into github_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name,</if>
+            <if test="projectUrl != null  and projectUrl != ''">project_url,</if>
+            <if test="projectSize != null  and projectSize != ''">project_size,</if>
+            <if test="projectFramework != null  and projectFramework != ''">project_framework,</if>
+            <if test="projectStarNumber != null ">project_star_number,</if>
+            <if test="projectLanguage != null  and projectLanguage != ''">project_language,</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc,</if>
+            <if test="projectUpdateRecent != null  and projectUpdateRecent != ''">project_update_recent,</if>
+            <if test="projectBirthday != null  and projectBirthday != ''">project_birthday,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="lastUpdateTime != null ">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">#{projectName},</if>
+            <if test="projectUrl != null  and projectUrl != ''">#{projectUrl},</if>
+            <if test="projectSize != null  and projectSize != ''">#{projectSize},</if>
+            <if test="projectFramework != null  and projectFramework != ''">#{projectFramework},</if>
+            <if test="projectStarNumber != null ">#{projectStarNumber},</if>
+            <if test="projectLanguage != null  and projectLanguage != ''">#{projectLanguage},</if>
+            <if test="projectDesc != null  and projectDesc != ''">#{projectDesc},</if>
+            <if test="projectUpdateRecent != null  and projectUpdateRecent != ''">#{projectUpdateRecent},</if>
+            <if test="projectBirthday != null  and projectBirthday != ''">#{projectBirthday},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="lastUpdateTime != null ">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGithubProject" parameterType="GithubProject">
+        update github_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name = #{projectName},</if>
+            <if test="projectUrl != null  and projectUrl != ''">project_url = #{projectUrl},</if>
+            <if test="projectSize != null  and projectSize != ''">project_size = #{projectSize},</if>
+            <if test="projectFramework != null  and projectFramework != ''">project_framework = #{projectFramework},</if>
+            <if test="projectStarNumber != null ">project_star_number = #{projectStarNumber},</if>
+            <if test="projectLanguage != null  and projectLanguage != ''">project_language = #{projectLanguage},</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc = #{projectDesc},</if>
+            <if test="projectUpdateRecent != null  and projectUpdateRecent != ''">project_update_recent = #{projectUpdateRecent},</if>
+            <if test="projectBirthday != null  and projectBirthday != ''">project_birthday = #{projectBirthday},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null ">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGithubProjectById" parameterType="Long">
+        delete from github_project where id = #{id}
+    </delete>
+
+    <delete id="deleteGithubProjectByIds" parameterType="String">
+        delete from github_project where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -92,6 +92,10 @@
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna-platform</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common</artifactId>
+        </dependency>
 
     </dependencies>
     

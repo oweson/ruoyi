@@ -103,10 +103,10 @@ public class SysUserController extends BaseController
      * 新增用户
      */
     @GetMapping("/add")
-    public String add(ModelMap mmap)
+    public String add(ModelMap map)
     {
-        mmap.put("roles", roleService.selectRoleAll());
-        mmap.put("posts", postService.selectPostAll());
+        map.put("roles", roleService.selectRoleAll());
+        map.put("posts", postService.selectPostAll());
         return prefix + "/add";
     }
 
@@ -174,9 +174,9 @@ public class SysUserController extends BaseController
     @RequiresPermissions("system:user:resetPwd")
     @Log(title = "重置密码", businessType = BusinessType.UPDATE)
     @GetMapping("/resetPwd/{userId}")
-    public String resetPwd(@PathVariable("userId") Long userId, ModelMap mmap)
+    public String resetPwd(@PathVariable("userId") Long userId, ModelMap map)
     {
-        mmap.put("user", userService.selectUserById(userId));
+        map.put("user", userService.selectUserById(userId));
         return prefix + "/resetPwd";
     }
 

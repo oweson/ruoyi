@@ -15,7 +15,7 @@ public class DemoIconController {
     private String prefix = "demo/icon";
 
     /**
-     * FontAwesome图标
+     * 1 FontAwesome图标
      */
     @GetMapping("/fontawesome")
     public String fontAwesome() {
@@ -23,7 +23,7 @@ public class DemoIconController {
     }
 
     /**
-     * Glyphicons图标
+     * 2 Glyphicons图标
      */
     @GetMapping("/glyphicons")
     public String glyphicons() {

@@ -14,17 +14,17 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 public class AsyncManager
 {
     /**
-     * 操作延迟10毫秒
+     * 1 操作延迟10毫秒
      */
     private final int OPERATE_DELAY_TIME = 10;
 
     /**
-     * 异步操作任务调度线程池
+     * 2 异步操作任务调度线程池
      */
     private ScheduledExecutorService executor = SpringUtils.getBean("scheduledExecutorService");
 
     /**
-     * 单例模式
+     * 3 单例模式
      */
     private AsyncManager(){}
 
@@ -36,7 +36,7 @@ public class AsyncManager
     }
 
     /**
-     * 执行任务
+     * 4 执行任务
      * 
      * @param task 任务
      */

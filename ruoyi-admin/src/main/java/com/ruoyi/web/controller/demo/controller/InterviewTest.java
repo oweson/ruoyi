@@ -6,4 +6,7 @@ package com.ruoyi.web.controller.demo.controller;
  * @Date：2019/12/26 20:27
  */
 public class InterviewTest {
+    public static void main(String[] args) {
+
+    }
 }
