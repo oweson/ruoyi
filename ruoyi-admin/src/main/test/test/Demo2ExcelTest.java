@@ -31,18 +31,5 @@ public class Demo2ExcelTest {
         System.out.println(JSON.toJSONString(myTest));
 
     }
-//    public Object iheat() throws IOException {
-//        ArrayList<Card> objects = Lists.newArrayList();
-//        for (int i = 0; i < 15; i++) {
-//            Card card = new Card();
-//            card.setCode(i + 101 + "");
-//            card.setId(i);
-//            objects.add(card);
-//
-//
-//        }
-//        IheatExcelUtil.exportExcel(objects, "iheat导出测试", Card.class,
-//                "iheat文件", );
-//        return "";
-//    }
+
 }

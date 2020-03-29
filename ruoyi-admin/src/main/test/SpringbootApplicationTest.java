@@ -6,6 +6,7 @@ import com.ruoyi.RuoYiApplication;
 import com.ruoyi.system.domain.Card02;
 import com.ruoyi.system.mapper.Card02Mapper;
 import com.ruoyi.system.service.ICard02Service;
+import com.ruoyi.web.controller.demo.Cat;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,12 @@ public class SpringbootApplicationTest {
     private ICard02Service card02Service;
     @Autowired
     private Card02Mapper card02Mapper;
+    @Autowired
+    Cat cat;
+    @Test
+    public void demo1(){
+        System.out.println(cat.toString() );
+    }
 
     @Test
     public void insert() {
