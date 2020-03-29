@@ -56,8 +56,13 @@ public class JobInvokeUtil {
 
     /**
      * 校验是否为为class包名
+<<<<<<< HEAD
      *
      * @param str 名称
+=======
+     * 
+     * @param invokeTarget 名称
+>>>>>>> 4f57c28f2f6e8adcfc5eca6483a361fb8cc07c6f
      * @return true是 false否
      */
     public static boolean isValidClassName(String invokeTarget) {

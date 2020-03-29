@@ -33,6 +33,7 @@ public class SysJobServiceImpl implements ISysJobService {
     private SysJobMapper jobMapper;
 
     /**
+<<<<<<< HEAD
      * 1 项目启动时，初始化定时器
      * 主要是防止手动修改数据库导致未同步到定时任务处理
      * （注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
@@ -42,6 +43,19 @@ public class SysJobServiceImpl implements ISysJobService {
         List<SysJob> jobList = jobMapper.selectJobAll();
         for (SysJob job : jobList) {
             updateSchedulerJob(job, job.getJobGroup());
+=======
+     * 项目启动时，初始化定时器 
+	 主要是防止手动修改数据库导致未同步到定时任务处理（注：不能手动修改数据库ID和任务组名，否则会导致脏数据）
+     */
+    @PostConstruct
+    public void init() throws SchedulerException, TaskException
+    {
+        scheduler.clear();
+        List<SysJob> jobList = jobMapper.selectJobAll();
+        for (SysJob job : jobList)
+        {
+            ScheduleUtils.createScheduleJob(scheduler, job);
+>>>>>>> 4f57c28f2f6e8adcfc5eca6483a361fb8cc07c6f
         }
     }
 
@@ -163,12 +177,11 @@ public class SysJobServiceImpl implements ISysJobService {
     @Transactional
     public void run(SysJob job) throws SchedulerException {
         Long jobId = job.getJobId();
-        String jobGroup = job.getJobGroup();
-        SysJob properties = selectJobById(job.getJobId());
+        SysJob tmpObj = selectJobById(job.getJobId());
         // 参数
         JobDataMap dataMap = new JobDataMap();
-        dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
-        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
+        dataMap.put(ScheduleConstants.TASK_PROPERTIES, tmpObj);
+        scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, tmpObj.getJobGroup()), dataMap);
     }
 
     /**

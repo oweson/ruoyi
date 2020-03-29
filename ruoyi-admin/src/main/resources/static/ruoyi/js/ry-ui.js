@@ -214,10 +214,15 @@ var table = {
             	// 图片预览事件
             	$(optionsIds).off("click").on("click", '.img-circle', function() {
     			    var src = $(this).attr('src');
-    			    var target = $(this).data('target');
-    			    var height = $(this).data('height');
     			    var width = $(this).data('width');
     			    if($.common.equals("self", target)) {
+    			    	var height = $(this).data('height');
+						var width = $(this).data('width');
+						// 如果是移动端，就使用自适应大小弹窗
+						if ($.common.isMobile()) {
+							width = 'auto';
+							height = 'auto';
+						}
     			    	layer.open({
         			        title: false,
         			        type: 1,
@@ -253,7 +258,27 @@ var table = {
             		table.options.onLoadSuccess(data);
             	}
             	// 浮动提示框特效
-            	$("[data-toggle='tooltip']").tooltip();
+            	$(".table [data-toggle='tooltip']").tooltip();
+            	
+            	// 气泡弹出框特效
+            	$('.table [data-toggle="popover"]').each(function() {
+            	    $(this).popover({ trigger: "manual", html: true, animation: false, container: "body", placement: "left" 
+            	    }).on("mouseenter",
+                        function() {
+	            	        var _this = this;
+	            	        $(this).popover("show");
+	            	        $(".popover").on("mouseleave", function() {
+                                $(_this).popover('hide'); 
+	            	        });
+            	    }).on("mouseleave",
+                        function() {
+            	            var _this = this;
+	            	        setTimeout(function() {
+		            	        if (!$(".popover:hover").length)
+			            	        $(_this).popover("hide");
+            	        }, 100);
+            	    });
+            	});
             },
             // 表格销毁
             destroy: function (tableId) {
@@ -339,7 +364,6 @@ var table = {
     			} else{
     				$("#" + table.options.id).bootstrapTable('refresh', params);
     			}
-    		    data = {};
     		},
     		// 导出数据
     		exportExcel: function(formId) {
@@ -400,9 +424,7 @@ var table = {
             			}
             			var index = layer.load(2, {shade: false});
             			$.modal.disable();
-            			var formData = new FormData();
-            			formData.append("file", layero.find('#file')[0].files[0]);
-            			formData.append("updateSupport", $("input[name='updateSupport']").is(':checked'));
+            			var formData = new FormData(layero.find('form')[0]);
             			$.ajax({
             				url: table.options.importUrl,
             				data: formData,
@@ -564,12 +586,15 @@ var table = {
             	return $.common.uniqueFn(rows);
             },
             // 请求获取数据后处理回调函数，校验异常状态提醒
-            responseHandler: function(data) {
-            	if (data.code != undefined && data.code != 0) {
-            		$.modal.alertWarning(data.msg);
+            responseHandler: function(res) {
+            	if (typeof table.options.responseHandler == "function") {
+            		table.options.responseHandler(res);
+                }
+            	if (res.code != undefined && res.code != 0) {
+            		$.modal.alertWarning(res.msg);
             		return [];
                 } else {
-                    return data;
+                    return res;
                 }
             },
         },
@@ -710,7 +735,7 @@ var table = {
             // 弹出层指定宽度
             open: function (title, url, width, height, callback) {
             	//如果是移动端，就使用自适应大小弹窗
-            	if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
+            	if ($.common.isMobile()) {
             	    width = 'auto';
             	    height = 'auto';
             	}
@@ -782,7 +807,7 @@ var table = {
             // 弹出层全屏
             openFull: function (title, url, width, height) {
             	//如果是移动端，就使用自适应大小弹窗
-            	if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
+            	if ($.common.isMobile()) {
             	    width = 'auto';
             	    height = 'auto';
             	}
@@ -895,7 +920,7 @@ var table = {
             	var _width = $.common.isEmpty(width) ? "800" : width; 
                 var _height = $.common.isEmpty(height) ? ($(window).height() - 50) : height;
             	//如果是移动端，就使用自适应大小弹窗
-            	if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
+            	if ($.common.isMobile()) {
             	    _width = 'auto';
             	    _height = 'auto';
             	}
@@ -1011,8 +1036,17 @@ var table = {
             	if ($.common.isNotEmpty(id)) {
             	    url = table.options.updateUrl.replace("{id}", id);
             	} else {
-            	    var row = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
-            	    url = table.options.updateUrl.replace("{id}", row);
+            		if(table.options.type == table_type.bootstrapTreeTable) {
+            			var row = $("#" + table.options.id).bootstrapTreeTable('getSelections')[0];
+            			if ($.common.isEmpty(row)) {
+            				$.modal.alertWarning("请至少选择一条记录");
+            				return;
+            			}
+            			url = table.options.updateUrl.replace("{id}", row[table.options.uniqueId]);
+            		} else {
+            			var row = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                	    url = table.options.updateUrl.replace("{id}", row);
+            		}
             	}
             	$.modal.openFull("修改" + table.options.modalName, url);
             },
@@ -1104,7 +1138,9 @@ var table = {
                 } else if (result.code == web_status.SUCCESS && table.options.type == table_type.bootstrapTreeTable) {
                 	$.modal.msgSuccess(result.msg);
                 	$.treeTable.refresh();
-                } else if (result.code == web_status.WARNING) {
+                } else if (result.code == web_status.SUCCESS && table.option.type == undefined) {
+                    $.modal.msgSuccess(result.msg)
+                }  else if (result.code == web_status.WARNING) {
                     $.modal.alertWarning(result.msg)
                 }  else {
                 	$.modal.alertError(result.msg);
@@ -1484,7 +1520,11 @@ var table = {
                     }　　
                 }
                 return count;
-            }
+            },
+            // 判断移动端
+            isMobile: function () {
+                return navigator.userAgent.match(/(Android|iPhone|SymbianOS|Windows Phone|iPad|iPod)/i);
+            },
         }
     });
 })(jQuery);

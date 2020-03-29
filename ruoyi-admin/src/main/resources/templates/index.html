@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>忘尘系统首页</title>
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html"/>
-    <![endif]-->
+    <title>若依系统首页</title>
+    <!-- 避免IE使用兼容模式 -->
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link th:href="@{favicon.ico}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/jquery.contextMenu.min.css}" rel="stylesheet"/>
@@ -15,7 +14,7 @@
     <link th:href="@{/css/animate.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <link th:href="@{/css/skins.css}" rel="stylesheet"/>
-    <link th:href="@{/ruoyi/css/ry-ui.css?v=4.1.0}" rel="stylesheet"/>
+    <link th:href="@{/ruoyi/css/ry-ui.css?v=4.2.0}" rel="stylesheet"/>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 <div id="wrapper">
@@ -25,13 +24,13 @@
         <div class="nav-close">
             <i class="fa fa-times-circle"></i>
         </div>
+        <a th:href="@{/index}">
+            <li class="logo hidden-xs">
+                <span class="logo-lg">RuoYi</span> 
+            </li>
+         </a>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <a th:href="@{/index}">
-                  <li class="logo">
-				    <span class="logo-lg" >RuoYi</span> 
-            	  </li>
-            	</a>
             	<li>
             		<div class="user-panel">
             			<a class="menuItem" title="个人中心" th:href="@{/system/user/profile}"> 
@@ -187,7 +186,7 @@
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
 							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="user-image">
-							<span class="hidden-xs">[[${user.userName}]]</span>
+							<span class="hidden-xs">[[${#strings.defaultString(user.userName, '-')}]]</span>
 						</a>
 						<ul class="dropdown-menu">
 							<li class="mt5">
@@ -247,8 +246,8 @@
 <script th:src="@{/js/jquery.contextMenu.min.js}"></script>
 <script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
 <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-<script th:src="@{/ruoyi/js/ry-ui.js?v=4.1.0}"></script>
-<script th:src="@{/ruoyi/js/common.js?v=4.1.0}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.2.0}"></script>
+<script th:src="@{/ruoyi/js/common.js?v=4.2.0}"></script>
 <script th:src="@{/ruoyi/index.js}"></script>
 <script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
 <script th:inline="javascript">
@@ -259,18 +258,14 @@ var skin = storage.get("skin");
 var mode = "history";
 // 历史访问路径缓存
 var historyPath = storage.get("historyPath");
-// 排除非左侧菜单链接
-var excludesUrl = ["/system/user/profile"];
 
 // 本地主题优先，未设置取系统配置
 if($.common.isNotEmpty(skin)){
 	$("body").addClass(skin.split('|')[0]);
 	$("body").addClass(skin.split('|')[1]);
 } else {
-	var sideTheme = [[${@config.getKey('sys.index.sideTheme')}]];
-	var skinName = [[${@config.getKey('sys.index.skinName')}]];
-	$("body").addClass(sideTheme);
-	$("body").addClass(skinName);
+	$("body").addClass([[${sideTheme}]]);
+	$("body").addClass([[${skinName}]]);
 }
 
 /* 用户管理-重置密码 */
@@ -292,9 +287,7 @@ function switchSkin() {
 /** 刷新时访问路径页签 */
 function applyPath(url) {
 	$('a[href$="' + decodeURI(url) + '"]').click();
-    if($.inArray(url, excludesUrl)){
-        $('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li").addClass("active").end().parents("ul").addClass("in");
-    }
+    $('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li :not(.user-panel)").addClass("active").end().parents("ul").addClass("in");
 }
 
 $(function() {

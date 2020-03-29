@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.domain.SysJobLog;
 import com.ruoyi.quartz.service.ISysJobLogService;
+import com.ruoyi.quartz.service.ISysJobService;
 
 /**
  * 调度日志操作处理
@@ -31,11 +35,24 @@ public class SysJobLogController extends BaseController {
     private String prefix = "monitor/job";
 
     @Autowired
+    private ISysJobService jobService;
+
+    @Autowired
     private ISysJobLogService jobLogService;
 
     @RequiresPermissions("monitor:job:view")
     @GetMapping()
+<<<<<<< HEAD
     public String jobLog() {
+=======
+    public String jobLog(@RequestParam(value = "jobId", required = false) Long jobId, ModelMap mmap)
+    {
+        if (StringUtils.isNotNull(jobId))
+        {
+            SysJob job = jobService.selectJobById(jobId);
+            mmap.put("job", job);
+        }
+>>>>>>> 4f57c28f2f6e8adcfc5eca6483a361fb8cc07c6f
         return prefix + "/jobLog";
     }
 
