@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GithubSofttextMapper">
+    
+    <resultMap type="GithubSofttext" id="GithubSofttextResult">
+        <result property="id"    column="id"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="articleUrl"    column="article_url"    />
+        <result property="articleKeywords"    column="article_keywords"    />
+        <result property="articleDesc"    column="article_desc"    />
+        <result property="articleTypeName"    column="article_type_name"    />
+        <result property="noPublic"    column="no_public"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+    </resultMap>
+
+    <sql id="selectGithubSofttextVo">
+        select id, article_name, article_url, article_keywords, article_desc, article_type_name, no_public, publish_time, create_time, last_update_time from github_softtext
+    </sql>
+
+    <select id="selectGithubSofttextList" parameterType="GithubSofttext" resultMap="GithubSofttextResult">
+        <include refid="selectGithubSofttextVo"/>
+        <where>  
+            <if test="articleName != null  and articleName != ''"> and article_name like concat('%', #{articleName}, '%')</if>
+            <if test="articleUrl != null  and articleUrl != ''"> and article_url like concat('%', #{articleUrl}, '%')</if>
+            <if test="articleKeywords != null  and articleKeywords != ''"> and article_keywords like concat('%', #{articleKeywords}, '%')</if>
+            <if test="articleDesc != null  and articleDesc != ''"> and article_desc like concat('%', #{articleDesc}, '%')</if>
+            <if test="articleTypeName != null  and articleTypeName != ''"> and article_type_name like concat('%', #{articleTypeName}, '%')</if>
+            <if test="noPublic != null  and noPublic != ''"> and no_public like concat('%', #{noPublic}, '%')</if>
+            <if test="publishTime != null "> and publish_time = #{publishTime}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGithubSofttextById" parameterType="Long" resultMap="GithubSofttextResult">
+        <include refid="selectGithubSofttextVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGithubSofttext" parameterType="GithubSofttext" useGeneratedKeys="true" keyProperty="id">
+        insert into github_softtext
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleName != null  and articleName != ''">article_name,</if>
+            <if test="articleUrl != null  and articleUrl != ''">article_url,</if>
+            <if test="articleKeywords != null  and articleKeywords != ''">article_keywords,</if>
+            <if test="articleDesc != null  and articleDesc != ''">article_desc,</if>
+            <if test="articleTypeName != null  and articleTypeName != ''">article_type_name,</if>
+            <if test="noPublic != null  and noPublic != ''">no_public,</if>
+            <if test="publishTime != null ">publish_time,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="lastUpdateTime != null ">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleName != null  and articleName != ''">#{articleName},</if>
+            <if test="articleUrl != null  and articleUrl != ''">#{articleUrl},</if>
+            <if test="articleKeywords != null  and articleKeywords != ''">#{articleKeywords},</if>
+            <if test="articleDesc != null  and articleDesc != ''">#{articleDesc},</if>
+            <if test="articleTypeName != null  and articleTypeName != ''">#{articleTypeName},</if>
+            <if test="noPublic != null  and noPublic != ''">#{noPublic},</if>
+            <if test="publishTime != null ">#{publishTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="lastUpdateTime != null ">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGithubSofttext" parameterType="GithubSofttext">
+        update github_softtext
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleName != null  and articleName != ''">article_name = #{articleName},</if>
+            <if test="articleUrl != null  and articleUrl != ''">article_url = #{articleUrl},</if>
+            <if test="articleKeywords != null  and articleKeywords != ''">article_keywords = #{articleKeywords},</if>
+            <if test="articleDesc != null  and articleDesc != ''">article_desc = #{articleDesc},</if>
+            <if test="articleTypeName != null  and articleTypeName != ''">article_type_name = #{articleTypeName},</if>
+            <if test="noPublic != null  and noPublic != ''">no_public = #{noPublic},</if>
+            <if test="publishTime != null ">publish_time = #{publishTime},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null ">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGithubSofttextById" parameterType="Long">
+        delete from github_softtext where id = #{id}
+    </delete>
+
+    <delete id="deleteGithubSofttextByIds" parameterType="String">
+        delete from github_softtext where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

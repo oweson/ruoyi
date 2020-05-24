@@ -74,7 +74,7 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:remove")
     @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids) throws SchedulerException {
+    public AjaxResult remove(String ids) throws SchedulerException, SchedulerException {
         jobService.deleteJobByIds(ids);
         return success();
     }

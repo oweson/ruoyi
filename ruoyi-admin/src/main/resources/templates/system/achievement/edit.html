@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改每天成就')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-achievement-edit" th:object="${lifeAchievement}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">心情：</label>
+                <div class="col-sm-8">
+                    <input name="lifeHeart" th:field="*{lifeHeart}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">今日的突破：</label>
+                <div class="col-sm-8">
+                    <textarea name="lifeBreakthrough" class="form-control">[[*{lifeBreakthrough}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">突破分类：人生，编程：</label>
+                <div class="col-sm-8">
+                    <select name="lifeType" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">明天要做的事情：</label>
+                <div class="col-sm-8">
+                    <textarea name="lifeTodo" class="form-control">[[*{lifeTodo}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未完成的事情：</label>
+                <div class="col-sm-8">
+                    <input name="lifeUndone" th:field="*{lifeUndone}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="lifeDesc" class="form-control">[[*{lifeDesc}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/achievement";
+        $("#form-achievement-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-achievement-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改github特色技能描述')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-featurev1-edit" th:object="${githubFeaturev1}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目主键：</label>
+                <div class="col-sm-8">
+                    <input name="projectId" th:field="*{projectId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">特色名字，如文件上传，工作流：</label>
+                <div class="col-sm-8">
+                    <textarea name="featuresName" class="form-control">[[*{featuresName}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">项目的名字：</label>
+                <div class="col-sm-8">
+                    <input name="projectName" th:field="*{projectName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">特色技能的语言：</label>
+                <div class="col-sm-8">
+                    <textarea name="featuresLanuage" class="form-control">[[*{featuresLanuage}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">前后端是否分离：</label>
+                <div class="col-sm-8">
+                    <input name="featuresFrontEnd" th:field="*{featuresFrontEnd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">评分：60,70,80,90,100：</label>
+                <div class="col-sm-8">
+                    <input name="featuresScore" th:field="*{featuresScore}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">特色的功能点所在的包和类名：</label>
+                <div class="col-sm-8">
+                    <input name="featuresPackage" th:field="*{featuresPackage}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">技能简要描述：特色的一个功能点，比如：导入导出做的不错：</label>
+                <div class="col-sm-8">
+                    <textarea name="featuresBrief" class="form-control">[[*{featuresBrief}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">功能点详细描述：</label>
+                <div class="col-sm-8">
+                    <textarea name="featuresDesc" class="form-control">[[*{featuresDesc}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最近数据更新时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="lastUpdateTime" th:value="${#dates.format(githubFeaturev1.lastUpdateTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/featurev1";
+        $("#form-featurev1-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-featurev1-edit').serialize());
+            }
+        }
+
+        $("input[name='lastUpdateTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

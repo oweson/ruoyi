@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ThreadTrainTicketMapper">
+    
+    <resultMap type="ThreadTrainTicket" id="ThreadTrainTicketResult">
+        <result property="id"    column="id"    />
+        <result property="ticketType"    column="ticket_type"    />
+        <result property="ticketNumber"    column="ticket_number"    />
+    </resultMap>
+
+    <sql id="selectThreadTrainTicketVo">
+        select id, ticket_type, ticket_number from thread_train_ticket
+    </sql>
+
+    <select id="selectThreadTrainTicketList" parameterType="ThreadTrainTicket" resultMap="ThreadTrainTicketResult">
+        <include refid="selectThreadTrainTicketVo"/>
+        <where>  
+            <if test="ticketType != null  and ticketType != ''"> and ticket_type = #{ticketType}</if>
+            <if test="ticketNumber != null "> and ticket_number = #{ticketNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectThreadTrainTicketById" parameterType="Long" resultMap="ThreadTrainTicketResult">
+        <include refid="selectThreadTrainTicketVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertThreadTrainTicket" parameterType="ThreadTrainTicket" useGeneratedKeys="true" keyProperty="id">
+        insert into thread_train_ticket
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ticketType != null  and ticketType != ''">ticket_type,</if>
+            <if test="ticketNumber != null ">ticket_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ticketType != null  and ticketType != ''">#{ticketType},</if>
+            <if test="ticketNumber != null ">#{ticketNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateThreadTrainTicket" parameterType="ThreadTrainTicket">
+        update thread_train_ticket
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ticketType != null  and ticketType != ''">ticket_type = #{ticketType},</if>
+            <if test="ticketNumber != null ">ticket_number = #{ticketNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteThreadTrainTicketById" parameterType="Long">
+        delete from thread_train_ticket where id = #{id}
+    </delete>
+
+    <delete id="deleteThreadTrainTicketByIds" parameterType="String">
+        delete from thread_train_ticket where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

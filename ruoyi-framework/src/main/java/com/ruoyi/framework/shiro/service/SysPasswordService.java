@@ -69,14 +69,8 @@ public class SysPasswordService {
         loginRecordCache.remove(username);
     }
 
-<<<<<<< HEAD
     public String encryptPassword(String username, String password, String salt) {
         return new Md5Hash(username + password + salt).toHex().toString();
-=======
-    public String encryptPassword(String username, String password, String salt)
-    {
-        return new Md5Hash(username + password + salt).toHex();
->>>>>>> 4f57c28f2f6e8adcfc5eca6483a361fb8cc07c6f
     }
 
     public void unlock(String loginName) {

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OfferCityMapper">
+    
+    <resultMap type="OfferCity" id="OfferCityResult">
+        <result property="id"    column="id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="doubleStop"    column="double_stop"    />
+        <result property="salary"    column="salary"    />
+        <result property="comment"    column="comment"    />
+        <result property="industry"    column="industry"    />
+        <result property="peopleNumber"    column="people_number"    />
+        <result property="offerCity"    column="offer_city"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="offerDesc"    column="offer_desc"    />
+    </resultMap>
+
+    <sql id="selectOfferCityVo">
+        select id, company_name, double_stop, salary, comment, industry, people_number, offer_city, create_time, offer_desc from offer_city
+    </sql>
+
+    <select id="selectOfferCityList" parameterType="OfferCity" resultMap="OfferCityResult">
+        <include refid="selectOfferCityVo"/>
+        <where>  
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="doubleStop != null  and doubleStop != ''"> and double_stop = #{doubleStop}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+            <if test="comment != null  and comment != ''"> and comment like concat('%', #{comment}, '%')</if>
+            <if test="industry != null  and industry != ''"> and industry = #{industry}</if>
+            <if test="peopleNumber != null "> and people_number = #{peopleNumber}</if>
+            <if test="offerCity != null  and offerCity != ''"> and offer_city = #{offerCity}</if>
+            <if test="offerDesc != null  and offerDesc != ''"> and offer_desc like concat('%', #{offerDesc}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectOfferCityById" parameterType="Long" resultMap="OfferCityResult">
+        <include refid="selectOfferCityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOfferCity" parameterType="OfferCity" useGeneratedKeys="true" keyProperty="id">
+        insert into offer_city
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyName != null  and companyName != ''">company_name,</if>
+            <if test="doubleStop != null  and doubleStop != ''">double_stop,</if>
+            <if test="salary != null ">salary,</if>
+            <if test="comment != null  and comment != ''">comment,</if>
+            <if test="industry != null  and industry != ''">industry,</if>
+            <if test="peopleNumber != null ">people_number,</if>
+            <if test="offerCity != null  and offerCity != ''">offer_city,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="offerDesc != null  and offerDesc != ''">offer_desc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyName != null  and companyName != ''">#{companyName},</if>
+            <if test="doubleStop != null  and doubleStop != ''">#{doubleStop},</if>
+            <if test="salary != null ">#{salary},</if>
+            <if test="comment != null  and comment != ''">#{comment},</if>
+            <if test="industry != null  and industry != ''">#{industry},</if>
+            <if test="peopleNumber != null ">#{peopleNumber},</if>
+            <if test="offerCity != null  and offerCity != ''">#{offerCity},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="offerDesc != null  and offerDesc != ''">#{offerDesc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOfferCity" parameterType="OfferCity">
+        update offer_city
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyName != null  and companyName != ''">company_name = #{companyName},</if>
+            <if test="doubleStop != null  and doubleStop != ''">double_stop = #{doubleStop},</if>
+            <if test="salary != null ">salary = #{salary},</if>
+            <if test="comment != null  and comment != ''">comment = #{comment},</if>
+            <if test="industry != null  and industry != ''">industry = #{industry},</if>
+            <if test="peopleNumber != null ">people_number = #{peopleNumber},</if>
+            <if test="offerCity != null  and offerCity != ''">offer_city = #{offerCity},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="offerDesc != null  and offerDesc != ''">offer_desc = #{offerDesc},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOfferCityById" parameterType="Long">
+        delete from offer_city where id = #{id}
+    </delete>
+
+    <delete id="deleteOfferCityByIds" parameterType="String">
+        delete from offer_city where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

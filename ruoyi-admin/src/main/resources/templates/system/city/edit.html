@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改求职')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-city-edit" th:object="${offerCity}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司名字：</label>
+                <div class="col-sm-8">
+                    <input name="companyName" th:field="*{companyName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否双休：</label>
+                <div class="col-sm-8">
+                    <input name="doubleStop" th:field="*{doubleStop}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">薪水：</label>
+                <div class="col-sm-8">
+                    <input name="salary" th:field="*{salary}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户评价：</label>
+                <div class="col-sm-8">
+                    <input name="comment" th:field="*{comment}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">行业：</label>
+                <div class="col-sm-8">
+                    <input name="industry" th:field="*{industry}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">员工数量：</label>
+                <div class="col-sm-8">
+                    <input name="peopleNumber" th:field="*{peopleNumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">候选城市：</label>
+                <div class="col-sm-8">
+                    <select name="offerCity" class="form-control m-b" th:with="type=${@dict.getType('offier_city')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{offerCity}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">详细备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="offerDesc" class="form-control">[[*{offerDesc}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/city";
+        $("#form-city-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-city-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
