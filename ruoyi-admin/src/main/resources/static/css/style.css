@@ -865,7 +865,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
     color: #cacaca;
 }
 
-.form-control, .form-control:focus, .has-error .form-control:focus,  .has-success .form-control:focus, .has-warning .form-control:focus,  .navbar-collapse, .navbar-form, .navbar-form-custom .form-control:focus,  .navbar-form-custom .form-control:hover, .open .btn.dropdown-toggle,  .panel, .popover, .progress, .progress-bar {
+.form-control, .has-error .form-control:focus,  .has-success .form-control:focus, .has-warning .form-control:focus,  .navbar-collapse, .navbar-form, .navbar-form-custom .form-control:focus,  .navbar-form-custom .form-control:hover, .open .btn.dropdown-toggle,  .panel, .popover, .progress, .progress-bar {
     box-shadow: none;
 }
 
@@ -1818,18 +1818,23 @@ table.dataTable thead .sorting:after {
 .form-control, .single-line {
     background: #FFFFFF none;
     border: 1px solid #e5e6e7;
-    border-radius: 1px;
+    border-radius: 4px;
     color: inherit;
     display: block;
-    padding: 6px 12px;
+    padding: 3px 6px 4px;
     -webkit-transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s  ease-in-out 0s;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s  ease-in-out 0s;
     width: 100%;
+    height: 31px;
     font-size: 14px;
 }
 
+.form-control.kv-fileinput-caption {
+    height: 34px!important;
+}
+
 .form-control:focus, .single-line:focus {
-    border-color: #1ab394 !important;
+    border-color: #3c8dbc !important;
 }
 
 .has-success .form-control {
@@ -1858,8 +1863,8 @@ table.dataTable thead .sorting:after {
 
 .input-group-addon {
     background-color: #fff;
-    border: 1px solid #E5E6E7;
-    border-radius: 1px;
+    border: 1px solid #e5e6e7;
+    border-radius: 4px;
     color: inherit;
     font-size: 14px;
     font-weight: 400;
@@ -4916,13 +4921,14 @@ dd.project-people {
     font-size: 10px;
     text-transform: uppercase;
 }
+
 /* Chat view */
 .message-input {
     height: 90px !important;
 }
 
 .chat-avatar {
-    white: 36px;
+    width: 36px;
     height: 36px;
     float: left;
     margin-right: 10px;
@@ -4949,9 +4955,10 @@ dd.project-people {
     margin-left: -30px;
 }
 
-@media ( max-width : 992px) {
-    .chat-users, .chat-statistic {
-        margin-left: 0px;
+@media (max-width: 992px) {
+    .chat-users,
+    .chat-statistic {
+        margin-left: 0;
     }
 }
 
@@ -4971,12 +4978,12 @@ dd.project-people {
     margin-top: 1px;
 }
 
-.chat-discussion .chat-message:nth-child(2n+1) .message-avatar {
+.chat-discussion .chat-message.left .message-avatar {
     float: left;
     margin-right: 10px;
 }
 
-.chat-discussion .chat-message:nth-child(2n) .message-avatar {
+.chat-discussion .chat-message.right .message-avatar {
     float: right;
     margin-left: 10px;
 }
@@ -4991,20 +4998,20 @@ dd.project-people {
     border-radius: 4px;
 }
 
-.chat-discussion .chat-message:nth-child(2n+1) .message-date {
+.chat-discussion .chat-message.left .message-date {
     float: right;
 }
 
-.chat-discussion .chat-message:nth-child(2n) .message-date {
+.chat-discussion .chat-message.right .message-date {
     float: left;
 }
 
-.chat-discussion .chat-message:nth-child(2n+1) .message {
+.chat-discussion .chat-message.left .message {
     text-align: left;
     margin-left: 55px;
 }
 
-.chat-discussion .chat-message:nth-child(2n) .message {
+.chat-discussion .chat-message.right .message {
     text-align: right;
     margin-right: 55px;
 }
@@ -5033,6 +5040,7 @@ dd.project-people {
 .chat-message-form .form-group {
     margin-bottom: 0;
 }
+
 /* jsTree */
 .jstree-open>.jstree-anchor>.fa-folder:before {
     content: "\f07c";

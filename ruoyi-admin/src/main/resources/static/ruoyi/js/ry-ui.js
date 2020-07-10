@@ -45,6 +45,7 @@ var table = {
         		    pagination: true,
         		    paginationLoop: false,
         		    pageSize: 10,
+        		    pageNumber: 1,
         		    pageList: [10, 25, 50],
         		    toolbar: "toolbar",
         		    striped: false,
@@ -61,6 +62,7 @@ var table = {
                     clickToSelect: false,
                     singleSelect: false,
                     mobileResponsive: true,
+                    maintainSelected: false,
                     rememberSelected: false,
         		    fixedColumns: false,
         		    fixedNumber: 0,
@@ -118,6 +120,7 @@ var table = {
                     onDblClickCell: options.onDblClickCell,             // 双击某格触发的事件
                     onEditableSave: options.onEditableSave,             // 行内编辑保存的事件
                     onExpandRow: options.onExpandRow,                   // 点击详细视图的事件
+                    maintainSelected: options.maintainSelected,         // 前端翻页时保留所选行
                     rememberSelected: options.rememberSelected,         // 启用翻页记住前面的选择
                     fixedColumns: options.fixedColumns,                 // 是否启用冻结列（左侧）
                     fixedNumber: options.fixedNumber,                   // 列冻结的个数（左侧）
@@ -275,8 +278,8 @@ var table = {
             serialNumber: function (index, tableId) {
             	var currentId = $.common.isEmpty(tableId) ? table.options.id : tableId;
 				var tableParams = $("#" + currentId).bootstrapTable('getOptions');
-				var pageSize = tableParams.pageSize;
-				var pageNumber = tableParams.pageNumber;
+				var pageSize = $.common.isNotEmpty(tableParams.pageSize) ? tableParams.pageSize: table.options.pageSize;
+				var pageNumber = $.common.isNotEmpty(tableParams.pageNumber) ? tableParams.pageNumber: table.options.pageNumber;
 				return pageSize * (pageNumber - 1) + index + 1;
 			},
 			// 列超出指定长度浮动提示 target（copy单击复制文本 open弹窗打开文本）
@@ -499,6 +502,21 @@ var table = {
                 });
                 return actions.join('');
             },
+            // 回显数据字典（字符串数组）
+            selectDictLabels: function(datas, value, separator) {
+            	var currentSeparator = $.common.isEmpty(separator) ? "," : separator;
+            	var actions = [];
+                $.each(value.split(currentSeparator), function(i, val) {
+                	$.each(datas, function(index, dict) {
+                		if (dict.dictValue == ('' + val)) {
+                        	var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                        	actions.push($.common.sprintf("<span class='%s'>%s </span>", listClass, dict.dictLabel));
+                            return false;
+                        }
+                	});
+                });
+                return actions.join('');
+            },
             // 显示表格指定列
             showColumn: function(column, tableId) {
             	var currentId = $.common.isEmpty(tableId) ? table.options.id : tableId;
@@ -542,6 +560,7 @@ var table = {
             	var options = $.extend(defaults, options);
             	table.options = options;
             	table.config[options.id] = options;
+            	$.table.initEvent();
                 $.bttTable = $('#' + options.id).bootstrapTreeTable({
                 	code: options.code,                                 // 用于设置父子关系
         		    parentCode: options.parentCode,                     // 用于设置父子关系
@@ -561,7 +580,8 @@ var table = {
         			expandAll: options.expandAll,                       // 是否全部展开
         			expandFirst: options.expandFirst,                   // 是否默认第一级展开--expandAll为false时生效
         	        columns: options.columns,                           // 显示列信息（*）
-        	        responseHandler: $.treeTable.responseHandler        // 当所有数据被加载时触发处理函数
+        	        responseHandler: $.treeTable.responseHandler,       // 在加载服务器发送来的数据之前处理函数
+        	        onLoadSuccess: $.table.onLoadSuccess                // 当所有数据被加载时触发处理函数
         	    });
             },
             // 条件查询
@@ -783,22 +803,34 @@ var table = {
                     	options.callBack(index, layero);
                     }
                 }
-                layer.open({
-                    type: 2,
-            		maxmin: true,
-                    shade: 0.3,
-                    title: _title,
-                    fix: false,
-                    area: [_width + 'px', _height + 'px'],
-                    content: _url,
-                    shadeClose: $.common.isEmpty(options.shadeClose) ? true : options.shadeClose,
-                    skin: options.skin,
-                    btn: $.common.isEmpty(options.btn) ? _btn : options.btn,
-                    yes: options.yes,
-                    cancel: function () {
-                        return true;
-                    }
-                });
+                var btnCallback = {};
+        		if(options.btn instanceof Array){
+        			for (var i = 1, len = options.btn.length; i < len; i++) {
+					    var btn = options["btn" + (i + 1)];
+					    if (btn) {
+					    	btnCallback["btn" + (i + 1)] = btn;
+					    }
+					}
+        		}
+        		var index = layer.open($.extend({
+        			type: 2,
+        			maxmin: $.common.isEmpty(options.maxmin) ? true : options.maxmin,
+        			shade: 0.3,
+        			title: _title,
+        			fix: false,
+        			area: [_width + 'px', _height + 'px'],
+        			content: _url,
+        			shadeClose: $.common.isEmpty(options.shadeClose) ? true : options.shadeClose,
+        			skin: options.skin,
+        			btn: $.common.isEmpty(options.btn) ? _btn : options.btn,
+        			yes: options.yes,
+        			cancel: function () {
+        				return true;
+        			}
+        		}, btnCallback));
+        		if ($.common.isNotEmpty(options.full) && options.full === true) {
+        		    layer.full(index);
+        		}
             },
             // 弹出层全屏
             openFull: function (title, url, width, height) {
@@ -1134,7 +1166,7 @@ var table = {
                 } else if (result.code == web_status.SUCCESS && table.options.type == table_type.bootstrapTreeTable) {
                 	$.modal.msgSuccess(result.msg);
                 	$.treeTable.refresh();
-                } else if (result.code == web_status.SUCCESS && table.option.type == undefined) {
+                } else if (result.code == web_status.SUCCESS && $.common.isEmpty(table.options.type)) {
                     $.modal.msgSuccess(result.msg)
                 }  else if (result.code == web_status.WARNING) {
                     $.modal.alertWarning(result.msg)
@@ -1263,9 +1295,11 @@ var table = {
         			var treeId = $("#treeId").val();
         			tree = $.fn.zTree.init($("#" + options.id), setting, data);
         			$._tree = tree;
-        			var nodes = tree.getNodesByParam("level", options.expandLevel - 1);
-        			for (var i = 0; i < nodes.length; i++) {
-        				tree.expandNode(nodes[i], true, false, false);
+        			for (var i = 0; i < options.expandLevel; i++) {
+        			    var nodes = tree.getNodesByParam("level", i);
+        			    for (var j = 0; j < nodes.length; j++) {
+        			        tree.expandNode(nodes[j], true, false, false);
+        			    }
         			}
         			var node = tree.getNodesByParam("id", treeId, null)[0];
         			$.tree.selectByIdName(treeId, node);
@@ -1518,6 +1552,20 @@ var table = {
                      }
                  });
             	return json;
+            },
+            // 数据字典转下拉框
+            dictToSelect: function(datas, value, name) {
+            	var actions = [];
+            	actions.push($.common.sprintf("<select class='form-control' name='%s'>", name));
+                $.each(datas, function(index, dict) {
+                	actions.push($.common.sprintf("<option value='%s'", dict.dictValue));
+                    if (dict.dictValue == ('' + value)) {
+                    	actions.push(' selected');
+                    }
+                    actions.push($.common.sprintf(">%s</option>", dict.dictLabel));
+                });
+                actions.push('</select>');
+                return actions.join('');
             },
             // 获取obj对象长度
             getLength: function(obj) {

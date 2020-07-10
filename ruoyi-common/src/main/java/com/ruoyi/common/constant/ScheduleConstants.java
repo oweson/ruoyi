@@ -5,7 +5,12 @@ package com.ruoyi.common.constant;
  *
  * @author ruoyi
  */
+<<<<<<< HEAD
 public interface ScheduleConstants {
+=======
+public class ScheduleConstants
+{
+>>>>>>> d56d6ac5ace9b1d6b810e91e5f28b6bfa9c9f559
     public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
     /**
