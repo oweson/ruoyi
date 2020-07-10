@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FireProjectMapper">
+    
+    <resultMap type="FireProject" id="FireProjectResult">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectType"    column="project_type"    />
+        <result property="projectFrom"    column="project_from"    />
+        <result property="projectUrl"    column="project_url"    />
+        <result property="projectCore"    column="project_core"    />
+        <result property="projectDesc"    column="project_desc"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+    </resultMap>
+
+    <sql id="selectFireProjectVo">
+        select id, project_name, project_type, project_from, project_url, project_core, project_desc, create_time, last_update_time from fire_project
+    </sql>
+
+    <select id="selectFireProjectList" parameterType="FireProject" resultMap="FireProjectResult">
+        <include refid="selectFireProjectVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
+            <if test="projectFrom != null  and projectFrom != ''"> and project_from = #{projectFrom}</if>
+            <if test="projectUrl != null  and projectUrl != ''"> and project_url = #{projectUrl}</if>
+            <if test="projectCore != null  and projectCore != ''"> and project_core = #{projectCore}</if>
+            <if test="projectDesc != null  and projectDesc != ''"> and project_desc = #{projectDesc}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFireProjectById" parameterType="Long" resultMap="FireProjectResult">
+        <include refid="selectFireProjectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFireProject" parameterType="FireProject" useGeneratedKeys="true" keyProperty="id">
+        insert into fire_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name,</if>
+            <if test="projectType != null  and projectType != ''">project_type,</if>
+            <if test="projectFrom != null  and projectFrom != ''">project_from,</if>
+            <if test="projectUrl != null  and projectUrl != ''">project_url,</if>
+            <if test="projectCore != null  and projectCore != ''">project_core,</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="lastUpdateTime != null ">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">#{projectName},</if>
+            <if test="projectType != null  and projectType != ''">#{projectType},</if>
+            <if test="projectFrom != null  and projectFrom != ''">#{projectFrom},</if>
+            <if test="projectUrl != null  and projectUrl != ''">#{projectUrl},</if>
+            <if test="projectCore != null  and projectCore != ''">#{projectCore},</if>
+            <if test="projectDesc != null  and projectDesc != ''">#{projectDesc},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="lastUpdateTime != null ">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFireProject" parameterType="FireProject">
+        update fire_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null  and projectName != ''">project_name = #{projectName},</if>
+            <if test="projectType != null  and projectType != ''">project_type = #{projectType},</if>
+            <if test="projectFrom != null  and projectFrom != ''">project_from = #{projectFrom},</if>
+            <if test="projectUrl != null  and projectUrl != ''">project_url = #{projectUrl},</if>
+            <if test="projectCore != null  and projectCore != ''">project_core = #{projectCore},</if>
+            <if test="projectDesc != null  and projectDesc != ''">project_desc = #{projectDesc},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null ">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFireProjectById" parameterType="Long">
+        delete from fire_project where id = #{id}
+    </delete>
+
+    <delete id="deleteFireProjectByIds" parameterType="String">
+        delete from fire_project where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

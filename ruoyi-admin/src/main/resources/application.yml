@@ -12,8 +12,8 @@ ruoyi:
   #  profile: /springboot/file/ruoyi/uploadPath
   profile:    D:/ruoyi/uploadPath
   # 获取ip地址开关
-  addressEnabled: true
-
+  addressEnabled: false
+ssoServiceUrl: http://127.0.0.1
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80

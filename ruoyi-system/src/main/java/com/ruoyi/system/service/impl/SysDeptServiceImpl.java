@@ -1,8 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,32 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @DataScope(deptAlias = "d")
     public List<Ztree> selectDeptTree(SysDept dept) {
         List<SysDept> deptList = deptMapper.selectDeptList(dept);
+        List<Ztree> ztrees = initZtree(deptList);
+        return ztrees;
+    }
+
+    /**
+     * 查询部门管理树（排除下级）
+     * 
+     * @param deptId 部门ID
+     * @return 所有部门信息
+     */
+    @Override
+    @DataScope(deptAlias = "d")
+    public List<Ztree> selectDeptTreeExcludeChild(SysDept dept)
+    {
+        Long deptId = dept.getDeptId();
+        List<SysDept> deptList = deptMapper.selectDeptList(dept);
+        Iterator<SysDept> it = deptList.iterator();
+        while (it.hasNext())
+        {
+            SysDept d = (SysDept) it.next();
+            if (d.getDeptId().intValue() == deptId
+                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""))
+            {
+                it.remove();
+            }
+        }
         List<Ztree> ztrees = initZtree(deptList);
         return ztrees;
     }
@@ -225,6 +252,18 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public SysDept selectDeptById(Long deptId) {
         return deptMapper.selectDeptById(deptId);
+    }
+
+    /**
+     * 根据ID查询所有子部门（正常状态）
+     * 
+     * @param deptId 部门ID
+     * @return 子部门数
+     */
+    @Override
+    public int selectNormalChildrenDeptById(Long deptId)
+    {
+        return deptMapper.selectNormalChildrenDeptById(deptId);
     }
 
     /**
