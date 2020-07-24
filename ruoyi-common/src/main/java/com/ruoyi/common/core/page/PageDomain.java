@@ -12,7 +12,6 @@ public class PageDomain {
      * 当前记录起始索引
      */
     private Integer pageNum;
-<<<<<<< HEAD
     /**
      * 每页显示记录数
      */
@@ -24,16 +23,8 @@ public class PageDomain {
     /**
      * 排序的方向 "desc" 或者 "asc".
      */
-=======
-
-    /** 每页显示记录数 */
-    private Integer pageSize;
-
-    /** 排序列 */
-    private String orderByColumn;
 
     /** 排序的方向 "desc" 或者 "asc". */
->>>>>>> d56d6ac5ace9b1d6b810e91e5f28b6bfa9c9f559
     private String isAsc;
 
     public String getOrderBy() {

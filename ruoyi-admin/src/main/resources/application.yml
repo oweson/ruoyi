@@ -132,10 +132,7 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
-<<<<<<< HEAD
-=======
 # Swagger配置
 swagger:
   # 是否开启swagger
   enabled: true
->>>>>>> d56d6ac5ace9b1d6b810e91e5f28b6bfa9c9f559
