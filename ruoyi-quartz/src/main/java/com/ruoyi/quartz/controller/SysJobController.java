@@ -22,6 +22,7 @@ import com.ruoyi.common.exception.job.TaskException;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.quartz.domain.SysJob;
 import com.ruoyi.quartz.service.ISysJobService;
+import com.ruoyi.quartz.util.CronUtils;
 
 /**
  * 调度任务信息操作处理
@@ -130,7 +131,13 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:add")
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@Validated SysJob job) throws SchedulerException, TaskException {
+
+    public AjaxResult addSave(@Validated SysJob job) throws SchedulerException, TaskException
+    {
+        if (!CronUtils.isValid(job.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
         return toAjax(jobService.insertJob(job));
     }
 
@@ -150,7 +157,13 @@ public class SysJobController extends BaseController {
     @RequiresPermissions("monitor:job:edit")
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(@Validated SysJob job) throws SchedulerException, TaskException {
+
+    public AjaxResult editSave(@Validated SysJob job) throws SchedulerException, TaskException
+    {
+        if (!CronUtils.isValid(job.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
         return toAjax(jobService.updateJob(job));
     }
 
