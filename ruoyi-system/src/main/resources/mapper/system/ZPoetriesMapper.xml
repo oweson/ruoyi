@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ZPoetriesMapper">
+    
+    <resultMap type="ZPoetries" id="ZPoetriesResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="title"    column="title"    />
+        <result property="author"    column="author"    />
+    </resultMap>
+
+    <sql id="selectZPoetriesVo">
+        select id, content, title, author from z_poetries
+    </sql>
+
+    <select id="selectZPoetriesList" parameterType="ZPoetries" resultMap="ZPoetriesResult">
+        <include refid="selectZPoetriesVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="author != null  and author != ''"> and author = #{author}</if>
+        </where>
+    </select>
+    
+    <select id="selectZPoetriesById" parameterType="Long" resultMap="ZPoetriesResult">
+        <include refid="selectZPoetriesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZPoetries" parameterType="ZPoetries" useGeneratedKeys="true" keyProperty="id">
+        insert into z_poetries
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null and content != ''">content,</if>
+            <if test="title != null">title,</if>
+            <if test="author != null">author,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="title != null">#{title},</if>
+            <if test="author != null">#{author},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZPoetries" parameterType="ZPoetries">
+        update z_poetries
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="author != null">author = #{author},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZPoetriesById" parameterType="Long">
+        delete from z_poetries where id = #{id}
+    </delete>
+
+    <delete id="deleteZPoetriesByIds" parameterType="String">
+        delete from z_poetries where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

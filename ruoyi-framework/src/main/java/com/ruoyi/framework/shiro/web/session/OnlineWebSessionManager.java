@@ -131,6 +131,7 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager
                 }
                 invalidCount++;
                 needOfflineIdList.add(userOnline.getSessionId());
+                userOnlineService.removeUserCache(userOnline.getLoginName(), userOnline.getSessionId());
             }
 
         }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GzLessonTreeMapper">
+    
+    <resultMap type="GzLessonTree" id="GzLessonTreeResult">
+        <result property="id"    column="id"    />
+        <result property="lessonName"    column="lesson_name"    />
+        <result property="lessonDesc"    column="lesson_desc"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="lessonShould"    column="lesson_should"    />
+        <result property="lessonType"    column="lesson_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <sql id="selectGzLessonTreeVo">
+        select id, lesson_name, lesson_desc, parent_id, lesson_should, lesson_type, create_time, last_update_time from gz_lesson_tree
+    </sql>
+
+    <select id="selectGzLessonTreeList" parameterType="GzLessonTree" resultMap="GzLessonTreeResult">
+        <include refid="selectGzLessonTreeVo"/>
+        <where>  
+            <if test="lessonName != null  and lessonName != ''"> and lesson_name like concat('%', #{lessonName}, '%')</if>
+            <if test="lessonDesc != null  and lessonDesc != ''"> and lesson_desc = #{lessonDesc}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="lessonShould != null  and lessonShould != ''"> and lesson_should = #{lessonShould}</if>
+            <if test="lessonType != null  and lessonType != ''"> and lesson_type = #{lessonType}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+        </where>
+        order by parent_id
+    </select>
+    
+    <select id="selectGzLessonTreeById" parameterType="Long" resultMap="GzLessonTreeResult">
+        select t.id, t.lesson_name, t.lesson_desc, t.parent_id, t.lesson_should, t.lesson_type, t.create_time, t.last_update_time, p.lesson_name as parent_name
+        from gz_lesson_tree t
+        left join gz_lesson_tree p on p.id = t.parent_id
+        where t.id = #{id}
+    </select>
+        
+    <insert id="insertGzLessonTree" parameterType="GzLessonTree" useGeneratedKeys="true" keyProperty="id">
+        insert into gz_lesson_tree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lessonName != null">lesson_name,</if>
+            <if test="lessonDesc != null">lesson_desc,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="lessonShould != null">lesson_should,</if>
+            <if test="lessonType != null">lesson_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lessonName != null">#{lessonName},</if>
+            <if test="lessonDesc != null">#{lessonDesc},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="lessonShould != null">#{lessonShould},</if>
+            <if test="lessonType != null">#{lessonType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGzLessonTree" parameterType="GzLessonTree">
+        update gz_lesson_tree
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lessonName != null">lesson_name = #{lessonName},</if>
+            <if test="lessonDesc != null">lesson_desc = #{lessonDesc},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="lessonShould != null">lesson_should = #{lessonShould},</if>
+            <if test="lessonType != null">lesson_type = #{lessonType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGzLessonTreeById" parameterType="Long">
+        delete from gz_lesson_tree where id = #{id}
+    </delete>
+
+    <delete id="deleteGzLessonTreeByIds" parameterType="String">
+        delete from gz_lesson_tree where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

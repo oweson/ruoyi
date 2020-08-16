@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CyMapper">
+    
+    <resultMap type="Cy" id="CyResult">
+        <result property="ID"    column="ID"    />
+        <result property="name"    column="name"    />
+        <result property="spell"    column="spell"    />
+        <result property="content"    column="content"    />
+        <result property="derivation"    column="derivation"    />
+        <result property="samples"    column="samples"    />
+    </resultMap>
+
+    <sql id="selectCyVo">
+        select ID, name, spell, content, derivation, samples from cy
+    </sql>
+
+    <select id="selectCyList" parameterType="Cy" resultMap="CyResult">
+        <include refid="selectCyVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="derivation != null  and derivation != ''"> and derivation like concat('%', #{derivation}, '%')</if>
+            <if test="samples != null  and samples != ''"> and samples like concat('%', #{samples}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCyById" parameterType="Long" resultMap="CyResult">
+        <include refid="selectCyVo"/>
+        where ID = #{ID}
+    </select>
+        
+    <insert id="insertCy" parameterType="Cy" useGeneratedKeys="true" keyProperty="ID">
+        insert into cy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="spell != null">spell,</if>
+            <if test="content != null">content,</if>
+            <if test="derivation != null">derivation,</if>
+            <if test="samples != null">samples,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="spell != null">#{spell},</if>
+            <if test="content != null">#{content},</if>
+            <if test="derivation != null">#{derivation},</if>
+            <if test="samples != null">#{samples},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCy" parameterType="Cy">
+        update cy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="spell != null">spell = #{spell},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="derivation != null">derivation = #{derivation},</if>
+            <if test="samples != null">samples = #{samples},</if>
+        </trim>
+        where ID = #{ID}
+    </update>
+
+    <delete id="deleteCyById" parameterType="Long">
+        delete from cy where ID = #{ID}
+    </delete>
+
+    <delete id="deleteCyByIds" parameterType="String">
+        delete from cy where ID in 
+        <foreach item="ID" collection="array" open="(" separator="," close=")">
+            #{ID}
+        </foreach>
+    </delete>
+
+</mapper>

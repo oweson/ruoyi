@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MobileMapper">
+    
+    <resultMap type="Mobile" id="MobileResult">
+        <result property="id"    column="id"    />
+        <result property="phone"    column="phone"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="serviceProvider"    column="service_provider"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="postcode"    column="postcode"    />
+    </resultMap>
+
+    <sql id="selectMobileVo">
+        select id, phone, province, city, service_provider, city_code, postcode from mobile
+    </sql>
+
+    <select id="selectMobileList" parameterType="Mobile" resultMap="MobileResult">
+        <include refid="selectMobileVo"/>
+        <where>  
+            <if test="phone != null  and phone != ''"> and phone like concat('%', #{phone}, '%')</if>
+            <if test="province != null  and province != ''"> and province like concat('%', #{province}, '%')</if>
+            <if test="city != null  and city != ''"> and city like concat('%', #{city}, '%')</if>
+            <if test="serviceProvider != null  and serviceProvider != ''"> and service_provider = #{serviceProvider}</if>
+            <if test="cityCode != null  and cityCode != ''"> and city_code like concat('%', #{cityCode}, '%')</if>
+            <if test="postcode != null  and postcode != ''"> and postcode like concat('%', #{postcode}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMobileById" parameterType="Integer" resultMap="MobileResult">
+        <include refid="selectMobileVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMobile" parameterType="Mobile" useGeneratedKeys="true" keyProperty="id">
+        insert into mobile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phone != null">phone,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="serviceProvider != null and serviceProvider != ''">service_provider,</if>
+            <if test="cityCode != null and cityCode != ''">city_code,</if>
+            <if test="postcode != null and postcode != ''">postcode,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phone != null">#{phone},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="serviceProvider != null and serviceProvider != ''">#{serviceProvider},</if>
+            <if test="cityCode != null and cityCode != ''">#{cityCode},</if>
+            <if test="postcode != null and postcode != ''">#{postcode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMobile" parameterType="Mobile">
+        update mobile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="serviceProvider != null and serviceProvider != ''">service_provider = #{serviceProvider},</if>
+            <if test="cityCode != null and cityCode != ''">city_code = #{cityCode},</if>
+            <if test="postcode != null and postcode != ''">postcode = #{postcode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMobileById" parameterType="Integer">
+        delete from mobile where id = #{id}
+    </delete>
+
+    <delete id="deleteMobileByIds" parameterType="String">
+        delete from mobile where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

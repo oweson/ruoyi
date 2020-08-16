@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompanyMapper">
+    
+    <resultMap type="Company" id="CompanyResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+    </resultMap>
+
+    <resultMap id="CompanyStudentResult" type="Company" extends="CompanyResult">
+        <collection property="studentList" notNullColumn="id" javaType="java.util.List" resultMap="StudentResult" />
+    </resultMap>
+
+    <resultMap type="Student" id="StudentResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="classId"    column="class_id"    />
+    </resultMap>
+
+    <sql id="selectCompanyVo">
+        select id, code from company
+    </sql>
+
+    <select id="selectCompanyList" parameterType="Company" resultMap="CompanyResult">
+        <include refid="selectCompanyVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompanyById" parameterType="Long" resultMap="CompanyStudentResult">
+        select a.id, a.code,
+            b.id, b.name, b.class_id
+        from company a
+        left join student b on b.class_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertCompany" parameterType="Company" useGeneratedKeys="true" keyProperty="id">
+        insert into company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompany" parameterType="Company">
+        update company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompanyById" parameterType="Long">
+        delete from company where id = #{id}
+    </delete>
+
+    <delete id="deleteCompanyByIds" parameterType="String">
+        delete from company where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteStudentByClassIds" parameterType="String">
+        delete from student where class_id in 
+        <foreach item="classId" collection="array" open="(" separator="," close=")">
+            #{classId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteStudentByClassId" parameterType="Long">
+        delete from student where class_id = #{classId}
+    </delete>
+
+    <insert id="batchStudent">
+        insert into student( id, name, class_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.name}, #{item.classId})
+        </foreach>
+    </insert>
+
+</mapper>
