@@ -24,8 +24,8 @@ public class PageDomain {
      * 排序的方向 "desc" 或者 "asc".
      */
 
-    /** 排序的方向 "desc" 或者 "asc". */
-    private String isAsc;
+    /** 排序的方向desc或者asc */
+    private String isAsc = "asc";
 
     public String getOrderBy() {
         if (StringUtils.isEmpty(orderByColumn)) {

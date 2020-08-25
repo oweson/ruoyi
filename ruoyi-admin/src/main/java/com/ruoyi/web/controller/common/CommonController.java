@@ -48,7 +48,7 @@ public class CommonController {
             String filePath = Global.getDownloadPath() + fileName;
 
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            FileUtils.setAttachmentResponseHeader(response,realFileName);
+            FileUtils.setAttachmentResponseHeader(response, realFileName);
 
             FileUtils.writeBytes(filePath, response.getOutputStream());
             if (delete) {
@@ -94,7 +94,7 @@ public class CommonController {
         String downloadName = StringUtils.substringAfterLast(downloadPath, "/");
 
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        FileUtils.setAttachmentResponseHeader(response,downloadName);
+        FileUtils.setAttachmentResponseHeader(response, downloadName);
 
         FileUtils.writeBytes(downloadPath, response.getOutputStream());
     }
