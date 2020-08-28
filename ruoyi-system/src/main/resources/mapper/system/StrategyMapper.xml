@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.StrategyMapper">
+    
+    <resultMap type="Strategy" id="StrategyResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="introduce"    column="introduce"    />
+        <result property="keyWorld"    column="key_world"    />
+        <result property="urlAddress"    column="url_address"    />
+        <result property="comment"    column="comment"    />
+        <result property="subdivisionArea"    column="subdivision_area"    />
+        <result property="front"    column="front"    />
+        <result property="together"    column="together"    />
+        <result property="category"    column="category"    />
+        <result property="source"    column="source"    />
+        <result property="language"    column="language"    />
+        <result property="startNumber"    column="start_number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+    </resultMap>
+
+    <sql id="selectStrategyVo">
+        select id, name, introduce, key_world, url_address, comment, subdivision_area, front, together, category, source, language, start_number, create_time, last_update_time from strategy
+    </sql>
+
+    <select id="selectStrategyList" parameterType="Strategy" resultMap="StrategyResult">
+        <include refid="selectStrategyVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="introduce != null  and introduce != ''"> and introduce like concat('%', #{introduce}, '%')</if>
+            <if test="keyWorld != null  and keyWorld != ''"> and key_world like concat('%', #{keyWorld}, '%')</if>
+            <if test="urlAddress != null  and urlAddress != ''"> and url_address = #{urlAddress}</if>
+            <if test="comment != null  and comment != ''"> and comment like concat('%', #{comment}, '%')</if>
+            <if test="subdivisionArea != null  and subdivisionArea != ''"> and subdivision_area = #{subdivisionArea}</if>
+            <if test="front != null  and front != ''"> and front = #{front}</if>
+            <if test="together != null  and together != ''"> and together = #{together}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="language != null  and language != ''"> and language = #{language}</if>
+            <if test="startNumber != null "> and start_number &gt;= #{startNumber}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectStrategyById" parameterType="Long" resultMap="StrategyResult">
+        <include refid="selectStrategyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStrategy" parameterType="Strategy" useGeneratedKeys="true" keyProperty="id">
+        insert into strategy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="introduce != null">introduce,</if>
+            <if test="keyWorld != null">key_world,</if>
+            <if test="urlAddress != null">url_address,</if>
+            <if test="comment != null">comment,</if>
+            <if test="subdivisionArea != null">subdivision_area,</if>
+            <if test="front != null">front,</if>
+            <if test="together != null">together,</if>
+            <if test="category != null">category,</if>
+            <if test="source != null">source,</if>
+            <if test="language != null">language,</if>
+            <if test="startNumber != null">start_number,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="introduce != null">#{introduce},</if>
+            <if test="keyWorld != null">#{keyWorld},</if>
+            <if test="urlAddress != null">#{urlAddress},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="subdivisionArea != null">#{subdivisionArea},</if>
+            <if test="front != null">#{front},</if>
+            <if test="together != null">#{together},</if>
+            <if test="category != null">#{category},</if>
+            <if test="source != null">#{source},</if>
+            <if test="language != null">#{language},</if>
+            <if test="startNumber != null">#{startNumber},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStrategy" parameterType="Strategy">
+        update strategy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="introduce != null">introduce = #{introduce},</if>
+            <if test="keyWorld != null">key_world = #{keyWorld},</if>
+            <if test="urlAddress != null">url_address = #{urlAddress},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="subdivisionArea != null">subdivision_area = #{subdivisionArea},</if>
+            <if test="front != null">front = #{front},</if>
+            <if test="together != null">together = #{together},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="language != null">language = #{language},</if>
+            <if test="startNumber != null">start_number = #{startNumber},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStrategyById" parameterType="Long">
+        delete from strategy where id = #{id}
+    </delete>
+
+    <delete id="deleteStrategyByIds" parameterType="String">
+        delete from strategy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

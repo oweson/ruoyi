@@ -9,25 +9,25 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 诗歌数据库对象 z_poetries
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 public class ZPoetries extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** null */
+    /** 主键 */
     private Long id;
 
-    /** null */
-    @Excel(name = "null")
+    /** 内容 */
+    @Excel(name = "内容")
     private String content;
 
-    /** null */
-    @Excel(name = "null")
+    /** 标题 */
+    @Excel(name = "标题")
     private String title;
 
-    /** null */
-    @Excel(name = "null")
+    /** 作者 */
+    @Excel(name = "作者")
     private String author;
 
     public void setId(Long id) 

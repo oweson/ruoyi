@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('收藏列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>名字：</label>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <label>细分领域：</label>
+                                <select name="subdivisionArea" th:with="type=${@dict.getType('项目细分领域')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>前端：</label>
+                                <select name="front" th:with="type=${@dict.getType('前端框架技术')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>前后端：</label>
+                                <select name="together" th:with="type=${@dict.getType('integer')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>分类：</label>
+                                <select name="category" th:with="type=${@dict.getType('项目行业分类')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>来源：</label>
+                                <select name="source" th:with="type=${@dict.getType('github')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>语言：</label>
+                                <select name="language" th:with="type=${@dict.getType('java为王')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>star数量：</label>
+                                <input type="text" name="startNumber"/>
+                            </li>
+                            <li class="select-time">
+                                <label>创建时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>最近数据更新时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginLastUpdateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endLastUpdateTime]"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:strategy:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:strategy:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:strategy:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:strategy:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:strategy:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:strategy:remove')}]];
+        var subdivisionAreaDatas = [[${@dict.getType('项目细分领域')}]];
+        var frontDatas = [[${@dict.getType('前端框架技术')}]];
+        var togetherDatas = [[${@dict.getType('integer')}]];
+        var categoryDatas = [[${@dict.getType('项目行业分类')}]];
+        var sourceDatas = [[${@dict.getType('github')}]];
+        var languageDatas = [[${@dict.getType('java为王')}]];
+        var prefix = ctx + "system/strategy";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "收藏",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'name',
+                    title: '名字'
+                },
+                {
+                    field: 'introduce',
+                    title: '介绍'
+                },
+                {
+                    field: 'keyWorld',
+                    title: '关键词'
+                },
+                {
+                    field: 'urlAddress',
+                    title: '地址'
+                },
+                {
+                    field: 'comment',
+                    title: '评价'
+                },
+                {
+                    field: 'subdivisionArea',
+                    title: '细分领域',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(subdivisionAreaDatas, value);
+                    }
+                },
+                {
+                    field: 'front',
+                    title: '前端',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(frontDatas, value);
+                    }
+                },
+                {
+                    field: 'together',
+                    title: '前后端',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(togetherDatas, value);
+                    }
+                },
+                {
+                    field: 'category',
+                    title: '分类',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(categoryDatas, value);
+                    }
+                },
+                {
+                    field: 'source',
+                    title: '来源',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(sourceDatas, value);
+                    }
+                },
+                {
+                    field: 'language',
+                    title: '语言',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(languageDatas, value);
+                    }
+                },
+                {
+                    field: 'startNumber',
+                    title: 'star数量'
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'lastUpdateTime',
+                    title: '最近数据更新时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

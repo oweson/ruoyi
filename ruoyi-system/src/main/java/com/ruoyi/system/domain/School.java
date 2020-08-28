@@ -9,49 +9,49 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * school对象 school
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 public class School extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** null */
+    /** id */
     private Long id;
 
-    /** null */
-    @Excel(name = "null")
+    /** 学校编号 */
+    @Excel(name = "学校编号")
     private String schoolId;
 
-    /** null */
-    @Excel(name = "null")
+    /** 名字 */
+    @Excel(name = "名字")
     private String schoolName;
 
-    /** null */
-    @Excel(name = "null")
+    /** 省份id */
+    @Excel(name = "省份id")
     private String provinceId;
 
-    /** null */
-    @Excel(name = "null")
+    /** 省份 */
+    @Excel(name = "省份")
     private String provinceName;
 
-    /** null */
-    @Excel(name = "null")
+    /** 城市id */
+    @Excel(name = "城市id")
     private String cityId;
 
-    /** null */
-    @Excel(name = "null")
+    /** 城市名 */
+    @Excel(name = "城市名")
     private String cityName;
 
-    /** null */
-    @Excel(name = "null")
+    /** 高校级别 */
+    @Excel(name = "高校级别")
     private String level;
 
-    /** null */
-    @Excel(name = "null")
+    /** 高校所属 */
+    @Excel(name = "高校所属")
     private String department;
 
-    /** null */
-    @Excel(name = "null")
+    /** 其他 */
+    @Excel(name = "其他")
     private String other;
 
     public void setId(Long id) 

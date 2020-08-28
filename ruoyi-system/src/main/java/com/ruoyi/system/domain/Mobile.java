@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 全国手机号码段归属地对象 mobile
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 public class Mobile extends BaseEntity
 {

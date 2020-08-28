@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.Mobile;
  * 全国手机号码段归属地Service接口
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 public interface IMobileService 
 {

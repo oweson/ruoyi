@@ -26,8 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="schoolId != null  and schoolId != ''"> and school_id like concat('%', #{schoolId}, '%')</if>
             <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
-            <if test="provinceName != null  and provinceName != ''"> and province_name = #{provinceName}</if>
-            <if test="cityName != null  and cityName != ''"> and city_name = #{cityName}</if>
+            <if test="provinceName != null  and provinceName != ''"> and province_name like concat('%', #{provinceName}, '%')</if>
+            <if test="cityName != null  and cityName != ''"> and city_name like concat('%', #{cityName}, '%')</if>
             <if test="level != null  and level != ''"> and level = #{level}</if>
             <if test="department != null  and department != ''"> and department = #{department}</if>
             <if test="other != null  and other != ''"> and other like concat('%', #{other}, '%')</if>
@@ -39,10 +39,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertSchool" parameterType="School">
+    <insert id="insertSchool" parameterType="School" useGeneratedKeys="true" keyProperty="id">
         insert into school
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
             <if test="schoolId != null">school_id,</if>
             <if test="schoolName != null">school_name,</if>
             <if test="provinceId != null">province_id,</if>
@@ -54,7 +53,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="other != null">other,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
             <if test="schoolId != null">#{schoolId},</if>
             <if test="schoolName != null">#{schoolName},</if>
             <if test="provinceId != null">#{provinceId},</if>

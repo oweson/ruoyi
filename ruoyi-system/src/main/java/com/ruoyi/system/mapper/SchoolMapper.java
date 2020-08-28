@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.School;
  * schoolMapper接口
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 public interface SchoolMapper 
 {

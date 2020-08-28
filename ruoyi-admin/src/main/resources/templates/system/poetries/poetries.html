@@ -11,16 +11,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>内容：</label>
-                                <input type="text" name="content"/>
-                            </li>
-                            <li>
                                 <label>标题：</label>
                                 <input type="text" name="title"/>
                             </li>
                             <li>
                                 <label>作者：</label>
                                 <input type="text" name="author"/>
+                            </li>
+                            <li>
+                                <label>内容：</label>
+                                <input type="text" name="content"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -74,17 +74,19 @@
                 },
                 {
                     field: 'content',
-                    title: '内容'
+                    title: '内容',
+                    visible: false
+
                 },
                 {
                     field: 'title',
                     title: '标题',
-                    visible: false
+                    visible: true
                 },
                 {
                     field: 'author',
                     title: '作者',
-                    visible: false
+                    visible: true
                 },
                 {
                     title: '操作',

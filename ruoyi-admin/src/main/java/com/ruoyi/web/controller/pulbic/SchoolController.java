@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.system;
+package com.ruoyi.web.controller.pulbic;
 
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * schoolController
  * 
  * @author ruoyi
- * @date 2020-08-06
+ * @date 2020-08-28
  */
 @Controller
 @RequestMapping("/system/school")
