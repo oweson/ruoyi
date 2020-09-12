@@ -110,6 +110,7 @@
 								<li><a class="menuItem" th:href="@{/demo/table/data}">直接加载表格数据</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/fixedColumns}">表格冻结列</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/event}">自定义触发事件</a></li>
+								<li><a class="menuItem" th:href="@{/demo/table/headerStyle}">表格标题格式化</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/detail}">表格细节视图</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/child}">表格父子视图</a></li>
 								<li><a class="menuItem" th:href="@{/demo/table/image}">表格图片预览</a></li>
@@ -235,11 +236,12 @@
 
         <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
 
-        <div class="row mainContent" id="content-main">
+        <div class="row mainContent" id="content-main" th:style="${!ignoreFooter} ? |height: calc(100% - 91px)|">
             <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" th:data-id="@{/system/main}"
                     th:src="@{/system/main}" frameborder="0" seamless></iframe>
         </div>
-        <div class="footer">
+        
+        <div th:if="${ignoreFooter}" class="footer">
             <div class="pull-right">© [[${copyrightYear}]] RuoYi Copyright </div>
         </div>
     </div>
@@ -322,6 +324,10 @@ $(function() {
 	    if ($.common.isNotEmpty(hash)) {
 	        var url = hash.substring(1, hash.length);
 	        applyPath(url);
+	    } else {
+	    	if($.common.equals("history", mode)) {
+	    		storage.set('publicPath', "");
+	    	}
 	    }
 	}
 });
