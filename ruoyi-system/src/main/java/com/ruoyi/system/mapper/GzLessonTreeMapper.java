@@ -11,6 +11,8 @@ import com.ruoyi.system.domain.GzLessonTree;
  */
 public interface GzLessonTreeMapper 
 {
+
+
     /**
      * 查询经验教训
      * 

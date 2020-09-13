@@ -54,6 +54,7 @@ public class StrategyServiceImpl implements IStrategyService
     @Override
     public int insertStrategy(Strategy strategy)
     {
+        // todo check unique
         strategy.setCreateTime(DateUtils.getNowDate());
         return strategyMapper.insertStrategy(strategy);
     }

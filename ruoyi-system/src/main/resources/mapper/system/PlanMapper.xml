@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PlanMapper">
+    
+    <resultMap type="Plan" id="PlanResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="detail"    column="detail"    />
+        <result property="planTime"    column="plan_time"    />
+        <result property="isDone"    column="is_done"    />
+        <result property="type"    column="type"    />
+        <result property="deadlineTime"    column="deadline_time"    />
+        <result property="remarkRecord"    column="remark_record"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPlanVo">
+        select id, title, detail, plan_time, is_done, type, deadline_time, remark_record, create_time, update_time from plan
+    </sql>
+
+    <select id="selectPlanList" parameterType="Plan" resultMap="PlanResult">
+        <include refid="selectPlanVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="detail != null  and detail != ''"> and detail like concat('%', #{detail}, '%')</if>
+            <if test="isDone != null  and isDone != ''"> and is_done = #{isDone}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectPlanById" parameterType="Long" resultMap="PlanResult">
+        <include refid="selectPlanVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPlan" parameterType="Plan" useGeneratedKeys="true" keyProperty="id">
+        insert into plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="detail != null">detail,</if>
+            <if test="planTime != null">plan_time,</if>
+            <if test="isDone != null">is_done,</if>
+            <if test="type != null">type,</if>
+            <if test="deadlineTime != null">deadline_time,</if>
+            <if test="remarkRecord != null">remark_record,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="planTime != null">#{planTime},</if>
+            <if test="isDone != null">#{isDone},</if>
+            <if test="type != null">#{type},</if>
+            <if test="deadlineTime != null">#{deadlineTime},</if>
+            <if test="remarkRecord != null">#{remarkRecord},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePlan" parameterType="Plan">
+        update plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="planTime != null">plan_time = #{planTime},</if>
+            <if test="isDone != null">is_done = #{isDone},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="deadlineTime != null">deadline_time = #{deadlineTime},</if>
+            <if test="remarkRecord != null">remark_record = #{remarkRecord},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePlanById" parameterType="Long">
+        delete from plan where id = #{id}
+    </delete>
+
+    <delete id="deletePlanByIds" parameterType="String">
+        delete from plan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

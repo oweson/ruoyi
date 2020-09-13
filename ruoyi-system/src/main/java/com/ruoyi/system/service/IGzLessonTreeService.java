@@ -10,8 +10,10 @@ import com.ruoyi.common.core.domain.Ztree;
  * @author ruoyi
  * @date 2020-08-14
  */
-public interface IGzLessonTreeService 
+public interface IGzLessonTreeService
 {
+
+
     /**
      * 查询经验教训
      * 

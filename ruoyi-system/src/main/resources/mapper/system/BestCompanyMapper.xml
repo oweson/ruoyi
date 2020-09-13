@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BestCompanyMapper">
+    
+    <resultMap type="BestCompany" id="BestCompanyResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="industry"    column="industry"    />
+        <result property="backendFrond"    column="backend_frond"    />
+        <result property="salary"    column="salary"    />
+        <result property="recruitDetail"    column="recruit_detail"    />
+        <result property="numberOfEmployees"    column="number_of_employees"    />
+        <result property="geographicalPosition"    column="geographical_position"    />
+        <result property="detailTreatment"    column="detail_treatment"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBestCompanyVo">
+        select id, name, type, industry, backend_frond, salary, recruit_detail, number_of_employees, geographical_position, detail_treatment, remark, create_time, update_time from best_company
+    </sql>
+
+    <select id="selectBestCompanyList" parameterType="BestCompany" resultMap="BestCompanyResult">
+        <include refid="selectBestCompanyVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="industry != null  and industry != ''"> and industry = #{industry}</if>
+            <if test="backendFrond != null  and backendFrond != ''"> and backend_frond = #{backendFrond}</if>
+            <if test="salary != null "> and salary &gt;= #{salary}</if>
+            <if test="recruitDetail != null  and recruitDetail != ''"> and recruit_detail like concat('%', #{recruitDetail}, '%')</if>
+            <if test="geographicalPosition != null  and geographicalPosition != ''"> and geographical_position = #{geographicalPosition}</if>
+            <if test="detailTreatment != null  and detailTreatment != ''"> and detail_treatment = #{detailTreatment}</if>
+        </where>
+    </select>
+    
+    <select id="selectBestCompanyById" parameterType="Integer" resultMap="BestCompanyResult">
+        <include refid="selectBestCompanyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBestCompany" parameterType="BestCompany" useGeneratedKeys="true" keyProperty="id">
+        insert into best_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="industry != null">industry,</if>
+            <if test="backendFrond != null">backend_frond,</if>
+            <if test="salary != null">salary,</if>
+            <if test="recruitDetail != null">recruit_detail,</if>
+            <if test="numberOfEmployees != null">number_of_employees,</if>
+            <if test="geographicalPosition != null">geographical_position,</if>
+            <if test="detailTreatment != null">detail_treatment,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="backendFrond != null">#{backendFrond},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="recruitDetail != null">#{recruitDetail},</if>
+            <if test="numberOfEmployees != null">#{numberOfEmployees},</if>
+            <if test="geographicalPosition != null">#{geographicalPosition},</if>
+            <if test="detailTreatment != null">#{detailTreatment},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBestCompany" parameterType="BestCompany">
+        update best_company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="backendFrond != null">backend_frond = #{backendFrond},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="recruitDetail != null">recruit_detail = #{recruitDetail},</if>
+            <if test="numberOfEmployees != null">number_of_employees = #{numberOfEmployees},</if>
+            <if test="geographicalPosition != null">geographical_position = #{geographicalPosition},</if>
+            <if test="detailTreatment != null">detail_treatment = #{detailTreatment},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBestCompanyById" parameterType="Integer">
+        delete from best_company where id = #{id}
+    </delete>
+
+    <delete id="deleteBestCompanyByIds" parameterType="String">
+        delete from best_company where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

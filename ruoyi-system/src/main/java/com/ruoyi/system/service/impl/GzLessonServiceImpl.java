@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.GzLessonTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.GzLessonMapper;
@@ -20,6 +21,11 @@ public class GzLessonServiceImpl implements IGzLessonService
 {
     @Autowired
     private GzLessonMapper gzLessonMapper;
+
+    @Override
+    public GzLesson selectGzLessonByName(String name) {
+        return gzLessonMapper.selectGzLessonByName(name);
+    }
 
     /**
      * 查询经验教训

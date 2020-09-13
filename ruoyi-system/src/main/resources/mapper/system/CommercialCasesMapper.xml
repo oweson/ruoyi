@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CommercialCasesMapper">
+    
+    <resultMap type="CommercialCases" id="CommercialCasesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="date"    column="date"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="feature"    column="feature"    />
+        <result property="isSuccess"    column="is_success"    />
+        <result property="remark"    column="remark"    />
+        <result property="content"    column="content"    />
+        <result property="type"    column="type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCommercialCasesVo">
+        select id, name, date, company_name, feature, is_success, remark, content, type, create_time, update_time from commercial_cases
+    </sql>
+
+    <select id="selectCommercialCasesList" parameterType="CommercialCases" resultMap="CommercialCasesResult">
+        <include refid="selectCommercialCasesVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="feature != null  and feature != ''"> and feature like concat('%', #{feature}, '%')</if>
+            <if test="isSuccess != null  and isSuccess != ''"> and is_success = #{isSuccess}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectCommercialCasesById" parameterType="Long" resultMap="CommercialCasesResult">
+        <include refid="selectCommercialCasesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCommercialCases" parameterType="CommercialCases" useGeneratedKeys="true" keyProperty="id">
+        insert into commercial_cases
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="date != null">date,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="feature != null">feature,</if>
+            <if test="isSuccess != null">is_success,</if>
+            <if test="remark != null">remark,</if>
+            <if test="content != null">content,</if>
+            <if test="type != null">type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="date != null">#{date},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="feature != null">#{feature},</if>
+            <if test="isSuccess != null">#{isSuccess},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="content != null">#{content},</if>
+            <if test="type != null">#{type},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCommercialCases" parameterType="CommercialCases">
+        update commercial_cases
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="feature != null">feature = #{feature},</if>
+            <if test="isSuccess != null">is_success = #{isSuccess},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCommercialCasesById" parameterType="Long">
+        delete from commercial_cases where id = #{id}
+    </delete>
+
+    <delete id="deleteCommercialCasesByIds" parameterType="String">
+        delete from commercial_cases where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -36,6 +36,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         </where>
     </select>
+    <select id="selectGzLessonByName" parameterType="string" resultMap="GzLessonResult">
+        <include refid="selectGzLessonVo"/>
+        where lesson_name = #{name}
+    </select>
     
     <select id="selectGzLessonById" parameterType="Long" resultMap="GzLessonResult">
         <include refid="selectGzLessonVo"/>

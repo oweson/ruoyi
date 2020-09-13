@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
+import com.ruoyi.common.constant.UserConstants;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +24,13 @@ import com.ruoyi.common.core.domain.Ztree;
 
 /**
  * 经验教训Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-08-14
  */
 @Controller
 @RequestMapping("/system/tree")
-public class GzLessonTreeController extends BaseController
-{
+public class GzLessonTreeController extends BaseController {
     private String prefix = "system/tree";
 
     @Autowired
@@ -37,8 +38,7 @@ public class GzLessonTreeController extends BaseController
 
     @RequiresPermissions("system:tree:view")
     @GetMapping()
-    public String tree()
-    {
+    public String tree() {
         return prefix + "/tree";
     }
 
@@ -48,8 +48,7 @@ public class GzLessonTreeController extends BaseController
     @RequiresPermissions("system:tree:list")
     @PostMapping("/list")
     @ResponseBody
-    public List<GzLessonTree> list(GzLessonTree gzLessonTree)
-    {
+    public List<GzLessonTree> list(GzLessonTree gzLessonTree) {
         List<GzLessonTree> list = gzLessonTreeService.selectGzLessonTreeList(gzLessonTree);
         return list;
     }
@@ -61,8 +60,7 @@ public class GzLessonTreeController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(GzLessonTree gzLessonTree)
-    {
+    public AjaxResult export(GzLessonTree gzLessonTree) {
         List<GzLessonTree> list = gzLessonTreeService.selectGzLessonTreeList(gzLessonTree);
         ExcelUtil<GzLessonTree> util = new ExcelUtil<GzLessonTree>(GzLessonTree.class);
         return util.exportExcel(list, "tree");
@@ -71,11 +69,9 @@ public class GzLessonTreeController extends BaseController
     /**
      * 新增经验教训
      */
-    @GetMapping(value = { "/add/{id}", "/add/" })
-    public String add(@PathVariable(value = "id", required = false) Long id, ModelMap mmap)
-    {
-        if (StringUtils.isNotNull(id))
-        {
+    @GetMapping(value = {"/add/{id}", "/add/"})
+    public String add(@PathVariable(value = "id", required = false) Long id, ModelMap mmap) {
+        if (StringUtils.isNotNull(id)) {
             mmap.put("gzLessonTree", gzLessonTreeService.selectGzLessonTreeById(id));
         }
         return prefix + "/add";
@@ -89,6 +85,8 @@ public class GzLessonTreeController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(GzLessonTree gzLessonTree)
+
+
     {
         return toAjax(gzLessonTreeService.insertGzLessonTree(gzLessonTree));
     }
@@ -97,8 +95,7 @@ public class GzLessonTreeController extends BaseController
      * 修改经验教训
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         GzLessonTree gzLessonTree = gzLessonTreeService.selectGzLessonTreeById(id);
         mmap.put("gzLessonTree", gzLessonTree);
         return prefix + "/edit";
@@ -111,8 +108,7 @@ public class GzLessonTreeController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(GzLessonTree gzLessonTree)
-    {
+    public AjaxResult editSave(GzLessonTree gzLessonTree) {
         return toAjax(gzLessonTreeService.updateGzLessonTree(gzLessonTree));
     }
 
@@ -123,19 +119,16 @@ public class GzLessonTreeController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.DELETE)
     @GetMapping("/remove/{id}")
     @ResponseBody
-    public AjaxResult remove(@PathVariable("id") Long id)
-    {
+    public AjaxResult remove(@PathVariable("id") Long id) {
         return toAjax(gzLessonTreeService.deleteGzLessonTreeById(id));
     }
 
     /**
      * 选择经验教训树
      */
-    @GetMapping(value = { "/selectTreeTree/{id}", "/selectTreeTree/" })
-    public String selectTreeTree(@PathVariable(value = "id", required = false) Long id, ModelMap mmap)
-    {
-        if (StringUtils.isNotNull(id))
-        {
+    @GetMapping(value = {"/selectTreeTree/{id}", "/selectTreeTree/"})
+    public String selectTreeTree(@PathVariable(value = "id", required = false) Long id, ModelMap mmap) {
+        if (StringUtils.isNotNull(id)) {
             mmap.put("gzLessonTree", gzLessonTreeService.selectGzLessonTreeById(id));
         }
         return prefix + "/tree";
@@ -146,8 +139,7 @@ public class GzLessonTreeController extends BaseController
      */
     @GetMapping("/treeData")
     @ResponseBody
-    public List<Ztree> treeData()
-    {
+    public List<Ztree> treeData() {
         List<Ztree> ztrees = gzLessonTreeService.selectGzLessonTreeTree();
         return ztrees;
     }

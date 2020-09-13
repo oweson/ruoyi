@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.GzLesson;
+import com.ruoyi.system.domain.GzLessonTree;
 
 /**
  * 经验教训Service接口
@@ -11,6 +12,8 @@ import com.ruoyi.system.domain.GzLesson;
  */
 public interface IGzLessonService 
 {
+    public GzLesson selectGzLessonByName(String name);
+
     /**
      * 查询经验教训
      * 

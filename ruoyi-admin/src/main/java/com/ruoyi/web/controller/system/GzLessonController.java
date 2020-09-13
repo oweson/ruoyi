@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.constant.UserConstants;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,13 @@ import javax.xml.crypto.Data;
 
 /**
  * 经验教训Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-07-31
  */
 @Controller
 @RequestMapping("/system/lesson")
-public class GzLessonController extends BaseController
-{
+public class GzLessonController extends BaseController {
     private String prefix = "system/lesson";
 
     @Autowired
@@ -41,8 +41,7 @@ public class GzLessonController extends BaseController
 
     @RequiresPermissions("system:lesson:view")
     @GetMapping()
-    public String lesson()
-    {
+    public String lesson() {
         return prefix + "/lesson";
     }
 
@@ -52,8 +51,7 @@ public class GzLessonController extends BaseController
     @RequiresPermissions("system:lesson:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(GzLesson gzLesson)
-    {
+    public TableDataInfo list(GzLesson gzLesson) {
 //        Map<String, Object> params = gzLesson.getParams();
 //        Object beginCreateTime = params.get("beginCreateTime");
 //        Object endCreateTime = params.get("endCreateTime");
@@ -71,8 +69,7 @@ public class GzLessonController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(GzLesson gzLesson)
-    {
+    public AjaxResult export(GzLesson gzLesson) {
         List<GzLesson> list = gzLessonService.selectGzLessonList(gzLesson);
         ExcelUtil<GzLesson> util = new ExcelUtil<GzLesson>(GzLesson.class);
         return util.exportExcel(list, "lesson");
@@ -82,8 +79,7 @@ public class GzLessonController extends BaseController
      * 新增经验教训
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -94,8 +90,11 @@ public class GzLessonController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(GzLesson gzLesson)
-    {
+    public AjaxResult addSave(GzLesson gzLesson) {
+        GzLesson lesson = gzLessonService.selectGzLessonByName(gzLesson.getLessonName());
+        if(lesson!=null){
+            return error("新增教训'" + lesson.getLessonName() + "'失败，教训名字已经存在！");
+        }
         return toAjax(gzLessonService.insertGzLesson(gzLesson));
     }
 
@@ -103,8 +102,7 @@ public class GzLessonController extends BaseController
      * 修改经验教训
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         GzLesson gzLesson = gzLessonService.selectGzLessonById(id);
         mmap.put("gzLesson", gzLesson);
         return prefix + "/edit";
@@ -117,8 +115,7 @@ public class GzLessonController extends BaseController
     @Log(title = "经验教训", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(GzLesson gzLesson)
-    {
+    public AjaxResult editSave(GzLesson gzLesson) {
         gzLesson.setLastUpdateTime(new Date());
         return toAjax(gzLessonService.updateGzLesson(gzLesson));
     }
@@ -128,10 +125,9 @@ public class GzLessonController extends BaseController
      */
     @RequiresPermissions("system:lesson:remove")
     @Log(title = "经验教训", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(gzLessonService.deleteGzLessonByIds(ids));
     }
 }

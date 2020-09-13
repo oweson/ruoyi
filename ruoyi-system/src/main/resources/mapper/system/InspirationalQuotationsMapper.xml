@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InspirationalQuotationsMapper">
+    
+    <resultMap type="InspirationalQuotations" id="InspirationalQuotationsResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="author"    column="author"    />
+        <result property="remark"    column="remark"    />
+        <result property="type"    column="type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectInspirationalQuotationsVo">
+        select id, content, author, remark, type, create_time, update_time from inspirational_quotations
+    </sql>
+
+    <select id="selectInspirationalQuotationsList" parameterType="InspirationalQuotations" resultMap="InspirationalQuotationsResult">
+        <include refid="selectInspirationalQuotationsVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectInspirationalQuotationsById" parameterType="Long" resultMap="InspirationalQuotationsResult">
+        <include refid="selectInspirationalQuotationsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInspirationalQuotations" parameterType="InspirationalQuotations" useGeneratedKeys="true" keyProperty="id">
+        insert into inspirational_quotations
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">content,</if>
+            <if test="author != null">author,</if>
+            <if test="remark != null">remark,</if>
+            <if test="type != null">type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">#{content},</if>
+            <if test="author != null">#{author},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="type != null">#{type},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInspirationalQuotations" parameterType="InspirationalQuotations">
+        update inspirational_quotations
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInspirationalQuotationsById" parameterType="Long">
+        delete from inspirational_quotations where id = #{id}
+    </delete>
+
+    <delete id="deleteInspirationalQuotationsByIds" parameterType="String">
+        delete from inspirational_quotations where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

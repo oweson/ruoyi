@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BlindDatepeopleMapper">
+    
+    <resultMap type="BlindDatepeople" id="BlindDatepeopleResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="age"    column="age"    />
+        <result property="workArea"    column="work_area"    />
+        <result property="weight"    column="weight"    />
+        <result property="height"    column="height"    />
+        <result property="looks"    column="looks"    />
+        <result property="hoby"    column="hoby"    />
+        <result property="evaluate"    column="evaluate"    />
+        <result property="type"    column="type"    />
+        <result property="briefIntroduce"    column="brief_introduce"    />
+        <result property="occupation"    column="occupation"    />
+        <result property="source"    column="source"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBlindDatepeopleVo">
+        select id, name, age, work_area, weight, height, looks, hoby, evaluate, type, brief_introduce, occupation, source, create_time, update_time from blind_datepeople
+    </sql>
+
+    <select id="selectBlindDatepeopleList" parameterType="BlindDatepeople" resultMap="BlindDatepeopleResult">
+        <include refid="selectBlindDatepeopleVo"/>
+        <where>  
+            <if test="looks != null  and looks != ''"> and looks like concat('%', #{looks}, '%')</if>
+            <if test="hoby != null  and hoby != ''"> and hoby like concat('%', #{hoby}, '%')</if>
+            <if test="evaluate != null  and evaluate != ''"> and evaluate like concat('%', #{evaluate}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="briefIntroduce != null  and briefIntroduce != ''"> and brief_introduce like concat('%', #{briefIntroduce}, '%')</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlindDatepeopleById" parameterType="Long" resultMap="BlindDatepeopleResult">
+        <include refid="selectBlindDatepeopleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlindDatepeople" parameterType="BlindDatepeople" useGeneratedKeys="true" keyProperty="id">
+        insert into blind_datepeople
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="age != null">age,</if>
+            <if test="workArea != null">work_area,</if>
+            <if test="weight != null">weight,</if>
+            <if test="height != null">height,</if>
+            <if test="looks != null">looks,</if>
+            <if test="hoby != null">hoby,</if>
+            <if test="evaluate != null">evaluate,</if>
+            <if test="type != null">type,</if>
+            <if test="briefIntroduce != null">brief_introduce,</if>
+            <if test="occupation != null">occupation,</if>
+            <if test="source != null">source,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="age != null">#{age},</if>
+            <if test="workArea != null">#{workArea},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="height != null">#{height},</if>
+            <if test="looks != null">#{looks},</if>
+            <if test="hoby != null">#{hoby},</if>
+            <if test="evaluate != null">#{evaluate},</if>
+            <if test="type != null">#{type},</if>
+            <if test="briefIntroduce != null">#{briefIntroduce},</if>
+            <if test="occupation != null">#{occupation},</if>
+            <if test="source != null">#{source},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlindDatepeople" parameterType="BlindDatepeople">
+        update blind_datepeople
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="workArea != null">work_area = #{workArea},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="looks != null">looks = #{looks},</if>
+            <if test="hoby != null">hoby = #{hoby},</if>
+            <if test="evaluate != null">evaluate = #{evaluate},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="briefIntroduce != null">brief_introduce = #{briefIntroduce},</if>
+            <if test="occupation != null">occupation = #{occupation},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlindDatepeopleById" parameterType="Long">
+        delete from blind_datepeople where id = #{id}
+    </delete>
+
+    <delete id="deleteBlindDatepeopleByIds" parameterType="String">
+        delete from blind_datepeople where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
