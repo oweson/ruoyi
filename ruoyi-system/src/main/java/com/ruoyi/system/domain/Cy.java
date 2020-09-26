@@ -9,14 +9,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 成语对象 cy
  * 
  * @author ruoyi
- * @date 2020-08-15
+ * @date 2020-09-25
  */
 public class Cy extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 主键 */
-    private Long ID;
+    private Long id;
 
     /** 名字 */
     @Excel(name = "名字")
@@ -38,14 +38,14 @@ public class Cy extends BaseEntity
     @Excel(name = "举列")
     private String samples;
 
-    public void setID(Long ID) 
+    public void setId(Long id) 
     {
-        this.ID = ID;
+        this.id = id;
     }
 
-    public Long getID() 
+    public Long getId() 
     {
-        return ID;
+        return id;
     }
     public void setName(String name) 
     {
@@ -96,7 +96,7 @@ public class Cy extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("ID", getID())
+            .append("id", getId())
             .append("name", getName())
             .append("spell", getSpell())
             .append("content", getContent())

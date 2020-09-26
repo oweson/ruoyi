@@ -7,17 +7,17 @@ import com.ruoyi.system.domain.Cy;
  * 成语Service接口
  * 
  * @author ruoyi
- * @date 2020-08-15
+ * @date 2020-09-25
  */
 public interface ICyService 
 {
     /**
      * 查询成语
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 成语
      */
-    public Cy selectCyById(Long ID);
+    public Cy selectCyById(Long id);
 
     /**
      * 查询成语列表
@@ -54,8 +54,8 @@ public interface ICyService
     /**
      * 删除成语信息
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 结果
      */
-    public int deleteCyById(Long ID);
+    public int deleteCyById(Long id);
 }

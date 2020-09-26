@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 成语Service业务层处理
  * 
  * @author ruoyi
- * @date 2020-08-15
+ * @date 2020-09-25
  */
 @Service
 public class CyServiceImpl implements ICyService 
@@ -23,13 +23,13 @@ public class CyServiceImpl implements ICyService
     /**
      * 查询成语
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 成语
      */
     @Override
-    public Cy selectCyById(Long ID)
+    public Cy selectCyById(Long id)
     {
-        return cyMapper.selectCyById(ID);
+        return cyMapper.selectCyById(id);
     }
 
     /**
@@ -83,12 +83,12 @@ public class CyServiceImpl implements ICyService
     /**
      * 删除成语信息
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 结果
      */
     @Override
-    public int deleteCyById(Long ID)
+    public int deleteCyById(Long id)
     {
-        return cyMapper.deleteCyById(ID);
+        return cyMapper.deleteCyById(id);
     }
 }

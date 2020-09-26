@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.system.mapper.CyMapper">
     
     <resultMap type="Cy" id="CyResult">
-        <result property="ID"    column="ID"    />
+        <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="spell"    column="spell"    />
         <result property="content"    column="content"    />
@@ -14,13 +14,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCyVo">
-        select ID, name, spell, content, derivation, samples from cy
+        select id, name, spell, content, derivation, samples from cy
     </sql>
 
     <select id="selectCyList" parameterType="Cy" resultMap="CyResult">
         <include refid="selectCyVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="spell != null  and spell != ''"> and spell like concat('%', #{spell}, '%')</if>
             <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
             <if test="derivation != null  and derivation != ''"> and derivation like concat('%', #{derivation}, '%')</if>
             <if test="samples != null  and samples != ''"> and samples like concat('%', #{samples}, '%')</if>
@@ -29,10 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectCyById" parameterType="Long" resultMap="CyResult">
         <include refid="selectCyVo"/>
-        where ID = #{ID}
+        where id = #{id}
     </select>
         
-    <insert id="insertCy" parameterType="Cy" useGeneratedKeys="true" keyProperty="ID">
+    <insert id="insertCy" parameterType="Cy" useGeneratedKeys="true" keyProperty="id">
         insert into cy
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
@@ -59,17 +60,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="derivation != null">derivation = #{derivation},</if>
             <if test="samples != null">samples = #{samples},</if>
         </trim>
-        where ID = #{ID}
+        where id = #{id}
     </update>
 
     <delete id="deleteCyById" parameterType="Long">
-        delete from cy where ID = #{ID}
+        delete from cy where id = #{id}
     </delete>
 
     <delete id="deleteCyByIds" parameterType="String">
-        delete from cy where ID in 
-        <foreach item="ID" collection="array" open="(" separator="," close=")">
-            #{ID}
+        delete from cy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
         </foreach>
     </delete>
 

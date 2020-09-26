@@ -7,17 +7,17 @@ import com.ruoyi.system.domain.Cy;
  * 成语Mapper接口
  * 
  * @author ruoyi
- * @date 2020-08-15
+ * @date 2020-09-25
  */
 public interface CyMapper 
 {
     /**
      * 查询成语
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 成语
      */
-    public Cy selectCyById(Long ID);
+    public Cy selectCyById(Long id);
 
     /**
      * 查询成语列表
@@ -46,16 +46,16 @@ public interface CyMapper
     /**
      * 删除成语
      * 
-     * @param ID 成语ID
+     * @param id 成语ID
      * @return 结果
      */
-    public int deleteCyById(Long ID);
+    public int deleteCyById(Long id);
 
     /**
      * 批量删除成语
      * 
-     * @param IDs 需要删除的数据ID
+     * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteCyByIds(String[] IDs);
+    public int deleteCyByIds(String[] ids);
 }
