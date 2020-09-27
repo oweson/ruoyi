@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ShijingMapper">
+    
+    <resultMap type="Shijing" id="ShijingResult">
+        <result property="title"    column="title"    />
+        <result property="chapter"    column="chapter"    />
+        <result property="section"    column="section"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectShijingVo">
+        select title, chapter, section, content from shijing
+    </sql>
+
+    <select id="selectShijingList" parameterType="Shijing" resultMap="ShijingResult">
+        <include refid="selectShijingVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectShijingById" parameterType="String" resultMap="ShijingResult">
+        <include refid="selectShijingVo"/>
+        where title = #{title}
+    </select>
+        
+    <insert id="insertShijing" parameterType="Shijing">
+        insert into shijing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">title,</if>
+            <if test="chapter != null">chapter,</if>
+            <if test="section != null">section,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="chapter != null">#{chapter},</if>
+            <if test="section != null">#{section},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShijing" parameterType="Shijing">
+        update shijing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chapter != null">chapter = #{chapter},</if>
+            <if test="section != null">section = #{section},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where title = #{title}
+    </update>
+
+    <delete id="deleteShijingById" parameterType="String">
+        delete from shijing where title = #{title}
+    </delete>
+
+    <delete id="deleteShijingByIds" parameterType="String">
+        delete from shijing where title in 
+        <foreach item="title" collection="array" open="(" separator="," close=")">
+            #{title}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.InterviewQuestionsMapper">
+    
+    <resultMap type="InterviewQuestions" id="InterviewQuestionsResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="queston"    column="queston"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="date"    column="date"    />
+        <result property="solution"    column="solution"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectInterviewQuestionsVo">
+        select id, type, queston, company_name, date, solution, create_time, update_time from interview_questions
+    </sql>
+
+    <select id="selectInterviewQuestionsList" parameterType="InterviewQuestions" resultMap="InterviewQuestionsResult">
+        <include refid="selectInterviewQuestionsVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="queston != null  and queston != ''"> and queston like concat('%', #{queston}, '%')</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="solution != null  and solution != ''"> and solution like concat('%', #{solution}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectInterviewQuestionsById" parameterType="Long" resultMap="InterviewQuestionsResult">
+        <include refid="selectInterviewQuestionsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInterviewQuestions" parameterType="InterviewQuestions" useGeneratedKeys="true" keyProperty="id">
+        insert into interview_questions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="queston != null">queston,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="date != null">date,</if>
+            <if test="solution != null">solution,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="queston != null">#{queston},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="date != null">#{date},</if>
+            <if test="solution != null">#{solution},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInterviewQuestions" parameterType="InterviewQuestions">
+        update interview_questions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="queston != null">queston = #{queston},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="solution != null">solution = #{solution},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInterviewQuestionsById" parameterType="Long">
+        delete from interview_questions where id = #{id}
+    </delete>
+
+    <delete id="deleteInterviewQuestionsByIds" parameterType="String">
+        delete from interview_questions where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

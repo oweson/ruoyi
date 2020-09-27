@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.JavaNecessaryMapper">
+    
+    <resultMap type="JavaNecessary" id="JavaNecessaryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="remark"    column="remark"    />
+        <result property="city"    column="city"    />
+        <result property="company"    column="company"    />
+    </resultMap>
+
+    <sql id="selectJavaNecessaryVo">
+        select id, name, type, remark, city, company from java_necessary
+    </sql>
+
+    <select id="selectJavaNecessaryList" parameterType="JavaNecessary" resultMap="JavaNecessaryResult">
+        <include refid="selectJavaNecessaryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where>
+    </select>
+    
+    <select id="selectJavaNecessaryById" parameterType="Long" resultMap="JavaNecessaryResult">
+        <include refid="selectJavaNecessaryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertJavaNecessary" parameterType="JavaNecessary" useGeneratedKeys="true" keyProperty="id">
+        insert into java_necessary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="city != null">city,</if>
+            <if test="company != null">company,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="city != null">#{city},</if>
+            <if test="company != null">#{company},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJavaNecessary" parameterType="JavaNecessary">
+        update java_necessary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="company != null">company = #{company},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteJavaNecessaryById" parameterType="Long">
+        delete from java_necessary where id = #{id}
+    </delete>
+
+    <delete id="deleteJavaNecessaryByIds" parameterType="String">
+        delete from java_necessary where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

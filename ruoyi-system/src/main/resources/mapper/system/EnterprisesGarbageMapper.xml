@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EnterprisesGarbageMapper">
+    
+    <resultMap type="EnterprisesGarbage" id="EnterprisesGarbageResult">
+        <result property="id"    column="id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="type"    column="type"    />
+        <result property="introduction"    column="introduction"    />
+        <result property="reason"    column="reason"    />
+        <result property="timeOfEstablishment"    column="time_of_establishment"    />
+    </resultMap>
+
+    <sql id="selectEnterprisesGarbageVo">
+        select id, company_name, type, introduction, reason, time_of_establishment from enterprises_garbage
+    </sql>
+
+    <select id="selectEnterprisesGarbageList" parameterType="EnterprisesGarbage" resultMap="EnterprisesGarbageResult">
+        <include refid="selectEnterprisesGarbageVo"/>
+        <where>  
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="introduction != null  and introduction != ''"> and introduction like concat('%', #{introduction}, '%')
+              </if>
+            <if test="reason != null  and reason != ''"> and reason  like concat('%',  #{reason}, '%') </if>
+            <if test="timeOfEstablishment != null "> and time_of_establishment = #{timeOfEstablishment}</if>
+        </where>
+    </select>
+    
+    <select id="selectEnterprisesGarbageById" parameterType="Long" resultMap="EnterprisesGarbageResult">
+        <include refid="selectEnterprisesGarbageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEnterprisesGarbage" parameterType="EnterprisesGarbage" useGeneratedKeys="true" keyProperty="id">
+        insert into enterprises_garbage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyName != null">company_name,</if>
+            <if test="type != null">type,</if>
+            <if test="introduction != null">introduction,</if>
+            <if test="reason != null">reason,</if>
+            <if test="timeOfEstablishment != null">time_of_establishment,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyName != null">#{companyName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="introduction != null">#{introduction},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="timeOfEstablishment != null">#{timeOfEstablishment},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEnterprisesGarbage" parameterType="EnterprisesGarbage">
+        update enterprises_garbage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="introduction != null">introduction = #{introduction},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="timeOfEstablishment != null">time_of_establishment = #{timeOfEstablishment},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEnterprisesGarbageById" parameterType="Long">
+        delete from enterprises_garbage where id = #{id}
+    </delete>
+
+    <delete id="deleteEnterprisesGarbageByIds" parameterType="String">
+        delete from enterprises_garbage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
