@@ -35,11 +35,11 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<optional>true</optional>
-			</dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.18</version>
+            </dependency>
         
             <!-- SpringBoot的依赖配置-->
             <dependency>
