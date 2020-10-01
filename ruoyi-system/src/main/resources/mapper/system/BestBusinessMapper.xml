@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BestBusinessMapper">
+    
+    <resultMap type="BestBusiness" id="BestBusinessResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="industry"    column="industry"    />
+        <result property="backendFrond"    column="backend_frond"    />
+        <result property="salary"    column="salary"    />
+        <result property="recruitDetail"    column="recruit_detail"    />
+        <result property="numberOfEmployees"    column="number_of_employees"    />
+        <result property="geographicalPosition"    column="geographical_position"    />
+        <result property="detailTreatment"    column="detail_treatment"    />
+        <result property="remark"    column="remark"    />
+        <result property="floor"    column="floor"    />
+        <result property="requirement"    column="requirement"    />
+        <result property="isUp"    column="is_up"    />
+        <result property="isInterview"    column="is_interview"    />
+        <result property="isPath"    column="is_path"    />
+        <result property="priority"    column="priority"    />
+        <result property="resumePass"    column="resume_pass"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBestBusinessVo">
+        select id, name, type, industry, backend_frond, salary, recruit_detail, number_of_employees, geographical_position, detail_treatment, remark, floor, requirement, is_up, is_interview, is_path, priority, resume_pass, create_time, update_time from best_business
+    </sql>
+
+    <select id="selectBestBusinessList" parameterType="BestBusiness" resultMap="BestBusinessResult">
+        <include refid="selectBestBusinessVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="industry != null  and industry != ''"> and industry = #{industry}</if>
+            <if test="backendFrond != null  and backendFrond != ''"> and backend_frond = #{backendFrond}</if>
+            <if test="salary != null "> and salary &gt;= #{salary}</if>
+            <if test="recruitDetail != null  and recruitDetail != ''"> and recruit_detail like concat('%', #{recruitDetail}, '%')</if>
+            <if test="numberOfEmployees != null "> and number_of_employees &gt;= #{numberOfEmployees}</if>
+            <if test="geographicalPosition != null  and geographicalPosition != ''"> and geographical_position like concat('%', #{geographicalPosition}, '%')</if>
+            <if test="detailTreatment != null  and detailTreatment != ''"> and detail_treatment like concat('%', #{detailTreatment}, '%')</if>
+            <if test="remark != null  and remark != ''"> and remark like concat('%', #{remark}, '%')</if>
+            <if test="floor != null "> and floor &lt;= #{floor}</if>
+            <if test="requirement != null  and requirement != ''"> and requirement like concat('%', #{requirement}, '%')</if>
+            <if test="isUp != null  and isUp != ''"> and is_up = #{isUp}</if>
+            <if test="isInterview != null  and isInterview != ''"> and is_interview = #{isInterview}</if>
+            <if test="isPath != null  and isPath != ''"> and is_path = #{isPath}</if>
+            <if test="resumePass != null  and resumePass != ''"> and resume_pass = #{resumePass}</if>
+        </where>
+        order by priority
+
+    </select>
+    
+    <select id="selectBestBusinessById" parameterType="Integer" resultMap="BestBusinessResult">
+        <include refid="selectBestBusinessVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBestBusiness" parameterType="BestBusiness" useGeneratedKeys="true" keyProperty="id">
+        insert into best_business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="industry != null">industry,</if>
+            <if test="backendFrond != null">backend_frond,</if>
+            <if test="salary != null">salary,</if>
+            <if test="recruitDetail != null">recruit_detail,</if>
+            <if test="numberOfEmployees != null">number_of_employees,</if>
+            <if test="geographicalPosition != null">geographical_position,</if>
+            <if test="detailTreatment != null">detail_treatment,</if>
+            <if test="remark != null">remark,</if>
+            <if test="floor != null">floor,</if>
+            <if test="requirement != null">requirement,</if>
+            <if test="isUp != null">is_up,</if>
+            <if test="isInterview != null">is_interview,</if>
+            <if test="isPath != null">is_path,</if>
+            <if test="priority != null">priority,</if>
+            <if test="resumePass != null">resume_pass,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="backendFrond != null">#{backendFrond},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="recruitDetail != null">#{recruitDetail},</if>
+            <if test="numberOfEmployees != null">#{numberOfEmployees},</if>
+            <if test="geographicalPosition != null">#{geographicalPosition},</if>
+            <if test="detailTreatment != null">#{detailTreatment},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="floor != null">#{floor},</if>
+            <if test="requirement != null">#{requirement},</if>
+            <if test="isUp != null">#{isUp},</if>
+            <if test="isInterview != null">#{isInterview},</if>
+            <if test="isPath != null">#{isPath},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="resumePass != null">#{resumePass},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBestBusiness" parameterType="BestBusiness">
+        update best_business
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="backendFrond != null">backend_frond = #{backendFrond},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="recruitDetail != null">recruit_detail = #{recruitDetail},</if>
+            <if test="numberOfEmployees != null">number_of_employees = #{numberOfEmployees},</if>
+            <if test="geographicalPosition != null">geographical_position = #{geographicalPosition},</if>
+            <if test="detailTreatment != null">detail_treatment = #{detailTreatment},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="floor != null">floor = #{floor},</if>
+            <if test="requirement != null">requirement = #{requirement},</if>
+            <if test="isUp != null">is_up = #{isUp},</if>
+            <if test="isInterview != null">is_interview = #{isInterview},</if>
+            <if test="isPath != null">is_path = #{isPath},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="resumePass != null">resume_pass = #{resumePass},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBestBusinessById" parameterType="Integer">
+        delete from best_business where id = #{id}
+    </delete>
+
+    <delete id="deleteBestBusinessByIds" parameterType="String">
+        delete from best_business where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
