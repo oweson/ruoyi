@@ -22,8 +22,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 恋爱人员Controller
  * 
- * @author ruoyi
- * @date 2020-09-13
+ * @author oweson
+ * @date 2020-10-07
  */
 @Controller
 @RequestMapping("/system/datepeople")

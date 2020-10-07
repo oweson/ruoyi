@@ -27,9 +27,9 @@ server:
     # tomcat的URI编码
     uri-encoding: UTF-8
     # tomcat最大线程数，默认为200
-    max-threads: 800
+    max-threads: 100
     # Tomcat启动初始化的线程数，默认值25
-    min-spare-threads: 30
+    min-spare-threads: 8
 
 # 日志配置
 logging:
@@ -72,6 +72,26 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  redis:
+    database: 1
+    #Redis服务器地址
+    #Redis服务器连接端口
+    #Redis服务器连接密码（默认为空）
+    #连接池最大连接数（使用负值表示没有限制）
+    #连接池最大阻塞等待时间（使用负值表示没有限制）
+    #连接池中的最大空闲连接
+    #连接池中的最小空闲连接
+    #连接超时时间（毫秒）
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 10
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 3000
 
 # MyBatis
 mybatis:
@@ -138,3 +158,12 @@ xss:
 swagger:
   # 是否开启swagger
   enabled: true
+endpoints:
+  shutdown:
+    enabled: true
+
+info:
+  app:
+    name: spring-boot-actuator
+    version: 1.0.0
+

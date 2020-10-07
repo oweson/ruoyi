@@ -12,8 +12,8 @@ import com.ruoyi.common.core.text.Convert;
 /**
  * 恋爱人员Service业务层处理
  * 
- * @author ruoyi
- * @date 2020-09-13
+ * @author oweson
+ * @date 2020-10-07
  */
 @Service
 public class BlindDatepeopleServiceImpl implements IBlindDatepeopleService 

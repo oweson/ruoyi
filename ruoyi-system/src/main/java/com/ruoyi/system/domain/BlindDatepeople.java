@@ -8,8 +8,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 恋爱人员对象 blind_datepeople
  * 
- * @author ruoyi
- * @date 2020-09-13
+ * @author oweson
+ * @date 2020-10-07
  */
 public class BlindDatepeople extends BaseEntity
 {
@@ -22,9 +22,9 @@ public class BlindDatepeople extends BaseEntity
     @Excel(name = "姓名")
     private String name;
 
-    /** 年龄 */
-    @Excel(name = "年龄")
-    private Long age;
+    /** 年龄相差 */
+    @Excel(name = "年龄相差")
+    private Integer age;
 
     /** 工作地 */
     @Excel(name = "工作地")
@@ -84,12 +84,12 @@ public class BlindDatepeople extends BaseEntity
     {
         return name;
     }
-    public void setAge(Long age) 
+    public void setAge(Integer age) 
     {
         this.age = age;
     }
 
-    public Long getAge() 
+    public Integer getAge() 
     {
         return age;
     }

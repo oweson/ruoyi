@@ -29,11 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectBlindDatepeopleList" parameterType="BlindDatepeople" resultMap="BlindDatepeopleResult">
         <include refid="selectBlindDatepeopleVo"/>
         <where>  
-            <if test="looks != null  and looks != ''"> and looks like concat('%', #{looks}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="age != null "> and age = #{age}</if>
             <if test="hoby != null  and hoby != ''"> and hoby like concat('%', #{hoby}, '%')</if>
             <if test="evaluate != null  and evaluate != ''"> and evaluate like concat('%', #{evaluate}, '%')</if>
             <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="briefIntroduce != null  and briefIntroduce != ''"> and brief_introduce like concat('%', #{briefIntroduce}, '%')</if>
             <if test="source != null  and source != ''"> and source = #{source}</if>
         </where>
     </select>

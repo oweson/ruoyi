@@ -16,6 +16,9 @@
     </description>
 
     <dependencies>
+
+
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -24,6 +27,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- SpringBoot集成thymeleaf模板 -->
         <dependency>
@@ -69,13 +76,12 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-		<!-- 1 核心模块-->
+        <!-- 1 核心模块-->
         <!-- 核心模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-framework</artifactId>
         </dependency>
-
 
 
         <!-- 定时任务-->
@@ -115,15 +121,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>   
-                <groupId>org.apache.maven.plugins</groupId>   
-                <artifactId>maven-war-plugin</artifactId>   
-                <version>3.0.0</version>   
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>${project.artifactId}</warName>
-                </configuration>   
-           </plugin>   
+                </configuration>
+            </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>

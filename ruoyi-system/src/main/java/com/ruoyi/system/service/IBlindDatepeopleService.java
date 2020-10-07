@@ -6,8 +6,8 @@ import com.ruoyi.system.domain.BlindDatepeople;
 /**
  * 恋爱人员Service接口
  * 
- * @author ruoyi
- * @date 2020-09-13
+ * @author oweson
+ * @date 2020-10-07
  */
 public interface IBlindDatepeopleService 
 {

@@ -11,16 +11,12 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>容貌：</label>
-                                <input type="text" name="looks"/>
+                                <label>姓名：</label>
+                                <input type="text" name="name"/>
                             </li>
                             <li>
-                                <label>爱好：</label>
-                                <input type="text" name="hoby"/>
-                            </li>
-                            <li>
-                                <label>评价：</label>
-                                <input type="text" name="evaluate"/>
+                                <label>年龄相差：</label>
+                                <input type="text" name="age"/>
                             </li>
                             <li>
                                 <label>进展：</label>
@@ -30,12 +26,11 @@
                                 </select>
                             </li>
                             <li>
-                                <label>简介：</label>
-                                <input type="text" name="briefIntroduce"/>
-                            </li>
-                            <li>
                                 <label>来源：</label>
-                                <input type="text" name="source"/>
+                                <select name="source" th:with="type=${@dict.getType('恋爱对象来源')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -95,7 +90,7 @@
                 },
                 {
                     field: 'age',
-                    title: '年龄'
+                    title: '年龄相差'
                 },
                 {
                     field: 'workArea',
@@ -142,6 +137,14 @@
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(sourceDatas, value);
                     }
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间'
                 },
                 {
                     title: '操作',
