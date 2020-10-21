@@ -1,9 +1,16 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import com.ruoyi.system.common.MailConstants;
+import com.ruoyi.system.mq.MailSendLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +60,10 @@ public class SysUserServiceImpl implements ISysUserService
 
     @Autowired
     private ISysConfigService configService;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+    @Autowired
+    MailSendLogService mailSendLogService;
 
     /**
      * 根据条件分页查询用户列表
@@ -193,15 +204,29 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int insertUser(SysUser user)
     {
+
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
         insertUserPost(user);
         // 新增用户与角色管理
         insertUserRole(user.getUserId(), user.getRoleIds());
+        //生成消息的唯一id
+        String msgId = UUID.randomUUID().toString();
+        MailSendLog mailSendLog = new MailSendLog();
+        mailSendLog.setMsgId(msgId);
+        mailSendLog.setCreateTime(new Date());
+        mailSendLog.setExchange(MailConstants.MAIL_EXCHANGE_NAME);
+        mailSendLog.setRouteKey(MailConstants.MAIL_ROUTING_KEY_NAME);
+        mailSendLog.setEmpId( user.getUserId());
+        // 一分钟以后重试投递；
+        mailSendLog.setTryTime(new Date(System.currentTimeMillis() + 1000 * 60 * MailConstants.MSG_TIMEOUT));
+        mailSendLogService.insert(mailSendLog);
+        // todo msgId消息的唯一ID
+        rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_ROUTING_KEY_NAME, user, new CorrelationData(msgId));
         return rows;
     }
 

@@ -45,6 +45,14 @@ user:
 
 # Spring配置
 spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: 139.224.35.86
+    publisher-confirms: true
+    publisher-returns: true
+
+
   # 模板引擎
   thymeleaf:
     mode: HTML
@@ -92,6 +100,13 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 3000
+
+  mail:
+    host: smtp.qq.com
+    default-encoding: utf-8
+    password: pqmcswulnuuxbefc
+    username: 570347720@qq.com
+    port: 587
 
 # MyBatis
 mybatis:

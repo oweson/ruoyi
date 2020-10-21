@@ -64,7 +64,7 @@ public class SysConfigServiceImpl implements ISysConfigService
         String configValue = Convert.toStr(CacheUtils.get(getCacheName(), getCacheKey(configKey)));
         if (StringUtils.isNotEmpty(configValue))
         {
-            return configValue;
+            return configValue;// sys.account.passwordValidateDays
         }
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
