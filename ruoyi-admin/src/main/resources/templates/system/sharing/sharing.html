@@ -11,12 +11,19 @@
                     <div class="select-list">
                         <ul>
                             <li>
+                                <label>类型：</label>
+                                <select name="type" th:with="type=${@dict.getType('sys_resources_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
                                 <label>名字：</label>
                                 <input type="text" name="name"/>
                             </li>
                             <li>
                                 <label>描述：</label>
-                                <input type="text" name="describe"/>
+                                <input type="text" name="remark"/>
                             </li>
                             <li>
                                 <label>版本：</label>
@@ -31,13 +38,6 @@
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdateTime]"/>
                                 <span>-</span>
                                 <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdateTime]"/>
-                            </li>
-                            <li>
-                                <label>类型：</label>
-                                <select name="type" th:with="type=${@dict.getType('sys_resources_type')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -91,11 +91,18 @@
                     visible: false
                 },
                 {
+                    field: 'type',
+                    title: '类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(typeDatas, value);
+                    }
+                },
+                {
                     field: 'name',
                     title: '名字'
                 },
                 {
-                    field: 'describe',
+                    field: 'remark',
                     title: '描述'
                 },
                 {
@@ -117,13 +124,6 @@
                 {
                     field: 'updateTime',
                     title: '更新时间'
-                },
-                {
-                    field: 'type',
-                    title: '类型',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(typeDatas, value);
-                    }
                 },
                 {
                     title: '操作',

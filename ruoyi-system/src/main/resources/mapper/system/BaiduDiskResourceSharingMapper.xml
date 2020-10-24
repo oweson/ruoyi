@@ -6,29 +6,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="BaiduDiskResourceSharing" id="BaiduDiskResourceSharingResult">
         <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
         <result property="name"    column="name"    />
-        <result property="describe"    column="describe"    />
+        <result property="remark"    column="remark"    />
         <result property="version"    column="version"    />
         <result property="resourcesUrl"    column="resources_url"    />
         <result property="size"    column="size"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
-        <result property="type"    column="type"    />
     </resultMap>
 
     <sql id="selectBaiduDiskResourceSharingVo">
-        select id, name, describe, version, resources_url, size, create_time, update_time, type from baidu_disk_resource_sharing
+        select id, type, name, remark, version, resources_url, size, create_time, update_time from baidu_disk_resource_sharing
     </sql>
 
     <select id="selectBaiduDiskResourceSharingList" parameterType="BaiduDiskResourceSharing" resultMap="BaiduDiskResourceSharingResult">
         <include refid="selectBaiduDiskResourceSharingVo"/>
         <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="describe != null  and describe != ''"> and describe like concat('%', #{describe}, '%')</if>
+            <if test="remark != null  and remark != ''"> and remark like concat('%', #{remark}, '%')</if>
             <if test="version != null "> and version &gt;= #{version}</if>
             <if test="size != null "> and size &lt;= #{size}</if>
             <if test="params.beginUpdateTime != null and params.beginUpdateTime != '' and params.endUpdateTime != null and params.endUpdateTime != ''"> and update_time between #{params.beginUpdateTime} and #{params.endUpdateTime}</if>
-            <if test="type != null  and type != ''"> and type = #{type}</if>
         </where>
     </select>
     
@@ -40,38 +40,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertBaiduDiskResourceSharing" parameterType="BaiduDiskResourceSharing" useGeneratedKeys="true" keyProperty="id">
         insert into baidu_disk_resource_sharing
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
             <if test="name != null">name,</if>
-            <if test="describe != null">describe,</if>
+            <if test="remark != null">remark,</if>
             <if test="version != null">version,</if>
             <if test="resourcesUrl != null">resources_url,</if>
             <if test="size != null">size,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="type != null">type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
             <if test="name != null">#{name},</if>
-            <if test="describe != null">#{describe},</if>
+            <if test="remark != null">#{remark},</if>
             <if test="version != null">#{version},</if>
             <if test="resourcesUrl != null">#{resourcesUrl},</if>
             <if test="size != null">#{size},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-            <if test="type != null">#{type},</if>
          </trim>
     </insert>
 
     <update id="updateBaiduDiskResourceSharing" parameterType="BaiduDiskResourceSharing">
         update baidu_disk_resource_sharing
         <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
             <if test="name != null">name = #{name},</if>
-            <if test="describe != null">describe = #{describe},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="version != null">version = #{version},</if>
             <if test="resourcesUrl != null">resources_url = #{resourcesUrl},</if>
             <if test="size != null">size = #{size},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="type != null">type = #{type},</if>
         </trim>
         where id = #{id}
     </update>
