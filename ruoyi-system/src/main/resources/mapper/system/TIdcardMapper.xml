@@ -24,6 +24,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fArea != null  and fArea != ''"> and f_area like concat('%', #{fArea}, '%')</if>
         </where>
     </select>
+    <select id="listAll" resultMap="TIdcardResult">
+        select * from t_idcard
+    </select>
     
     <select id="selectTIdcardById" parameterType="Integer" resultMap="TIdcardResult">
         <include refid="selectTIdcardVo"/>

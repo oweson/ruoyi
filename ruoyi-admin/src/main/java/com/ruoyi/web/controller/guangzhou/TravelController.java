@@ -49,6 +49,7 @@ public class TravelController extends BaseController
     @ResponseBody
     public TableDataInfo list(Travel travel)
     {
+        //System.out.println(1/0);
         startPage();
         List<Travel> list = travelService.selectTravelList(travel);
         return getDataTable(list);

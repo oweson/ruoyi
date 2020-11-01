@@ -58,4 +58,6 @@ public interface TIdcardMapper
      * @return 结果
      */
     public int deleteTIdcardByIds(String[] fCodes);
+
+    List<TIdcard> listAll();
 }
