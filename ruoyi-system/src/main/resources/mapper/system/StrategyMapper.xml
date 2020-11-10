@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectStrategyVo">
-        select id, name, introduce, key_world, url_address, comment, subdivision_area, front, together, category, source, language, start_number, create_time, last_update_time from strategy
+        select id, name,weight, introduce, key_world, url_address, comment, subdivision_area, front, together, category, source, language, start_number, create_time, last_update_time from strategy
     </sql>
 
     <select id="selectStrategyList" parameterType="Strategy" resultMap="StrategyResult">
@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
         </where>
+        order by weight
     </select>
     
     <select id="selectStrategyById" parameterType="Long" resultMap="StrategyResult">
@@ -56,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
             <if test="introduce != null">introduce,</if>
+            <if test="weight != null">weight,</if>
             <if test="keyWorld != null">key_world,</if>
             <if test="urlAddress != null">url_address,</if>
             <if test="comment != null">comment,</if>
@@ -72,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
             <if test="introduce != null">#{introduce},</if>
+            <if test="weight != null">#{weight},</if>
             <if test="keyWorld != null">#{keyWorld},</if>
             <if test="urlAddress != null">#{urlAddress},</if>
             <if test="comment != null">#{comment},</if>
@@ -92,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="introduce != null">introduce = #{introduce},</if>
+            <if test="weight != null">weight = #{weight},</if>
             <if test="keyWorld != null">key_world = #{keyWorld},</if>
             <if test="urlAddress != null">url_address = #{urlAddress},</if>
             <if test="comment != null">comment = #{comment},</if>
