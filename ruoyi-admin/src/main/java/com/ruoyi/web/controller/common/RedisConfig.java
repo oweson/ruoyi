@@ -1,3 +1,4 @@
+/*
 
 
 package com.ruoyi.web.controller.common;
@@ -19,7 +20,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.Duration;
 
 @Configuration
-/**Redis 缓存配置类,兼容stringRedisTemplate和redisTemplate*/
+*/
+/**Redis 缓存配置类,兼容stringRedisTemplate和redisTemplate*//*
+
 public class RedisConfig {
 
     @Autowired
@@ -39,3 +42,4 @@ public class RedisConfig {
 }
 
 
+*/
