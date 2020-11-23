@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DbBackupsMapper">
+    
+    <resultMap type="DbBackups" id="DbBackupsResult">
+        <result property="id"    column="id"    />
+        <result property="dbname"    column="dbname"    />
+        <result property="remark"    column="remark"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="serviceIp"    column="service_ip"    />
+    </resultMap>
+
+    <sql id="selectDbBackupsVo">
+        select id, dbname, remark, username, password, file_name, create_time, update_time, service_ip from db_backups
+    </sql>
+
+    <select id="selectDbBackupsList" parameterType="DbBackups" resultMap="DbBackupsResult">
+        <include refid="selectDbBackupsVo"/>
+        <where>  
+            <if test="dbname != null  and dbname != ''"> and dbname like concat('%', #{dbname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDbBackupsById" parameterType="Long" resultMap="DbBackupsResult">
+        <include refid="selectDbBackupsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDbBackups" parameterType="DbBackups" useGeneratedKeys="true" keyProperty="id">
+        insert into db_backups
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dbname != null">dbname,</if>
+            <if test="remark != null">remark,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="serviceIp != null">service_ip,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dbname != null">#{dbname},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="serviceIp != null">#{serviceIp},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDbBackups" parameterType="DbBackups">
+        update db_backups
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dbname != null">dbname = #{dbname},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="serviceIp != null">service_ip = #{serviceIp},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDbBackupsById" parameterType="Long">
+        delete from db_backups where id = #{id}
+    </delete>
+
+    <delete id="deleteDbBackupsByIds" parameterType="String">
+        delete from db_backups where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

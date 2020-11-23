@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BorrowMoneyMapper">
+    
+    <resultMap type="BorrowMoney" id="BorrowMoneyResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="reason"    column="reason"    />
+        <result property="borrowTime"    column="borrow_time"    />
+        <result property="returnTime"    column="return_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="money"    column="money"    />
+        <result property="type"    column="type"    />
+        <result property="surplus"    column="surplus"    />
+    </resultMap>
+
+    <sql id="selectBorrowMoneyVo">
+        select id, name, reason, borrow_time, return_time, remark, create_time, update_time, money, type, surplus from borrow_money
+    </sql>
+
+    <select id="selectBorrowMoneyList" parameterType="BorrowMoney" resultMap="BorrowMoneyResult">
+        <include refid="selectBorrowMoneyVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="surplus != null "> and surplus = #{surplus}</if>
+        </where>
+    </select>
+    
+    <select id="selectBorrowMoneyById" parameterType="Long" resultMap="BorrowMoneyResult">
+        <include refid="selectBorrowMoneyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBorrowMoney" parameterType="BorrowMoney" useGeneratedKeys="true" keyProperty="id">
+        insert into borrow_money
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="reason != null">reason,</if>
+            <if test="borrowTime != null">borrow_time,</if>
+            <if test="returnTime != null">return_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="money != null">money,</if>
+            <if test="type != null">type,</if>
+            <if test="surplus != null">surplus,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="borrowTime != null">#{borrowTime},</if>
+            <if test="returnTime != null">#{returnTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="money != null">#{money},</if>
+            <if test="type != null">#{type},</if>
+            <if test="surplus != null">#{surplus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBorrowMoney" parameterType="BorrowMoney">
+        update borrow_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="borrowTime != null">borrow_time = #{borrowTime},</if>
+            <if test="returnTime != null">return_time = #{returnTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="surplus != null">surplus = #{surplus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBorrowMoneyById" parameterType="Long">
+        delete from borrow_money where id = #{id}
+    </delete>
+
+    <delete id="deleteBorrowMoneyByIds" parameterType="String">
+        delete from borrow_money where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

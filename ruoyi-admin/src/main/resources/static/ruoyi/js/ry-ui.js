@@ -986,6 +986,21 @@ var table = {
             	}
                 return url;
             },
+
+            // 备份
+
+            backupDb: function(id) {
+                table.set();
+                $.modal.confirm("确定备份该条" + table.options.modalName + "信息吗？", function() {
+                    var url = $.common.isEmpty(id) ? table.options.backupDb : table.options.backupDb.replace("{id}", id);
+                    if(table.options.type == table_type.bootstrapTreeTable) {
+                        $.operate.get(url);
+                    } else {
+                        var data = { "ids": id };
+                        $.operate.submit(url, "post", "json", data);
+                    }
+                });
+            },
             // 删除信息
             remove: function(id) {
             	table.set();
