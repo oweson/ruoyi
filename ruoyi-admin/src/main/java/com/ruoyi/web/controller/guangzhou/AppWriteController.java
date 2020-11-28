@@ -1,7 +1,16 @@
 package com.ruoyi.web.controller.guangzhou;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.ShiroUtils;
+import com.ruoyi.framework.shiro.realm.UserRealm;
+import com.ruoyi.framework.shiro.util.AuthorizationUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,17 +27,17 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import sun.plugin.util.UserProfile;
 
 /**
  * app记录Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-09-13
  */
 @Controller
 @RequestMapping("/system/write")
-public class AppWriteController extends BaseController
-{
+public class AppWriteController extends BaseController {
     private String prefix = "system/write";
 
     @Autowired
@@ -36,8 +45,7 @@ public class AppWriteController extends BaseController
 
     @RequiresPermissions("system:write:view")
     @GetMapping()
-    public String write()
-    {
+    public String write() {
         return prefix + "/write";
     }
 
@@ -47,8 +55,12 @@ public class AppWriteController extends BaseController
     @RequiresPermissions("system:write:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(AppWrite appWrite)
-    {
+    public TableDataInfo list(AppWrite appWrite) {
+        SysUser sysUser = ShiroUtils.getSysUser();
+        appWrite.setUserId(sysUser.getUserId());
+        if(sysUser.getLoginName().equals("admin")){
+            appWrite.setUserId(null);
+        }
         startPage();
         List<AppWrite> list = appWriteService.selectAppWriteList(appWrite);
         return getDataTable(list);
@@ -61,8 +73,7 @@ public class AppWriteController extends BaseController
     @Log(title = "app记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(AppWrite appWrite)
-    {
+    public AjaxResult export(AppWrite appWrite) {
         List<AppWrite> list = appWriteService.selectAppWriteList(appWrite);
         ExcelUtil<AppWrite> util = new ExcelUtil<AppWrite>(AppWrite.class);
         return util.exportExcel(list, "write");
@@ -72,8 +83,7 @@ public class AppWriteController extends BaseController
      * 新增app记录
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -84,8 +94,9 @@ public class AppWriteController extends BaseController
     @Log(title = "app记录", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(AppWrite appWrite)
-    {
+    public AjaxResult addSave(AppWrite appWrite) {
+        SysUser sysUser = ShiroUtils.getSysUser();
+        appWrite.setUserId(sysUser.getUserId());
         return toAjax(appWriteService.insertAppWrite(appWrite));
     }
 
@@ -93,8 +104,7 @@ public class AppWriteController extends BaseController
      * 修改app记录
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         AppWrite appWrite = appWriteService.selectAppWriteById(id);
         mmap.put("appWrite", appWrite);
         return prefix + "/edit";
@@ -107,8 +117,9 @@ public class AppWriteController extends BaseController
     @Log(title = "app记录", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(AppWrite appWrite)
-    {
+    public AjaxResult editSave(AppWrite appWrite) {
+        SysUser sysUser = ShiroUtils.getSysUser();
+        appWrite.setUserId(sysUser.getUserId());
         return toAjax(appWriteService.updateAppWrite(appWrite));
     }
 
@@ -117,10 +128,16 @@ public class AppWriteController extends BaseController
      */
     @RequiresPermissions("system:write:remove")
     @Log(title = "app记录", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
+        SysUser sysUser = ShiroUtils.getSysUser();
+        ArrayList<String> strings = Lists.newArrayList(ids.split(","));
+        AppWrite appWrite = appWriteService.selectAppWriteById(Long.parseLong(strings.get(0)));
+        if (!appWrite.getUserId().equals(sysUser.getUserId())) {
+            return AjaxResult.error("你管理员了不起啊？不是自己的不可以删除！");
+        }
+        appWrite.setUserId(sysUser.getUserId());
         return toAjax(appWriteService.deleteAppWriteByIds(ids));
     }
 }
