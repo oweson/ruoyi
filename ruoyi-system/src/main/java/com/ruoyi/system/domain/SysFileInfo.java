@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 文件信息对象 sys_file_info
  * 
  * @author ruoyi
- * @date 2020-09-26
+ * @date 2020-11-30
  */
 public class SysFileInfo extends BaseEntity
 {

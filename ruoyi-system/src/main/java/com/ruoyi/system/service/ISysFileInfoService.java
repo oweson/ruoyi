@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.SysFileInfo;
  * 文件信息Service接口
  * 
  * @author ruoyi
- * @date 2020-09-26
+ * @date 2020-11-30
  */
 public interface ISysFileInfoService 
 {

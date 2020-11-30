@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 文件信息Service业务层处理
  * 
  * @author ruoyi
- * @date 2020-09-26
+ * @date 2020-11-30
  */
 @Service
 public class SysFileInfoServiceImpl implements ISysFileInfoService 
