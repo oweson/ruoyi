@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('生活日常消费列表')" />
+    <th:block th:include="include :: header('遗精记录列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,27 +11,14 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>消费地点：</p>
-                                <input type="text" name="lifePlace"/>
+                                <label>名字：</label>
+                                <input type="text" name="name"/>
                             </li>
-                            <li>
-                                <p>消费分类，如交通，水果，旅游...：</p>
-                                <select name="lifeType" th:with="type=${@dict.getType('')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>消费的金额：</p>
-                                <input type="text" name="lifeMoney"/>
-                            </li>
-                            <li>
-                                <p>消费名字：</p>
-                                <input type="text" name="lifeName"/>
-                            </li>
-                            <li>
-                                <p>年月日编号：</p>
-                                <input type="text" name="lifeCode"/>
+                            <li class="select-time">
+                                <label>创建时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -43,18 +30,18 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:buy:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:emission:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:buy:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:emission:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:buy:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:emission:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:buy:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:emission:export">
                     <i class="fa fa-download"></i> 导出
-                 </a>
+                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -63,9 +50,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:buy:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:buy:remove')}]];
-        var prefix = ctx + "system/buy";
+        var editFlag = [[${@permission.hasPermi('system:emission:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:emission:remove')}]];
+        var prefix = ctx + "system/emission";
 
         $(function() {
             var options = {
@@ -74,38 +61,30 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "生活日常消费",
+                modalName: "遗精记录",
                 columns: [{
                     checkbox: true
                 },
                 {
-                    field : 'id', 
-                    title : '项目id',
+                    field: 'id',
+                    title: '主键',
                     visible: false
                 },
                 {
-                    field : 'lifePlace', 
-                    title : '消费地点'
+                    field: 'name',
+                    title: '名字'
                 },
                 {
-                    field : 'lifeType', 
-                    title : '消费分类，如交通，水果，旅游...'
+                    field: 'remark',
+                    title: '备注'
                 },
                 {
-                    field : 'lifeMoney', 
-                    title : '消费的金额'
+                    field: 'createTime',
+                    title: '创建时间'
                 },
                 {
-                    field : 'lifeName', 
-                    title : '消费名字'
-                },
-                {
-                    field : 'lifeCode', 
-                    title : '年月日编号'
-                },
-                {
-                    field : 'lifeDesc', 
-                    title : '消费备注'
+                    field: 'updateTime',
+                    title: '更新时间'
                 },
                 {
                     title: '操作',

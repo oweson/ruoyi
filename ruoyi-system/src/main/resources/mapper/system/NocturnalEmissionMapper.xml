@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NocturnalEmissionMapper">
+    
+    <resultMap type="NocturnalEmission" id="NocturnalEmissionResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectNocturnalEmissionVo">
+        select id, name, remark, create_time, update_time from nocturnal_emission
+    </sql>
+
+    <select id="selectNocturnalEmissionList" parameterType="NocturnalEmission" resultMap="NocturnalEmissionResult">
+        <include refid="selectNocturnalEmissionVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="remark != null  and remark != ''"> and remark like concat('%', #{remark}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectNocturnalEmissionById" parameterType="Long" resultMap="NocturnalEmissionResult">
+        <include refid="selectNocturnalEmissionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNocturnalEmission" parameterType="NocturnalEmission" useGeneratedKeys="true" keyProperty="id">
+        insert into nocturnal_emission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNocturnalEmission" parameterType="NocturnalEmission">
+        update nocturnal_emission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNocturnalEmissionById" parameterType="Long">
+        delete from nocturnal_emission where id = #{id}
+    </delete>
+
+    <delete id="deleteNocturnalEmissionByIds" parameterType="String">
+        delete from nocturnal_emission where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

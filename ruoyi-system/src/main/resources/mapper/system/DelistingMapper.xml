@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DelistingMapper">
+    
+    <resultMap type="Delisting" id="DelistingResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="source"    column="source"    />
+        <result property="timeConsume"    column="time_consume"    />
+        <result property="remark"    column="remark"    />
+        <result property="charMessage"    column="char_message"    />
+        <result property="lack"    column="lack"    />
+        <result property="improvement"    column="improvement"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDelistingVo">
+        select id, title, source, time_consume, remark, char_message, lack, improvement, create_time, update_time from delisting
+    </sql>
+
+    <select id="selectDelistingList" parameterType="Delisting" resultMap="DelistingResult">
+        <include refid="selectDelistingVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="charMessage != null  and charMessage != ''"> and char_message like concat('%', #{charMessage}, '%')</if>
+            <if test="lack != null  and lack != ''"> and lack like concat('%', #{lack}, '%')</if>
+            <if test="improvement != null  and improvement != ''"> and improvement like concat('%', #{improvement}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDelistingById" parameterType="Long" resultMap="DelistingResult">
+        <include refid="selectDelistingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDelisting" parameterType="Delisting" useGeneratedKeys="true" keyProperty="id">
+        insert into delisting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="source != null">source,</if>
+            <if test="timeConsume != null">time_consume,</if>
+            <if test="remark != null">remark,</if>
+            <if test="charMessage != null">char_message,</if>
+            <if test="lack != null">lack,</if>
+            <if test="improvement != null">improvement,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="source != null">#{source},</if>
+            <if test="timeConsume != null">#{timeConsume},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="charMessage != null">#{charMessage},</if>
+            <if test="lack != null">#{lack},</if>
+            <if test="improvement != null">#{improvement},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDelisting" parameterType="Delisting">
+        update delisting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="timeConsume != null">time_consume = #{timeConsume},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="charMessage != null">char_message = #{charMessage},</if>
+            <if test="lack != null">lack = #{lack},</if>
+            <if test="improvement != null">improvement = #{improvement},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDelistingById" parameterType="Long">
+        delete from delisting where id = #{id}
+    </delete>
+
+    <delete id="deleteDelistingByIds" parameterType="String">
+        delete from delisting where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ManageFinanceMapper">
+    
+    <resultMap type="ManageFinance" id="ManageFinanceResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="city"    column="city"    />
+        <result property="remark"    column="remark"    />
+        <result property="money"    column="money"    />
+        <result property="payType"    column="pay_type"    />
+        <result property="detaltype"    column="detaltype"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectManageFinanceVo">
+        select id, title, city, remark, money, pay_type, detaltype, create_time, update_time from manage_finance
+    </sql>
+
+    <select id="selectManageFinanceList" parameterType="ManageFinance" resultMap="ManageFinanceResult">
+        <include refid="selectManageFinanceVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="remark != null  and remark != ''"> and remark like concat('%', #{remark}, '%')</if>
+            <if test="payType != null  and payType != ''"> and pay_type = #{payType}</if>
+            <if test="detaltype != null  and detaltype != ''"> and detaltype = #{detaltype}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectManageFinanceById" parameterType="Long" resultMap="ManageFinanceResult">
+        <include refid="selectManageFinanceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertManageFinance" parameterType="ManageFinance" useGeneratedKeys="true" keyProperty="id">
+        insert into manage_finance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="city != null">city,</if>
+            <if test="remark != null">remark,</if>
+            <if test="money != null">money,</if>
+            <if test="payType != null">pay_type,</if>
+            <if test="detaltype != null">detaltype,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="city != null">#{city},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="money != null">#{money},</if>
+            <if test="payType != null">#{payType},</if>
+            <if test="detaltype != null">#{detaltype},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateManageFinance" parameterType="ManageFinance">
+        update manage_finance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="detaltype != null">detaltype = #{detaltype},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteManageFinanceById" parameterType="Long">
+        delete from manage_finance where id = #{id}
+    </delete>
+
+    <delete id="deleteManageFinanceByIds" parameterType="String">
+        delete from manage_finance where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
