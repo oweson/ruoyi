@@ -249,6 +249,7 @@ $(function() {
         var dataUrl = $(this).attr('href'),
         dataIndex = $(this).data('index'),
         menuName = $.trim($(this).text()),
+        isRefresh = $(this).data("refresh"),
         flag = true;
 
         var $dataObj = $('a[href$="' + decodeURI(dataUrl) + '"]');
@@ -277,6 +278,9 @@ $(function() {
                             return false;
                         }
                     });
+                }
+                if (isRefresh) {
+                    refreshTab();
                 }
                 flag = false;
                 return false;
@@ -479,6 +483,11 @@ $(function() {
     // 全屏显示
     $('#fullScreen').on('click', function () {
     	$(document).toggleFullScreen();
+    });
+    
+    // 锁定屏幕
+    $('#lockScreen').on('click', function () {
+    	location.href  = ctx + "lockscreen";
     });
 
     // 页签刷新按钮

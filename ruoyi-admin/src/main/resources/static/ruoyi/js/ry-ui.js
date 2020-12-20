@@ -41,7 +41,7 @@ var table = {
                     method: 'post',
                     height: undefined,
                     sidePagination: "server",
-                    sortName: "",
+                    sortName: undefined,
                     sortOrder: "asc",
                     pagination: true,
                     paginationLoop: false,
@@ -492,6 +492,9 @@ var table = {
             },
             // 回显数据字典
             selectDictLabel: function(datas, value) {
+            	if ($.common.isEmpty(datas) || $.common.isEmpty(value)) {
+            	    return '';
+            	}
             	var actions = [];
                 $.each(datas, function(index, dict) {
                     if (dict.dictValue == ('' + value)) {
@@ -504,7 +507,7 @@ var table = {
             },
             // 回显数据字典（字符串数组）
             selectDictLabels: function(datas, value, separator) {
-            	if ($.common.isEmpty(value)) {
+            	if ($.common.isEmpty(datas) || $.common.isEmpty(value)) {
             	    return '';
             	}
             	var currentSeparator = $.common.isEmpty(separator) ? "," : separator;
@@ -888,8 +891,8 @@ var table = {
                 layer.full(index);
             },
             // 选卡页方式打开
-            openTab: function (title, url) {
-            	createMenuItem(url, title);
+            openTab: function (title, url, isRefresh) {
+            	createMenuItem(url, title, isRefresh);
             },
             // 选卡页同一页签打开
             parentTab: function (title, url) {
