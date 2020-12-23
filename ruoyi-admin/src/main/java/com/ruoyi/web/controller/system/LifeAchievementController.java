@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 每天成就Controller
  * 
  * @author ruoyi
- * @date 2020-04-17
+ * @date 2020-12-22
  */
 @Controller
 @RequestMapping("/system/achievement")

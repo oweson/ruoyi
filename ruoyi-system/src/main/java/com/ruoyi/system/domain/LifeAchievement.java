@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 每天成就对象 life_achievement
  * 
  * @author ruoyi
- * @date 2020-04-17
+ * @date 2020-12-22
  */
 public class LifeAchievement extends BaseEntity
 {
@@ -26,8 +26,8 @@ public class LifeAchievement extends BaseEntity
     @Excel(name = "今日的突破")
     private String lifeBreakthrough;
 
-    /** 突破分类：人生，编程 */
-    @Excel(name = "突破分类：人生，编程")
+    /** 分类 */
+    @Excel(name = "分类")
     private String lifeType;
 
     /** 明天要做的事情 */
@@ -117,6 +117,7 @@ public class LifeAchievement extends BaseEntity
             .append("lifeUndone", getLifeUndone())
             .append("createTime", getCreateTime())
             .append("lifeDesc", getLifeDesc())
+            .append("updateTime", getUpdateTime())
             .toString();
     }
 }

@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.LifeAchievement;
  * 每天成就Mapper接口
  * 
  * @author ruoyi
- * @date 2020-04-17
+ * @date 2020-12-22
  */
 public interface LifeAchievementMapper 
 {

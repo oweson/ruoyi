@@ -93,7 +93,7 @@ public class MapperUtil {
     /**
      * 字符串转换为 Map<String, T>
      */
-    public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
+   /* public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {
         Map<String, Map<String, Object>> map = objectMapper.readValue(jsonString, new TypeReference<Map<String, T>>() {
         });
         Map<String, T> result = new HashMap<String, T>();
@@ -101,7 +101,7 @@ public class MapperUtil {
             result.put(entry.getKey(), map2pojo(entry.getValue(), clazz));
         }
         return result;
-    }
+    }*/
 
     /**
      * 深度转换 JSON 成 Map

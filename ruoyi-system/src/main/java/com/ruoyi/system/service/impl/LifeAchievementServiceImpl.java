@@ -13,7 +13,7 @@ import com.ruoyi.common.core.text.Convert;
  * 每天成就Service业务层处理
  * 
  * @author ruoyi
- * @date 2020-04-17
+ * @date 2020-12-22
  */
 @Service
 public class LifeAchievementServiceImpl implements ILifeAchievementService 
@@ -67,6 +67,7 @@ public class LifeAchievementServiceImpl implements ILifeAchievementService
     @Override
     public int updateLifeAchievement(LifeAchievement lifeAchievement)
     {
+        lifeAchievement.setUpdateTime(DateUtils.getNowDate());
         return lifeAchievementMapper.updateLifeAchievement(lifeAchievement);
     }
 

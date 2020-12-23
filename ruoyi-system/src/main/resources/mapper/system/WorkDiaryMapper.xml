@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WorkDiaryMapper">
+    
+    <resultMap type="WorkDiary" id="WorkDiaryResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="paperTime"    column="paper_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="content"    column="content"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectWorkDiaryVo">
+        select id, title, paper_time, create_time, update_time, content, remark from work_diary
+    </sql>
+
+    <select id="selectWorkDiaryList" parameterType="WorkDiary" resultMap="WorkDiaryResult">
+        <include refid="selectWorkDiaryVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkDiaryById" parameterType="Long" resultMap="WorkDiaryResult">
+        <include refid="selectWorkDiaryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWorkDiary" parameterType="WorkDiary" useGeneratedKeys="true" keyProperty="id">
+        insert into work_diary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="paperTime != null">paper_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="content != null">content,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="paperTime != null">#{paperTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="content != null">#{content},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkDiary" parameterType="WorkDiary">
+        update work_diary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="paperTime != null">paper_time = #{paperTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkDiaryById" parameterType="Long">
+        delete from work_diary where id = #{id}
+    </delete>
+
+    <delete id="deleteWorkDiaryByIds" parameterType="String">
+        delete from work_diary where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

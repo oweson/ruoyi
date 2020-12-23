@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('每天成就列表')" />
+    <th:block th:include="include :: header('工作日报列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,15 +11,8 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>分类：</label>
-                                <select name="lifeType" th:with="type=${@dict.getType('achivement_life_everyday')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <li>
-                                <label>未完成的事情：</label>
-                                <input type="text" name="lifeUndone"/>
+                                <label>标题：</label>
+                                <input type="text" name="title"/>
                             </li>
                             <li class="select-time">
                                 <label>创建时间：</label>
@@ -37,16 +30,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:achievement:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:diary:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:achievement:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:diary:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:achievement:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:diary:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:achievement:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:diary:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -57,10 +50,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:achievement:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:achievement:remove')}]];
-        var lifeTypeDatas = [[${@dict.getType('achivement_life_everyday')}]];
-        var prefix = ctx + "system/achievement";
+        var editFlag = [[${@permission.hasPermi('system:diary:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:diary:remove')}]];
+        var prefix = ctx + "system/diary";
 
         $(function() {
             var options = {
@@ -69,49 +61,38 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "每天成就",
+                modalName: "工作日报",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field: 'id',
-                    title: 'id',
+                    title: '主键',
                     visible: false
                 },
                 {
-                    field: 'lifeHeart',
-                    title: '心情'
+                    field: 'title',
+                    title: '标题'
                 },
                 {
-                    field: 'lifeBreakthrough',
-                    title: '今日的突破'
-                },
-                {
-                    field: 'lifeType',
-                    title: '分类',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(lifeTypeDatas, value);
-                    }
-                },
-                {
-                    field: 'lifeTodo',
-                    title: '明天要做的事情'
-                },
-                {
-                    field: 'lifeUndone',
-                    title: '未完成的事情'
+                    field: 'paperTime',
+                    title: '日期'
                 },
                 {
                     field: 'createTime',
                     title: '创建时间'
                 },
                 {
-                    field: 'lifeDesc',
-                    title: '备注'
-                },
-                {
                     field: 'updateTime',
                     title: '更新时间'
+                },
+                {
+                    field: 'content',
+                    title: '内容'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
                 },
                 {
                     title: '操作',

@@ -13,20 +13,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="lifeUndone"    column="life_undone"    />
         <result property="createTime"    column="create_time"    />
         <result property="lifeDesc"    column="life_desc"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 
     <sql id="selectLifeAchievementVo">
-        select id, life_heart, life_breakthrough, life_type, life_todo, life_undone, create_time, life_desc from life_achievement
+        select id, life_heart, life_breakthrough, life_type, life_todo, life_undone, create_time, life_desc, update_time from life_achievement
     </sql>
 
     <select id="selectLifeAchievementList" parameterType="LifeAchievement" resultMap="LifeAchievementResult">
         <include refid="selectLifeAchievementVo"/>
         <where>  
-            <if test="lifeHeart != null  and lifeHeart != ''"> and life_heart like concat('%', #{lifeHeart}, '%')</if>
             <if test="lifeBreakthrough != null  and lifeBreakthrough != ''"> and life_breakthrough like concat('%', #{lifeBreakthrough}, '%')</if>
             <if test="lifeType != null  and lifeType != ''"> and life_type = #{lifeType}</if>
             <if test="lifeTodo != null  and lifeTodo != ''"> and life_todo like concat('%', #{lifeTodo}, '%')</if>
             <if test="lifeUndone != null  and lifeUndone != ''"> and life_undone like concat('%', #{lifeUndone}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="lifeDesc != null  and lifeDesc != ''"> and life_desc like concat('%', #{lifeDesc}, '%')</if>
         </where>
     </select>
@@ -39,35 +40,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertLifeAchievement" parameterType="LifeAchievement" useGeneratedKeys="true" keyProperty="id">
         insert into life_achievement
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="lifeHeart != null  and lifeHeart != ''">life_heart,</if>
-            <if test="lifeBreakthrough != null  and lifeBreakthrough != ''">life_breakthrough,</if>
-            <if test="lifeType != null  and lifeType != ''">life_type,</if>
-            <if test="lifeTodo != null  and lifeTodo != ''">life_todo,</if>
-            <if test="lifeUndone != null  and lifeUndone != ''">life_undone,</if>
-            <if test="createTime != null ">create_time,</if>
-            <if test="lifeDesc != null  and lifeDesc != ''">life_desc,</if>
+            <if test="lifeHeart != null">life_heart,</if>
+            <if test="lifeBreakthrough != null">life_breakthrough,</if>
+            <if test="lifeType != null">life_type,</if>
+            <if test="lifeTodo != null">life_todo,</if>
+            <if test="lifeUndone != null">life_undone,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lifeDesc != null">life_desc,</if>
+            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="lifeHeart != null  and lifeHeart != ''">#{lifeHeart},</if>
-            <if test="lifeBreakthrough != null  and lifeBreakthrough != ''">#{lifeBreakthrough},</if>
-            <if test="lifeType != null  and lifeType != ''">#{lifeType},</if>
-            <if test="lifeTodo != null  and lifeTodo != ''">#{lifeTodo},</if>
-            <if test="lifeUndone != null  and lifeUndone != ''">#{lifeUndone},</if>
-            <if test="createTime != null ">#{createTime},</if>
-            <if test="lifeDesc != null  and lifeDesc != ''">#{lifeDesc},</if>
+            <if test="lifeHeart != null">#{lifeHeart},</if>
+            <if test="lifeBreakthrough != null">#{lifeBreakthrough},</if>
+            <if test="lifeType != null">#{lifeType},</if>
+            <if test="lifeTodo != null">#{lifeTodo},</if>
+            <if test="lifeUndone != null">#{lifeUndone},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lifeDesc != null">#{lifeDesc},</if>
+            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
     <update id="updateLifeAchievement" parameterType="LifeAchievement">
         update life_achievement
         <trim prefix="SET" suffixOverrides=",">
-            <if test="lifeHeart != null  and lifeHeart != ''">life_heart = #{lifeHeart},</if>
-            <if test="lifeBreakthrough != null  and lifeBreakthrough != ''">life_breakthrough = #{lifeBreakthrough},</if>
-            <if test="lifeType != null  and lifeType != ''">life_type = #{lifeType},</if>
-            <if test="lifeTodo != null  and lifeTodo != ''">life_todo = #{lifeTodo},</if>
-            <if test="lifeUndone != null  and lifeUndone != ''">life_undone = #{lifeUndone},</if>
-            <if test="createTime != null ">create_time = #{createTime},</if>
-            <if test="lifeDesc != null  and lifeDesc != ''">life_desc = #{lifeDesc},</if>
+            <if test="lifeHeart != null">life_heart = #{lifeHeart},</if>
+            <if test="lifeBreakthrough != null">life_breakthrough = #{lifeBreakthrough},</if>
+            <if test="lifeType != null">life_type = #{lifeType},</if>
+            <if test="lifeTodo != null">life_todo = #{lifeTodo},</if>
+            <if test="lifeUndone != null">life_undone = #{lifeUndone},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lifeDesc != null">life_desc = #{lifeDesc},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where id = #{id}
     </update>
@@ -82,5 +86,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>
