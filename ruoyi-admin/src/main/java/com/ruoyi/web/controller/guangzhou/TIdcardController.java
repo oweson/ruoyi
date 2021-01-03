@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ruoyi.system.mapper.TIdcardMapper;
+import com.ruoyi.system.service.impl.EmployeeServiceImpl;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -122,6 +123,7 @@ public class TIdcardController extends BaseController {
 
 
         }
+        EmployeeServiceImpl.stringMap.clear();
         return toAjax(tIdcardService.insertTIdcard(tIdcard));
     }
 
@@ -143,6 +145,7 @@ public class TIdcardController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(TIdcard tIdcard) {
+        EmployeeServiceImpl.stringMap.clear();
         return toAjax(tIdcardService.updateTIdcard(tIdcard));
     }
 
@@ -154,6 +157,7 @@ public class TIdcardController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
+        EmployeeServiceImpl.stringMap.clear();
         return toAjax(tIdcardService.deleteTIdcardByIds(ids));
     }
 }

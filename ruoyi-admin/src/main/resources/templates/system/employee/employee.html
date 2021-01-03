@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('员工列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>身份证号码：</label>
+                            <input type="text" name="idnumber"/>
+                        </li>
+                        <li class="select-time">
+                            <label>入职日期：</label>
+                            <input type="text" class="time-input" id="startTime" placeholder="开始时间"
+                                   name="params[beginStartdate]"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" id="endTime" placeholder="结束时间"
+                                   name="params[endStartdate]"/>
+                        </li>
+                        <li>
+                            <label>姓名：</label>
+                            <input type="text" name="name"/>
+                        </li>
+                        <li>
+                            <label>联系电话：</label>
+                            <input type="text" name="smstel"/>
+                        </li>
+                        <li>
+                            <label>职位：</label>
+                            <input type="text" name="positionname"/>
+                        </li>
+                        <!-- <li class="select-time">
+                             <label>转正日期：</label>
+                             <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginBeemployeedate]"/>
+                             <span>-</span>
+                             <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endBeemployeedate]"/>
+                         </li>-->
+                        <li>
+                            <label>在职状态：</label>
+                            <select name="status" th:with="type=${@dict.getType('in_position_state')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>性别：</label>
+                            <select name="sex" th:with="type=${@dict.getType('sys_user_sex')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>全称部门：</label>
+                            <input type="text" name="dnamepart"/>
+                        </li>
+                        <li>
+                            <label>直属部门：</label>
+                            <input type="text" name="depart"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:employee:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+               shiro:hasPermission="system:employee:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="system:employee:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:employee:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:employee:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:employee:remove')}]];
+    var statusDatas = [[${@dict.getType('in_position_state')}]];
+    var sexDatas = [[${@dict.getType('sys_user_sex')}]];
+    var prefix = ctx + "system/employee";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "员工",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'idnumber',
+                    title: '身份证号码',
+                    visible: false
+                },
+                {
+                    field: 'userAddressDetail',
+                    title: '户籍',
+                    visible: true
+                },
+                {
+                    field: 'age',
+                    title: '年龄',
+                    visible: true
+                },
+                {
+                    field: 'startdate',
+                    title: '入职日期'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'smstel',
+                    title: '联系电话'
+                },
+                {
+                    field: 'positionname',
+                    title: '职位'
+                },
+                {
+                    field: 'beemployeedate',
+                    title: '转正日期'
+                },
+                {
+                    field: 'status',
+                    title: '在职状态',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(statusDatas, value);
+                    }
+                },
+                {
+                    field: 'sex',
+                    title: '性别',
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(sexDatas, value);
+                    }
+                },
+                {
+                    field: 'serial',
+                    title: '员工编号'
+                },
+                {
+                    field: 'account',
+                    title: '银行账户'
+                },
+                {
+                    field: 'outcausename',
+                    title: '离职原因'
+                },
+                {
+                    field: 'enddate',
+                    title: '离职时间'
+                },
+                {
+                    field: 'dnamepart',
+                    title: '全称部门'
+                },
+                {
+                    field: 'depart',
+                    title: '直属部门'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.idnumber + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.idnumber + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

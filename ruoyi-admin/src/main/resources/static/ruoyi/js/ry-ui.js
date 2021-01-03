@@ -142,6 +142,7 @@ var table = {
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
                     exportOptions: options.exportOptions,               // 前端导出忽略列索引
+                    printPageBuilder: options.printPageBuilder,         // 自定义打印页面模板
                     detailFormatter: options.detailFormatter,           // 在行下面展示其他数据列表
                 });
             },
@@ -172,7 +173,7 @@ var table = {
             	if (typeof table.get(this.id).responseHandler == "function") {
                     table.get(this.id).responseHandler(res);
                 }
-                if (res.code == 0) {
+                if (res.code == web_status.SUCCESS) {
                     if ($.common.isNotEmpty(table.options.sidePagination) && table.options.sidePagination == 'client') {
                     	return res.rows;
                     } else {
@@ -612,7 +613,7 @@ var table = {
             	if (typeof table.options.responseHandler == "function") {
                     table.options.responseHandler(res);
                 }
-            	if (res.code != undefined && res.code != 0) {
+            	if (res.code != undefined && res.code != web_status.SUCCESS) {
                     $.modal.alertWarning(res.msg);
                     return [];
                 } else {
@@ -767,7 +768,7 @@ var table = {
             },
             // 弹出层指定宽度
             open: function (title, url, width, height, callback) {
-            	//如果是移动端，就使用自适应大小弹窗
+            	// 如果是移动端，就使用自适应大小弹窗
             	if ($.common.isMobile()) {
             	    width = 'auto';
             	    height = 'auto';
@@ -815,6 +816,11 @@ var table = {
                 var _width = $.common.isEmpty(options.width) ? "800" : options.width; 
                 var _height = $.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
                 var _btn = ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'];
+            	// 如果是移动端，就使用自适应大小弹窗
+            	if ($.common.isMobile()) {
+            	    _width = 'auto';
+            	    _height = 'auto';
+            	}
                 if ($.common.isEmpty(options.yes)) {
                     options.yes = function(index, layero) {
                         options.callBack(index, layero);
@@ -851,7 +857,7 @@ var table = {
             },
             // 弹出层全屏
             openFull: function (title, url, width, height) {
-            	//如果是移动端，就使用自适应大小弹窗
+            	// 如果是移动端，就使用自适应大小弹窗
             	if ($.common.isMobile()) {
             	    width = 'auto';
             	    height = 'auto';
@@ -962,17 +968,10 @@ var table = {
             detail: function(id, width, height) {
             	table.set();
             	var _url = $.operate.detailUrl(id);
-            	var _width = $.common.isEmpty(width) ? "800" : width; 
-                var _height = $.common.isEmpty(height) ? ($(window).height() - 50) : height;
-            	//如果是移动端，就使用自适应大小弹窗
-            	if ($.common.isMobile()) {
-            	    _width = 'auto';
-            	    _height = 'auto';
-            	}
             	var options = {
                     title: table.options.modalName + "详细",
-                    width: _width,
-                    height: _height,
+                    width: width,
+                    height: height,
                     url: _url,
                     skin: 'layui-layer-gray', 
                     btn: ['关闭'],
@@ -1060,8 +1059,7 @@ var table = {
             // 添加信息 全屏
             addFull: function(id) {
             	table.set();
-            	var url = $.common.isEmpty(id) ? table.options.createUrl : table.options.createUrl.replace("{id}", id);
-                $.modal.openFull("添加" + table.options.modalName, url);
+                $.modal.openFull("添加" + table.options.modalName, $.operate.addUrl(id));
             },
             // 添加访问地址
             addUrl: function(id) {
