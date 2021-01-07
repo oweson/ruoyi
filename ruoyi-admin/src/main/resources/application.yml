@@ -145,7 +145,7 @@ shiro:
     # 设置HttpOnly属性
     httpOnly: true
     # 设置Cookie的过期时间，天为单位
-    maxAge: 30
+    maxAge: 300000
     # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
     cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==
   session:

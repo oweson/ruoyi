@@ -15,6 +15,8 @@ import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.security.PermissionUtils;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 /**
  * 全局异常处理器
  * 
@@ -52,6 +54,11 @@ public class GlobalExceptionHandler
     {
         log.error(e.getMessage(), e);
         return AjaxResult.error("不支持' " + e.getMethod() + "'请求");
+    }
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public AjaxResult DataBaseException(DemoModeException e)
+    {
+        return AjaxResult.error("数据库约束异常！"+e.getMessage());
     }
 
     /**
@@ -113,4 +120,7 @@ public class GlobalExceptionHandler
     {
         return AjaxResult.error("演示模式，不允许操作");
     }
+
+
+
 }
