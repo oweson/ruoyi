@@ -5,21 +5,21 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>4.5.1</version>
+    <version>4.6.0</version>
 
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依管理系统</description>
 
     <properties>
-        <ruoyi.version>4.5.1</ruoyi.version>
+        <ruoyi.version>4.6.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <shiro.version>1.7.0</shiro.version>
         <thymeleaf.extras.shiro.version>2.0.0</thymeleaf.extras.shiro.version>
-        <druid.version>1.2.2</druid.version>
+        <druid.version>1.2.4</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>2.9.2</swagger.version>
