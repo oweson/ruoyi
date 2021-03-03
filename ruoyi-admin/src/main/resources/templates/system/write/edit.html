@@ -16,7 +16,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">类型：</label>
                 <div class="col-sm-8">
-                    <select name="appType" class="form-control m-b" th:with="type=${@dict.getType('app类型记录')}">
+                    <select name="appType" class="form-control m-b" th:with="type=${@dict.getType('app_type_record')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{appType}"></option>
                     </select>
                 </div>

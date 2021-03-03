@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('app记录列表')" />
+    <th:block th:include="include :: header('通讯录管理列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,19 +11,25 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>名字：</label>
-                                <input type="text" name="appName"/>
+                                <label>姓名：</label>
+                                <input type="text" name="chineseName"/>
+                            </li>
+                            <li>
+                                <label>联系方式：</label>
+                                <input type="text" name="phone"/>
                             </li>
                             <li>
                                 <label>类型：</label>
-                                <select name="appType" th:with="type=${@dict.getType('app_type_record')}">
+                                <select name="type" th:with="type=${@dict.getType('mobile')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-                            <li>
-                                <label>简介：</label>
-                                <input type="text" name="introduction"/>
+                            <li class="select-time">
+                                <label>创建时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -35,16 +41,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:write:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:managephone:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:write:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:managephone:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:write:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:managephone:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:write:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:managephone:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -55,10 +61,10 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:write:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:write:remove')}]];
-        var appTypeDatas = [[${@dict.getType('app_type_record')}]];
-        var prefix = ctx + "system/write";
+        var editFlag = [[${@permission.hasPermi('system:managephone:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:managephone:remove')}]];
+        var typeDatas = [[${@dict.getType('mobile')}]];
+        var prefix = ctx + "system/managephone";
 
         $(function() {
             var options = {
@@ -67,7 +73,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "app记录",
+                modalName: "通讯录管理",
                 columns: [{
                     checkbox: true
                 },
@@ -77,23 +83,23 @@
                     visible: false
                 },
                 {
-                    field: 'appName',
-                    title: '名字'
+                    field: 'chineseName',
+                    title: '姓名'
                 },
                 {
-                    field: 'appType',
+                    field: 'phone',
+                    title: '联系方式'
+                },
+                {
+                    field: 'type',
                     title: '类型',
                     formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(appTypeDatas, value);
+                       return $.table.selectDictLabel(typeDatas, value);
                     }
                 },
                 {
-                    field: 'introduction',
-                    title: '简介'
-                },
-                {
                     field: 'remark',
-                    title: '评论'
+                    title: '备注'
                 },
                 {
                     field: 'createTime',
