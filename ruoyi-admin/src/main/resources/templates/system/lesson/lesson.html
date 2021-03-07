@@ -15,6 +15,14 @@
                                 <input type="text" name="lessonName"/>
                             </li>
                             <li>
+                                <label>教训详情：</label>
+                                <input type="text" name="lessonDesc"/>
+                            </li>
+                            <li>
+                                <label>解决方案：</label>
+                                <input type="text" name="lessonShould"/>
+                            </li>
+                            <li>
                                 <label>教训类型：</label>
                                 <select name="lessonType" th:with="type=${@dict.getType('sys_wrong_type')}">
                                     <option value="">所有</option>
