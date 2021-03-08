@@ -33,7 +33,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">类型：</label>
                 <div class="col-sm-8">
-                    <select name="bookType" class="form-control m-b" th:with="type=${@dict.getType('书籍类型分类')}">
+                    <select name="bookType" class="form-control m-b" th:with="type=${@dict.getType('book_type')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                     </select>
                 </div>
