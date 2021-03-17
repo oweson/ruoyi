@@ -1,33 +1,24 @@
 package com.ruoyi.web.controller.guangzhou;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.Lists;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.ShiroUtils;
-import com.ruoyi.framework.shiro.realm.UserRealm;
-import com.ruoyi.framework.shiro.util.AuthorizationUtils;
-import org.apache.shiro.SecurityUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.AppWrite;
+import com.ruoyi.system.service.IAppWriteService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.AppWrite;
-import com.ruoyi.system.service.IAppWriteService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
-import sun.plugin.util.UserProfile;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * app记录Controller
@@ -58,7 +49,7 @@ public class AppWriteController extends BaseController {
     public TableDataInfo list(AppWrite appWrite) {
         SysUser sysUser = ShiroUtils.getSysUser();
         appWrite.setUserId(sysUser.getUserId());
-        if(sysUser.getLoginName().equals("admin")){
+        if (sysUser.getLoginName().equals("admin")) {
             appWrite.setUserId(null);
         }
         startPage();
