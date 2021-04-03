@@ -18,8 +18,11 @@ public class StringTest {
         System.out.println(100);
 
         System.out.println(String.valueOf("hello".toCharArray()));
-        System.out.println(Optional.of(null));
+       // System.out.println(Optional.of(null));
         ArrayList<Object> objects = new ArrayList<>();
         ArrayList<Object> objects1 = Lists.newArrayList();
+        String s = "abcd";
+        s = s.concat("ef");
+        System.out.println(s);
     }
 }
