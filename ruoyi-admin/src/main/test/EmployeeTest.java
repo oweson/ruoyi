@@ -38,29 +38,44 @@ public class EmployeeTest extends SpringbootApplicationTest {
 
     @Test
     public void syncEmployee() throws KayangException, ParseException {
+        ArrayList<Employee> updateEmployees = Lists.newArrayList();
+        // 更新集合！
         List<Employee> employeeExistList = employeeMapper.selectEmployeeListSync(null);
         Map<String, String> stringStringMap = employeeExistList.stream().collect(Collectors.toMap(Employee::getSerial, Employee::getIdnumber));
         ArrayList<Employee> employees = Lists.newArrayList();
         KayangApi kayangApi = KayangApi.getInstance();
         List<EmployeeData> allEmployee = kayangApi.findAllEmployee();
         for (EmployeeData employeeData : allEmployee) {
+            if(employeeData.getName().equals("向学生")){
+                System.out.println();
+            }
             Employee employee = new Employee();
             BeanUtils.copyProperties(employeeData, employee);
             employee.setStartdate(DateUtils.replaceTInStringTimeTransferDate(employeeData.getStartdate()));
             if (employeeData.getBeemployeedate() != null) {
                 employee.setBeemployeedate(DateUtils.replaceTInStringTimeTransferDate(employeeData.getBeemployeedate()));
-
             }
             employee.setName(employeeData.getName());
             if (employee.getIdnumber() == null) {
                 employee.setIdnumber(UUID.randomUUID().toString().replace("-", ""));
             }
             if (stringStringMap.get(employee.getSerial()) == null) {
+                // 新增
                 employees.add(employee);
+            }
+            if(employeeData.getEnddate()!=null || employeeData.getStatus().equals(0)){
+                updateEmployees.add(employee);
+            }
+            else{
+                // todo 可能变化了,跑路了
+
             }
         }
         for (Employee employee : employees) {
             employeeMapper.insertEmployee(employee);
+        }
+        for (Employee updateEmployee : updateEmployees) {
+            employeeMapper.updateEmployee(updateEmployee);
         }
 
 
