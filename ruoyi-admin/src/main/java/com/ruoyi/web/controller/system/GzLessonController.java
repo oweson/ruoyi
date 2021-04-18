@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.constant.UserConstants;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +37,7 @@ import javax.xml.crypto.Data;
 @Controller
 @RequestMapping("/system/lesson")
 public class GzLessonController extends BaseController {
+
     private String prefix = "system/lesson";
 
     @Autowired
@@ -103,8 +107,10 @@ public class GzLessonController extends BaseController {
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
+        logger.info("入参：{} ", JSON.toJSONString(mmap,true));
         GzLesson gzLesson = gzLessonService.selectGzLessonById(id);
         mmap.put("gzLesson", gzLesson);
+        logger.info("出参：{} ", JSON.toJSONString(gzLesson,true));
         return prefix + "/edit";
     }
 

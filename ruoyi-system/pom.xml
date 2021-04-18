@@ -17,6 +17,11 @@
     </description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>tlog-all-spring-boot-starter</artifactId>
+            <version>1.2.4</version>
+        </dependency>
         <!--邮件需要-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
