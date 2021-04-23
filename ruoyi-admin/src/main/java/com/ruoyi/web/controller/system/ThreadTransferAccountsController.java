@@ -29,22 +29,22 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/system/accounts")
 public class ThreadTransferAccountsController extends BaseController
 {
-    private String prefix = "system/accounts";
+    private String prefix = "system/accounts-tmp";
 
     @Autowired
     private IThreadTransferAccountsService threadTransferAccountsService;
 
-    @RequiresPermissions("system:accounts:view")
+    @RequiresPermissions("system:accounts-tmp:view")
     @GetMapping()
     public String accounts()
     {
-        return prefix + "/accounts";
+        return prefix + "/accounts-tmp";
     }
 
     /**
      * 查询并发测试线程安全用户交易测试列表
      */
-    @RequiresPermissions("system:accounts:list")
+    @RequiresPermissions("system:accounts-tmp:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(ThreadTransferAccounts threadTransferAccounts)
@@ -57,7 +57,7 @@ public class ThreadTransferAccountsController extends BaseController
     /**
      * 导出并发测试线程安全用户交易测试列表
      */
-    @RequiresPermissions("system:accounts:export")
+    @RequiresPermissions("system:accounts-tmp:export")
     @Log(title = "并发测试线程安全用户交易测试", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -65,7 +65,7 @@ public class ThreadTransferAccountsController extends BaseController
     {
         List<ThreadTransferAccounts> list = threadTransferAccountsService.selectThreadTransferAccountsList(threadTransferAccounts);
         ExcelUtil<ThreadTransferAccounts> util = new ExcelUtil<ThreadTransferAccounts>(ThreadTransferAccounts.class);
-        return util.exportExcel(list, "accounts");
+        return util.exportExcel(list, "accounts-tmp");
     }
 
     /**
@@ -80,7 +80,7 @@ public class ThreadTransferAccountsController extends BaseController
     /**
      * 新增保存并发测试线程安全用户交易测试
      */
-    @RequiresPermissions("system:accounts:add")
+    @RequiresPermissions("system:accounts-tmp:add")
     @Log(title = "并发测试线程安全用户交易测试", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -103,7 +103,7 @@ public class ThreadTransferAccountsController extends BaseController
     /**
      * 修改保存并发测试线程安全用户交易测试
      */
-    @RequiresPermissions("system:accounts:edit")
+    @RequiresPermissions("system:accounts-tmp:edit")
     @Log(title = "并发测试线程安全用户交易测试", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -115,7 +115,7 @@ public class ThreadTransferAccountsController extends BaseController
     /**
      * 删除并发测试线程安全用户交易测试
      */
-    @RequiresPermissions("system:accounts:remove")
+    @RequiresPermissions("system:accounts-tmp:remove")
     @Log(title = "并发测试线程安全用户交易测试", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

@@ -48,8 +48,8 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:accounts:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:accounts:remove')}]];
+        var editFlag = [[${@permission.hasPermi('system:accounts-tmp:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:accounts-tmp:remove')}]];
         var prefix = ctx + "system/accounts";
 
         $(function() {
