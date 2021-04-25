@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 商机管理Controller
  * 
  * @author ruoyi
- * @date 2021-04-23
+ * @date 2021-04-24
  */
 @Controller
 @RequestMapping("/system/opportunity")

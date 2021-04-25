@@ -9,32 +9,32 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 商机管理对象 business_opportunity
  * 
  * @author ruoyi
- * @date 2021-04-23
+ * @date 2021-04-24
  */
 public class BusinessOpportunity extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /**  */
+    /** 主键 */
     private Long id;
 
-    /**  */
-    @Excel(name = "")
+    /** 名字 */
+    @Excel(name = "名字")
     private String name;
 
-    /**  */
-    @Excel(name = "")
+    /** 内容 */
+    @Excel(name = "内容")
     private String content;
 
-    /**  */
-    @Excel(name = "")
+    /** 类型 */
+    @Excel(name = "类型")
     private String type;
 
-    /**  */
-    @Excel(name = "")
+    /** 状态 */
+    @Excel(name = "状态")
     private String status;
 
-    /**  */
+    /** 删除 */
     private String isDeleted;
 
     public void setId(Long id) 

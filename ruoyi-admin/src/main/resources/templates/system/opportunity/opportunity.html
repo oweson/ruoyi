@@ -11,32 +11,22 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>：</label>
+                                <label>名字：</label>
                                 <input type="text" name="name"/>
                             </li>
                             <li>
-                                <label>：</label>
+                                <label>备注：</label>
+                                <input type="text" name="remark"/>
+                            </li>
+                            <li>
+                                <label>类型：</label>
                                 <select name="type" th:with="type=${@dict.getType('商业案列分析')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-                            <li class="select-time">
-                                <label>：</label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
-                            </li>
                             <li>
-                                <label>：</label>
-                                <input type="text" name="createBy"/>
-                            </li>
-                            <li>
-                                <label>：</label>
-                                <input type="text" class="time-input" placeholder="请选择" name="updateBy"/>
-                            </li>
-                            <li>
-                                <label>：</label>
+                                <label>状态：</label>
                                 <select name="status" th:with="type=${@dict.getType('state_account')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
@@ -91,39 +81,47 @@
                 },
                 {
                     field: 'id',
-                    title: '',
+                    title: '主键',
                     visible: false
                 },
                 {
                     field: 'name',
-                    title: ''
+                    title: '名字'
                 },
                 {
                     field: 'content',
-                    title: ''
+                    title: '内容'
                 },
                 {
                     field: 'remark',
-                    title: ''
+                    title: '备注'
                 },
                 {
                     field: 'type',
-                    title: '',
+                    title: '类型',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(typeDatas, value);
                     }
                 },
                 {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间'
+                },
+                {
                     field: 'createBy',
-                    title: ''
+                    title: '创建人'
                 },
                 {
                     field: 'updateBy',
-                    title: ''
+                    title: '更新人'
                 },
                 {
                     field: 'status',
-                    title: '',
+                    title: '状态',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(statusDatas, value);
                     }

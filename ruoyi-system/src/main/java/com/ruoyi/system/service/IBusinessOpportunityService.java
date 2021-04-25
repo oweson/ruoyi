@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.BusinessOpportunity;
  * 商机管理Service接口
  * 
  * @author ruoyi
- * @date 2021-04-23
+ * @date 2021-04-24
  */
 public interface IBusinessOpportunityService 
 {
