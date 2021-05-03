@@ -1,20 +1,18 @@
 package com.ruoyi.system.service.impl;
 
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.Employee;
+import com.ruoyi.system.domain.TIdcard;
+import com.ruoyi.system.mapper.EmployeeMapper;
+import com.ruoyi.system.mapper.TIdcardMapper;
+import com.ruoyi.system.service.IEmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.system.domain.Strategy;
-import com.ruoyi.system.domain.TIdcard;
-import com.ruoyi.system.mapper.TIdcardMapper;
-import com.ruoyi.system.service.ITIdcardService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.EmployeeMapper;
-import com.ruoyi.system.domain.Employee;
-import com.ruoyi.system.service.IEmployeeService;
-import com.ruoyi.common.core.text.Convert;
 
 /**
  * 员工Service业务层处理

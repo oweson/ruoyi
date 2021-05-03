@@ -27,9 +27,9 @@ server:
     # tomcat的URI编码
     uri-encoding: UTF-8
     # tomcat最大线程数，默认为200
-    max-threads: 1
+    max-threads: 15
     # Tomcat启动初始化的线程数，默认值25
-    min-spare-threads: 1
+    min-spare-threads: 6
 
 # 日志配置
 logging:
@@ -181,4 +181,9 @@ info:
   app:
     name: spring-boot-actuator
     version: 1.0.0
-
+# 文件系统
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: oweson

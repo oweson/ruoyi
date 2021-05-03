@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectLifeAchievementList" parameterType="LifeAchievement" resultMap="LifeAchievementResult">
         <include refid="selectLifeAchievementVo"/>
         <where>  
+            <if test="lifeHeart != null  and lifeHeart != ''"> and life_heart like concat('%', #{lifeHeart}, '%')</if>
             <if test="lifeBreakthrough != null  and lifeBreakthrough != ''"> and life_breakthrough like concat('%', #{lifeBreakthrough}, '%')</if>
             <if test="lifeType != null  and lifeType != ''"> and life_type = #{lifeType}</if>
             <if test="lifeTodo != null  and lifeTodo != ''"> and life_todo like concat('%', #{lifeTodo}, '%')</if>

@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 每天成就对象 life_achievement
  * 
  * @author ruoyi
- * @date 2020-12-22
+ * @date 2021-05-03
  */
 public class LifeAchievement extends BaseEntity
 {

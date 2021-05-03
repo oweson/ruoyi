@@ -16,6 +16,12 @@
     </description>
 
     <dependencies>
+        <!--minio文件系统-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>6.0.2</version>
+        </dependency>
 
         <!-- hutool -->
         <dependency>

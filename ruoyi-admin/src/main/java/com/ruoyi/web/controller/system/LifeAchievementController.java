@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 每天成就Controller
  * 
  * @author ruoyi
- * @date 2020-12-22
+ * @date 2021-05-03
  */
 @Controller
 @RequestMapping("/system/achievement")
@@ -65,7 +65,7 @@ public class LifeAchievementController extends BaseController
     {
         List<LifeAchievement> list = lifeAchievementService.selectLifeAchievementList(lifeAchievement);
         ExcelUtil<LifeAchievement> util = new ExcelUtil<LifeAchievement>(LifeAchievement.class);
-        return util.exportExcel(list, "achievement");
+        return util.exportExcel(list, "每天成就数据");
     }
 
     /**

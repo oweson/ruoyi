@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectCoreAccountList" parameterType="CoreAccount" resultMap="CoreAccountResult">
         <include refid="selectCoreAccountVo"/>
-        <where>  
+        <where>
             <if test="type != null  and type != ''"> and type = #{type}</if>
             <if test="accoutName != null  and accoutName != ''"> and accout_name like concat('%', #{accoutName}, '%')</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
