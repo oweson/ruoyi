@@ -20,7 +20,7 @@
                             </li>
                             <li>
                                 <label>类型：</label>
-                                <select name="type" th:with="type=${@dict.getType('商业案列分析')}">
+                                <select name="type" th:with="type=${@dict.getType('commercial_case_analysis')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -64,7 +64,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:opportunity:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:opportunity:remove')}]];
-        var typeDatas = [[${@dict.getType('商业案列分析')}]];
+        var typeDatas = [[${@dict.getType('commercial_case_analysis')}]];
         var statusDatas = [[${@dict.getType('state_account')}]];
         var prefix = ctx + "system/opportunity";
 

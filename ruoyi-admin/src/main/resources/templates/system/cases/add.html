@@ -59,7 +59,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">类型：</label>
                 <div class="col-sm-8">
-                    <select name="type" class="form-control m-b" th:with="type=${@dict.getType('商业案列分析')}">
+                    <select name="type" class="form-control m-b" th:with="type=${@dict.getType('commercial_case_analysis')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                     </select>
                 </div>

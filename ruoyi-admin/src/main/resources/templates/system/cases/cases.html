@@ -27,7 +27,7 @@
                             </li>
                             <li>
                                 <label>类型：</label>
-                                <select name="type" th:with="type=${@dict.getType('商业案列分析')}">
+                                <select name="type" th:with="type=${@dict.getType('commercial_case_analysis')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -65,7 +65,7 @@
         var editFlag = [[${@permission.hasPermi('system:cases:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:cases:remove')}]];
         var isSuccessDatas = [[${@dict.getType('sys_normal_disable')}]];
-        var typeDatas = [[${@dict.getType('商业案列分析')}]];
+        var typeDatas = [[${@dict.getType('commercial_case_analysis')}]];
         var prefix = ctx + "system/cases";
 
         $(function() {
