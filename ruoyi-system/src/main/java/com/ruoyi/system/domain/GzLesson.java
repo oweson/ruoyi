@@ -44,6 +44,11 @@ public class GzLesson extends BaseEntity {
      */
     @Excel(name = "教训类型", readConverterExp = "1=生活,3=感情,2=工作,4=自卑,5=战略")
     private String lessonType;
+    @Excel(name = "教训详细类型", readConverterExp = "1=生活,3=感情,2=工作,4=自卑,5=战略")
+/**
+ * 错误的详细类型：开发中的错误
+ */
+    private String devDescType;
 
     /**
      * 最近数据更新时间
@@ -97,6 +102,14 @@ public class GzLesson extends BaseEntity {
 
     public Date getLastUpdateTime() {
         return lastUpdateTime;
+    }
+
+    public String getDevDescType() {
+        return devDescType;
+    }
+
+    public void setDevDescType(String devDescType) {
+        this.devDescType = devDescType;
     }
 
     @Override

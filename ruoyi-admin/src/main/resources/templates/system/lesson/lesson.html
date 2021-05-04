@@ -29,6 +29,13 @@
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
+                            <li>
+                                <label>开发类型：</label>
+                                <select name="devDescType" th:with="type=${@dict.getType('programming_development_error_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
                             <li class="select-time">
                                 <label>创建时间：</label>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
@@ -68,6 +75,8 @@
         var editFlag = [[${@permission.hasPermi('system:lesson:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:lesson:remove')}]];
         var lessonTypeDatas = [[${@dict.getType('sys_wrong_type')}]];
+        var lessonTypeErrorDatas = [[${@dict.getType('programming_development_error_type')}]];
+
         var prefix = ctx + "system/lesson";
 
         $(function() {
@@ -105,6 +114,13 @@
                        return $.table.selectDictLabel(lessonTypeDatas, value);
                     }
                 },
+                    {
+                        field: 'devDescType',
+                        title: '开发类型',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(lessonTypeErrorDatas, value);
+                        }
+                    },
                 {
                     field: 'createTime',
                     title: '创建时间'

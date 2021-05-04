@@ -10,12 +10,13 @@
         <result property="lessonDesc" column="lesson_desc"/>
         <result property="lessonShould" column="lesson_should"/>
         <result property="lessonType" column="lesson_type"/>
+        <result property="devDescType" column="dev_desc_type"/>
         <result property="createTime" column="create_time"/>
         <result property="lastUpdateTime" column="last_update_time"/>
     </resultMap>
 
     <sql id="selectGzLessonVo">
-        select id, lesson_name, lesson_desc, lesson_should, lesson_type, create_time, last_update_time from gz_lesson
+        select id, lesson_name, lesson_desc, lesson_should, lesson_type, dev_desc_type,create_time, last_update_time from gz_lesson
     </sql>
     <!--last_update_time
     -->
@@ -29,6 +30,7 @@
             <if test="lessonShould != null  and lessonShould != ''">and lesson_should like concat('%', #{lessonShould},
                 '%')
             </if>
+            <if test="devDescType != null  and devDescType != ''">and dev_desc_type = #{devDescType}</if>
             <if test="lessonType != null  and lessonType != ''">and lesson_type = #{lessonType}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != ''">
                 and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginCreateTime},'%y%m%d')
@@ -56,6 +58,7 @@
             <if test="lessonName != null">lesson_name,</if>
             <if test="lessonDesc != null">lesson_desc,</if>
             <if test="lessonShould != null">lesson_should,</if>
+            <if test="devDescType != null and devDescType != ''">dev_desc_type,</if>
             <if test="lessonType != null and lessonType != ''">lesson_type,</if>
             <if test="createTime != null">create_time,</if>
             <if test="lastUpdateTime != null">last_update_time,</if>
@@ -64,6 +67,7 @@
             <if test="lessonName != null">#{lessonName},</if>
             <if test="lessonDesc != null">#{lessonDesc},</if>
             <if test="lessonShould != null">#{lessonShould},</if>
+            <if test="devDescType != null and devDescType != ''">#{devDescType},</if>
             <if test="lessonType != null and lessonType != ''">#{lessonType},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
@@ -76,6 +80,7 @@
             <if test="lessonName != null">lesson_name = #{lessonName},</if>
             <if test="lessonDesc != null">lesson_desc = #{lessonDesc},</if>
             <if test="lessonShould != null">lesson_should = #{lessonShould},</if>
+            <if test="devDescType != null and devDescType != ''">dev_desc_type = #{devDescType},</if>
             <if test="lessonType != null and lessonType != ''">lesson_type = #{lessonType},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
