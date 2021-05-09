@@ -2,6 +2,8 @@ package com.ruoyi.quartz.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -11,6 +13,16 @@ import java.util.Date;
  */
 public class CronDateUtils {
     private static final String CRON_DATE_FORMAT = "ss mm HH dd MM ? yyyy";
+
+    /**
+     * string时间
+     *
+     * @return
+     */
+    public static String nowTimestamp() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 
     /***
      * 1
