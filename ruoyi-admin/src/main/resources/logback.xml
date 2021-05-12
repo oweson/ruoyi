@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- 日志存放路径 -->
+    <!-- 日志存放路径/home/ruoyi/logs -->
 	<property name="log.path" value="/home/ruoyi/logs" />
     <!-- 日志输出格式 -->
 	<property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" />

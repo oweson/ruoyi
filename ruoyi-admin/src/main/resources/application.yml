@@ -48,7 +48,7 @@ spring:
   rabbitmq:
     username: guest
     password: guest
-    host: 139.224.35.86
+    host: 1.14.157.172
     publisher-confirms: true
     publisher-returns: true
 

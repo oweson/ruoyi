@@ -105,7 +105,8 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param deptList 部门列表
      * @return 树结构列表
      */
-    public List<Ztree> initZtree(List<SysDept> deptList) {
+    public List<Ztree> initZtree(List<SysDept> deptList)
+    {
         return initZtree(deptList, null);
     }
 
