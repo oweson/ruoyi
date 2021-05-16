@@ -30,7 +30,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">类型：</label>
                 <div class="col-sm-8">
-                    <select name="type" class="form-control m-b" th:with="type=${@dict.getType('经典语录类型')}">
+                    <select name="type" class="form-control m-b" th:with="type=${@dict.getType('types_of_classical_quotations')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{type}"></option>
                     </select>
                 </div>

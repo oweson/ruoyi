@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('心灵鸡汤列表')" />
+    <th:block th:include="include :: header('歇后语列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,11 +11,20 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>类型：</label>
-                                <select name="type" th:with="type=${@dict.getType('types_of_classical_quotations')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
+                                <label>标题：</label>
+                                <input type="text" name="title"/>
+                            </li>
+                            <li class="select-time">
+                                <label>创建时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateTime]"/>
+                            </li>
+                            <li class="select-time">
+                                <label>更新时间：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdateTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdateTime]"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -27,16 +36,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:quotations:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:xiehouyu:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:quotations:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:xiehouyu:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:quotations:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:xiehouyu:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:quotations:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:xiehouyu:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -47,10 +56,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:quotations:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:quotations:remove')}]];
-        var typeDatas = [[${@dict.getType('types_of_classical_quotations')}]];
-        var prefix = ctx + "system/quotations";
+        var editFlag = [[${@permission.hasPermi('system:xiehouyu:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:xiehouyu:remove')}]];
+        var prefix = ctx + "system/xiehouyu";
 
         $(function() {
             var options = {
@@ -59,7 +67,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "心灵鸡汤",
+                modalName: "歇后语",
                 columns: [{
                     checkbox: true
                 },
@@ -69,23 +77,12 @@
                     visible: false
                 },
                 {
-                    field: 'content',
-                    title: '语录'
+                    field: 'value',
+                    title: '内容'
                 },
                 {
-                    field: 'author',
-                    title: '作者'
-                },
-                {
-                    field: 'remark',
-                    title: '评论'
-                },
-                {
-                    field: 'type',
-                    title: '类型',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(typeDatas, value);
-                    }
+                    field: 'title',
+                    title: '标题'
                 },
                 {
                     field: 'createTime',

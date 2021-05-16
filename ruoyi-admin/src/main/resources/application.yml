@@ -51,6 +51,8 @@ spring:
     host: 1.14.157.172
     publisher-confirms: true
     publisher-returns: true
+    port: 5672
+    #virtual-host: /
 
 
   # 模板引擎
